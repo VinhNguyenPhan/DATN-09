@@ -1,0 +1,249 @@
+{
+    "chiCucHaiQuan": [
+        {
+            "maChiCuc": "G12.34.01",
+            "tenChiCuc": "Chi cục Hải quan khu vực I",
+            "diaPhuong": "Hà Nội, Vĩnh Phúc, Phú Thọ, Hòa Bình, Yên Bái",
+            "truSo": "Hà Nội",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.79",
+            "tenChiCuc": "Chi cục Hải quan khu vực II",
+            "diaPhuong": "Thành phố Hồ Chí Minh",
+            "truSo": "Thành phố Hồ Chí Minh",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.31",
+            "tenChiCuc": "Chi cục Hải quan khu vực III",
+            "diaPhuong": "Hải Phòng, Thái Bình",
+            "truSo": "Hải Phòng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.C7",
+            "tenChiCuc": "Chi cục Hải quan khu vực IV",
+            "diaPhuong": "Hưng Yên, Hải Dương, Hà Nam, Nam Định",
+            "truSo": "Hưng Yên",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.27",
+            "tenChiCuc": "Chi cục Hải quan khu vực V",
+            "diaPhuong": "Bắc Ninh, Bắc Giang, Tuyên Quang, Thái Nguyên, Bắc Kạn",
+            "truSo": "Bắc Ninh",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.20",
+            "tenChiCuc": "Chi cục Hải quan khu vực VI",
+            "diaPhuong": "Lạng Sơn, Cao Bằng",
+            "truSo": "Lạng Sơn",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.10",
+            "tenChiCuc": "Chi cục Hải quan khu vực VII",
+            "diaPhuong": "Hà Giang, Lào Cai, Điện Biên, Lai Châu, Sơn La",
+            "truSo": "Lào Cai",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.22",
+            "tenChiCuc": "Chi cục Hải quan khu vực VIII",
+            "diaPhuong": "Quảng Ninh",
+            "truSo": "Quảng Ninh",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.44",
+            "tenChiCuc": "Chi cục Hải quan khu vực IX",
+            "diaPhuong": "Quảng Bình, Quảng Trị, Huế",
+            "truSo": "Quảng Bình",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.38",
+            "tenChiCuc": "Chi cục Hải quan khu vực X",
+            "diaPhuong": "Thanh Hóa, Ninh Bình",
+            "truSo": "Thanh Hóa",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.42",
+            "tenChiCuc": "Chi cục Hải quan khu vực XI",
+            "diaPhuong": "Nghệ An, Hà Tĩnh",
+            "truSo": "Hà Tĩnh",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.48",
+            "tenChiCuc": "Chi cục Hải quan khu vực XII",
+            "diaPhuong": "Đà Nẵng, Quảng Nam, Quảng Ngãi",
+            "truSo": "Đà Nẵng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.56",
+            "tenChiCuc": "Chi cục Hải quan khu vực XIII",
+            "diaPhuong": "Khánh Hòa, Ninh Thuận, Bình Định, Phú Yên",
+            "truSo": "Khánh Hòa",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.66",
+            "tenChiCuc": "Chi cục Hải quan khu vực XIV",
+            "diaPhuong": "Gia Lai, Kon Tum, Đắk Lắk, Đắk Nông, Lâm Đồng",
+            "truSo": "Đắk Lắk",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.77",
+            "tenChiCuc": "Chi cục Hải quan khu vực XV",
+            "diaPhuong": "Bình Thuận, Bà Rịa - Vũng Tàu",
+            "truSo": "Bà Rịa - Vũng Tàu",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.74",
+            "tenChiCuc": "Chi cục Hải quan khu vực XVI",
+            "diaPhuong": "Bình Dương, Bình Phước, Tây Ninh",
+            "truSo": "Bình Dương",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.80",
+            "tenChiCuc": "Chi cục Hải quan khu vực XVII",
+            "diaPhuong": "Long An, Bến Tre, Tiền Giang",
+            "truSo": "Long An",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.75",
+            "tenChiCuc": "Chi cục Hải quan khu vực XVIII",
+            "diaPhuong": "Đồng Nai",
+            "truSo": "Đồng Nai",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.92",
+            "tenChiCuc": "Chi cục Hải quan khu vực XIX",
+            "diaPhuong": "Cần Thơ, Cà Mau, Hậu Giang, Vĩnh Long, Trà Vinh, Sóc Trăng, Bạc Liêu",
+            "truSo": "Cần Thơ",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "G12.34.87",
+            "tenChiCuc": "Chi cục Hải quan khu vực XX",
+            "diaPhuong": "Đồng Tháp, An Giang, Kiên Giang",
+            "truSo": "Đồng Tháp",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "34CE",
+            "tenChiCuc": "Hải quan cửa khẩu Cảng Đà Nẵng",
+            "diaPhuong": "Đà Nẵng",
+            "truSo": "Đà Nẵng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "34AB",
+            "tenChiCuc": "Hải quan cửa khẩu Sân bay quốc tế Đà Nẵng",
+            "diaPhuong": "Đà Nẵng",
+            "truSo": "Đà Nẵng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "34NH",
+            "tenChiCuc": "Hải quan Khu công nghiệp Đà Nẵng",
+            "diaPhuong": "Đà Nẵng",
+            "truSo": "Đà Nẵng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "34NG",
+            "tenChiCuc": "Hải quan KCN Hòa Khánh – Liên Chiểu",
+            "diaPhuong": "Đà Nẵng",
+            "truSo": "Đà Nẵng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "34CC",
+            "tenChiCuc": "Hải quan Quản lý hàng đầu tư – gia công Đà Nẵng",
+            "diaPhuong": "Đà Nẵng",
+            "truSo": "Đà Nẵng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "03CC",
+            "tenChiCuc": "Chi cục hải quan khu vực 1 Hải Phòng",
+            "diaPhuong": "Hải Phòng",
+            "truSo": "Hải Phòng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "03CE",
+            "tenChiCuc": "Chi cục hải quan khu vực 2 Hải Phòng",
+            "diaPhuong": "Hải Phòng",
+            "truSo": "Hải Phòng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "03TG",
+            "tenChiCuc": "Chi cục hải quan khu vực 3 Hải Phòng",
+            "diaPhuong": "Hải Phòng",
+            "truSo": "Hải Phòng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "03EE",
+            "tenChiCuc": "Chi cục Hải quan Đình Vũ",
+            "diaPhuong": "Hải Phòng",
+            "truSo": "Hải Phòng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "03PA",
+            "tenChiCuc": "Chi cục hải quan đầu tư - gia công Hải Phòng",
+            "diaPhuong": "Hải Phòng",
+            "truSo": "Hải Phòng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "03NK",
+            "tenChiCuc": "Chi cục hải quan KCX-KCN Hải Phòng",
+            "diaPhuong": "Hải Phòng",
+            "truSo": "Hải Phòng",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "47NB",
+            "tenChiCuc": "Chi cục HQ Biên Hoà",
+            "diaPhuong": "Đồng Nai",
+            "truSo": "Biên Hoà, Đồng Nai",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "47XE",
+            "tenChiCuc": "Chi cục HQ KCX Long Bình",
+            "diaPhuong": "Đồng Nai",
+            "truSo": "Long Bình, Đồng Nai",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "47I1",
+            "tenChiCuc": "Chi cục HQ Long Bình Tân – Đội nghiệp vụ 1",
+            "diaPhuong": "Đồng Nai",
+            "truSo": "Long Bình Tân, Đồng Nai",
+            "ghiChu": ""
+        },
+        {
+            "maChiCuc": "47I2",
+            "tenChiCuc": "Chi cục HQ Long Bình Tân – Đội nghiệp vụ 2",
+            "diaPhuong": "Đồng Nai",
+            "truSo": "Long Bình Tân, Đồng Nai",
+            "ghiChu": ""
+        }
+    ]
+}

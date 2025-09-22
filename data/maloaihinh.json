@@ -1,0 +1,70 @@
+{
+    "bangMaLoaiHinh": [
+        {
+            "maLoaiHinh": "A11",
+            "tenLoaiHinh": "Nhập kinh doanh tiêu dùng",
+            "moTa": "Dùng cho hàng hóa nhập khẩu nhằm mục đích tiêu dùng, thương mại.",
+            "ghiChu": ""
+        },
+        {
+            "maLoaiHinh": "A12",
+            "tenLoaiHinh": "Nhập nguyên liệu sản xuất hàng xuất khẩu",
+            "moTa": "Nhập khẩu nguyên liệu để phục vụ sản xuất hàng hóa xuất khẩu.",
+            "ghiChu": ""
+        },
+        {
+            "maLoaiHinh": "A21",
+            "tenLoaiHinh": "Nhập gia công cho thương nhân nước ngoài",
+            "moTa": "Dành cho doanh nghiệp gia công theo hợp đồng cho đối tác nước ngoài.",
+            "ghiChu": ""
+        },
+        {
+            "maLoaiHinh": "A31",
+            "tenLoaiHinh": "Nhập sản xuất xuất khẩu",
+            "moTa": "Dành cho doanh nghiệp nhập khẩu nguyên liệu để sản xuất hàng hóa xuất khẩu.",
+            "ghiChu": ""
+        },
+        {
+            "maLoaiHinh": "B11",
+            "tenLoaiHinh": "Tạm nhập tái xuất",
+            "moTa": "Nhập khẩu tạm thời hàng hóa vào Việt Nam để tái xuất đi nước khác.",
+            "ghiChu": "Phải khai báo lại khi tái xuất."
+        },
+        {
+            "maLoaiHinh": "B13",
+            "tenLoaiHinh": "Tạm nhập để cho thuê, mượn",
+            "moTa": "Dùng cho các trường hợp thuê thiết bị, phương tiện từ nước ngoài.",
+            "ghiChu": ""
+        },
+        {
+            "maLoaiHinh": "C11",
+            "tenLoaiHinh": "Xuất kinh doanh",
+            "moTa": "Xuất khẩu hàng hóa ra nước ngoài để bán.",
+            "ghiChu": ""
+        },
+        {
+            "maLoaiHinh": "E31",
+            "tenLoaiHinh": "Xuất gia công cho thương nhân nước ngoài",
+            "moTa": "Xuất khẩu hàng hóa sau khi gia công cho đối tác nước ngoài.",
+            "ghiChu": ""
+        },
+        {
+            "maLoaiHinh": "E62",
+            "tenLoaiHinh": "Xuất khẩu tại chỗ",
+            "moTa": "Xuất khẩu hàng hóa cho doanh nghiệp khác trong nước theo hình thức xuất tại chỗ.",
+            "ghiChu": "Phối hợp với doanh nghiệp nhập khẩu trong nước để khai báo đồng thời."
+        },
+        {
+            "maLoaiHinh": "G11",
+            "tenLoaiHinh": "Nhập khẩu phi mậu dịch",
+            "moTa": "Nhập hàng không nhằm mục đích thương mại (quà biếu, viện trợ, hàng mẫu, ...).",
+            "ghiChu": ""
+        },
+        {
+            "maLoaiHinh": "H11",
+            "tenLoaiHinh": "Xuất khẩu phi mậu dịch",
+            "moTa": "Xuất hàng không nhằm mục đích thương mại.",
+            "ghiChu": "Bao gồm hàng viện trợ, biếu tặng, hành lý,..."
+        }
+    ]
+}
