@@ -273,5 +273,103 @@
                     <option>CIF</option>
                 </select>
             </div>
+            <div style="padding: 0 80px; display:flex">
+                <label class="title-donvixuatnhapkhau" for="TTGHD">Tổng trị giá hóa đơn:</label>
+                <input type="number" id="TTGHD" name="TTGHD1" style="width:100%">
+                <label class="title-donvixuatnhapkhau" for="MDTHD">Mã đồng tiền của hóa đơn:</label>
+                <select name="MDTHD" id="MDTHD1">
+                    <option>USD</option>
+                    <option>CNY</option>
+                    <option>VND</option>
+                    <option>JPY</option>
+                    <option>KRW</option>
+                </select>
+            </div>
+            <div style="padding: 0 80px; display:flex">
+                <label class="title-donvixuatnhapkhau" for="TGTT">Trị giá tính thuế:</label>
+                <input type="number" id="TGTT" name="TGTT1" style="width:100%">
+                <label class="title-donvixuatnhapkhau" for="MDTHD2">Mã đồng tiền của hóa đơn:</label>
+                <select name="MDTHD2" id="MDTHD3">
+                    <option>USD</option>
+                    <option>CNY</option>
+                    <option>VND</option>
+                    <option>JPY</option>
+                    <option>KRW</option>
+                </select>
+            </div>
+            <div>
+                <b>Thuế và bảo lãnh</b>
+            </div>
+            <div style="padding: 0 80px; display:flex">
+                <label class="title-donvixuatnhapkhau" for="MLD">Mã lý do đề nghị BP:</label>
+                <input type="text" id="MLD" name="MDD1" placeholder="Mã lý do đề nghị BP" style="width:100%">
+                <label class="title-donvixuatnhapkhau" for="MDDCC"></label>
+                <select style="margin-left:-50px" name="MLDDN" id="MLDDN1">
+                    <option>A:chờ xác định mã số hàng hóa</option>
+                    <option>B:chờ xác định trị giá tính thuế</option>
+                    <option>C:trường hợp khác</option>
+                </select>
+            </div>
+            <div style="padding: 0 80px; display:flex">
+                <label class="title-donvixuatnhapkhau" for="MNH">Mã ngân hàng trả thuế thay:</label>
+                <input type="text" id="MNH" name="MNG1" placeholder="Số tài khoản" style="width:100%">
+                <select name="MNH" id="MNH1">
+                    <option>BIDV</option>
+                    <option>VPBANK</option>
+                    <option>TECHCOMBANK</option>
+                    <option>TPBANK</option>
+                    <option>AGRIBANK</option>
+                    <option>MBBANK</option>
+                </select>
+            </div>
+            <div style="padding: 0 80px; display:flex">
+                <label class="title-donvixuatnhapkhau" for="MNH">Năm phát hành hạn mức:</label>
+                <input type="text" id="NPHHM" name="NPHHM1" placeholder="Năm phát hành hạn mức" style="width:100%">
+                <label class="title-donvixuatnhapkhau" for="KHCTHM">Ký hiệu chứng từ hạn mức:</label>
+                <input type="text" id="KHCTHM" name="KHCTHM1" placeholder="Ký hiệu chứng từ hạn mức" style="width:100%">
+                <label class="title-donvixuatnhapkhau" for="SCTHM">Số chứng từ hạn mức:</label>
+                <input type="text" id="SCTHM" name="SCTHM1" placeholder="Số chứng từ hạn mức" style="width:100%">
+            </div>
+            <div style="padding: 0 80px; display:flex">
+                <label class="title-donvixuatnhapkhau" for="MNH">Mã xác định thời hạn nộp thuế:</label>
+                <select name="MXDTHNT" id="MXDTHNT1">
+                    <option>A:Trường hợp được áp dụng thời hạn nộp thuế do sử dụng bảo lãnh riêng.</option>
+                    <option>B:Trường hợp được áp dụng thời hạn nộp thuế do sử dụng bảo lãnh chung</option>
+                    <option>C:Trường hợp được áp dụng thời hạn nộp thuế mà không sử dụng bảo lãnh</option>
+                    <option>D:Trong trường hợp nộp thuế ngay.</option>
+                </select>
+            </div>
+            <div style="padding: 0 80px; display:flex">
+                <label class="title-donvixuatnhapkhau" for="MNHBL">Mã ngân hàng bảo lãnh:</label>
+                <input type="text" id="MNHBL" name="MNHBL1" placeholder="Số tài khoản" style="width:100%">
+                <select name="MNHBL" id="MNHBL1">
+                    <option>BIDV</option>
+                    <option>VPBANK</option>
+                    <option>TECHCOMBANK</option>
+                    <option>TPBANK</option>
+                    <option>AGRIBANK</option>
+                    <option>MBBANK</option>
+                </select>
+            </div>
+            <div style="padding: 0 80px; display:flex">
+                <label class="title-donvixuatnhapkhau" for="NPHBL">Năm phát hành bảo lãnh:</label>
+                <input type="text" id="NPHBL" name="NPHBL1" placeholder="Năm phát hành bảo lãnh" style="width:100%">
+                <label class="title-donvixuatnhapkhau" for="KHCTBL">Ký hiệu chứng từ bảo lãnh:</label>
+                <input type="text" id="KHCTBL" name="KHCTBL1" placeholder="Ký hiệu chứng từ bảo lãnh"
+                    style="width:100%">
+                <label class="title-donvixuatnhapkhau" for="SCTBL">Số chứng từ bảo lãnh:</label>
+                <input type="text" id="SCTBL" name="SCTBL1" placeholder="Số chứng từ bảo lãnh" style="width:100%">
+            </div>
+            <div>
+                <b>Thông tin vận chuyển
+                    <hr>
+                </b>
+            </div>
+            <div style="padding: 0 80px; display:flex">
+                <label class="title-donvixuatnhapkhau" for="NDPNKDC">Ngày được phép nhập kho đầu tiên:</label>
+                <input type="date" id="NDPNKDC" name="NDPNKDC1" style="width:100%">
+                <label class="title-donvixuatnhapkhau" for="NKHVC">Ngày khởi hành vận chuyển:</label>
+                <input type="date" id="NKHVC" name="NKHVC1" style="width:100%">
+            </div>
         </section>
     </div>
