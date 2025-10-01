@@ -57,7 +57,7 @@
                 <option value="H11">H11: Hàng nhập khẩu khác</option>
             </select>
             </select>
-            <label style="width: 179px">Phân loại cá nhân/tổ chức:</label>
+            <label style="width: 240px">Phân loại cá nhân/tổ chức:</label>
             <select>
                 <option value="PLCNTC1">1: Cá nhân gửi cá nhân</option>
                 <option value="PLCNTC2">2: Tổ chức gửi cá nhân</option>
@@ -72,7 +72,7 @@
                 <option value="28NJ">28NJ - Chi cục HQ Hà Nam</option>
                 <option value="01NV">01NV - Chi cục HQ Nội Bài</option>
             </select>
-            <label style="width: 179px">Mã hiệu phương thức vận chuyển:</label>
+            <label style="width: 240px">Mã hiệu phương thức vận chuyển:</label>
             <select>
                 <option value="MHPTVC1">1: Đường không</option>
                 <option value="MHPTVC2">2: Đường biển (container)</option>
@@ -240,13 +240,13 @@
             <div class="form-group">
                 <label>Số tiếp nhận hóa đơn điện tử:</label>
                 <input type="text" name="STKHDDT" id="STNHDDT" placeholder="Số tiếp nhận hóa đơn điện tử">
-                <label>Số hóa đơn:</label>
+                <label style="padding-left: 19px">Số hóa đơn:</label>
                 <input type="text" name="SHD" id="SHD" placeholder="Số hóa đơn">
             </div>
             <div class="form-group">
                 <label>Ngày phát hành:</label>
                 <input type="date" name="NPH" id="NPH">
-                <label>Phương thức thanh toán:</label>
+                <label style="padding-left: 19px">Phương thức thanh toán:</label>
                 <select>
                     <option value="TT">T/T</option>
                     <option value="TTR">TTR</option>
@@ -262,7 +262,7 @@
                     </option>
                     <option value="MPLHDD">D: Hóa đơn điện tử được khai báo qua nghiệp vụ khai hóa đơn IVA</option>
                 </select>
-                <label>Điều kiện giá hóa đơn: </label>
+                <label style="padding-left: 19px">Điều kiện giá hóa đơn: </label>
                 <select>
                     <option value="EXW">EXW</option>
                     <option value="FCA">FCA</option>
@@ -280,7 +280,7 @@
             <div class="form-group">
                 <label>Tổng trị giá hóa đơn:</label>
                 <input type="number" name="TTGHD" id="TTGHD" placeholder="Tổng trị giá hóa đơn">
-                <label>Mã đồng tiền trị giá hóa đơn :</label>
+                <label style="padding-left: 19px">Mã đồng tiền trị giá hóa đơn :</label>
                 <select>
                     <option value="USD">USD</option>
                     <option value="CNY">CNY</option>
@@ -292,7 +292,7 @@
             <div class="form-group">
                 <label>Trị giá hóa đơn:</label>
                 <input type="number" name="TGHD" id="TGHD" placeholder="Trị giá hóa đơn">
-                <label>Mã đồng tiền trị giá tính thuế :</label>
+                <label style="padding-left: 19px">Mã đồng tiền trị giá tính thuế :</label>
                 <select>
                     <option value="USD1">USD</option>
                     <option value="CNY1">CNY</option>
@@ -365,7 +365,7 @@
             <div class="form-group">
                 <label>Ngày được phép nhập kho: </label>
                 <input type="date" name="NDPNK" id="NDPNK">
-                <label>Ngày khởi hành vận chuyển: </label>
+                <label style="width: 218px;padding-left:26px;">Ngày khởi hành vận chuyển: </label>
                 <input type="date" name="NKHVC" id="NKHVC">
             </div>
             <div class="form-group">
@@ -397,7 +397,7 @@
                 <select>
                     <option value="DDDVCBT">03S03</option>
                 </select>
-                <label style="width: 68px">Ngày đến: </label>
+                <label style="width: 218px;padding-left: 146px;">Ngày đến: </label>
                 <input type="date">
             </div>
         </fieldset>
@@ -407,7 +407,6 @@
                 <button>Trang sau</button>
             </a>
             <button>Lưu</button>
-            <button>Tạo mới</button>
             <button>Tìm tờ khai</button>
             <button class="red">Đóng</button>
         </div>

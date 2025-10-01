@@ -152,11 +152,11 @@
                 <input type="text" name="PVC1" id="PVC1" style="min-width: 100px;max-width: 145px;">
             </div>
             <div class="form-group" style="flex-wrap: nowrap;">
-                <label style="width: 221px;">Phí bảo hiểm: </label>
-                <label style="width: 69px;">Mã loại: </label>
-                <input type="text" name="ML2" id="ML2" style="min-width: 95px;max-width: 110px;">
-                <label style="width: 107px;">Mã đồng tiền: </label>
-                <input type="text" name="MDT2" id="MDT2" style="min-width: 95px;max-width: 105px;">
+                <label style="width: 219px;">Phí bảo hiểm: </label>
+                <label style="width: 70px;">Mã loại: </label>
+                <input type="text" name="ML2" id="ML2" style="min-width: 95px;max-width: 112px;">
+                <label style="width: 106px;">Mã đồng tiền: </label>
+                <input type="text" name="MDT2" id="MDT2" style="min-width: 100px;max-width: 104px;">
                 <label style="width: 124px;">Phí bảo hiểm: </label>
                 <input type="text" name="PBH2" id="PBH2" style="min-width: 95px;max-width: 112px;">
             </div>
@@ -330,7 +330,7 @@
             <div class="form-group">
                 <label>Ngày bắt đầu:</label>
                 <input type="date" name="NBD" id="NBD">
-                <label style="max-width:120px;min-width:80px;">Ngày kết thúc:</label>
+                <label style="padding-left: 122px;width: 219px;">Ngày kết thúc:</label>
                 <input type="date" name="NKT" id="NKT">
             </div>
         </fieldset>
@@ -351,7 +351,6 @@
             <a href="\TKNK\To3NK.php" target="_seft">
                 <button>Trang sau</button>
             </a>
-            <button>Tạo mới</button>
             <button>Tìm tờ khai</button>
             <button class="red">Đóng</button>
         </div>

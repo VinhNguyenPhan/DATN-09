@@ -377,7 +377,7 @@
                             stroke-linejoin="round" />
                     </svg>
                 </div>
-                <a href="\TKNK\To1NK.php" target="_blank">
+                <a href="\TKNK\To1NK.php" target="_seft">
                     <h4>Tờ khai nhập khẩu</h4>
                 </a>
                 <p>Quản lý & khai báo nhập khẩu — trạng thái, lịch sử.</p>
@@ -422,8 +422,10 @@
                         <path d="M8 9h8" stroke="#9ab7dd" stroke-width="1.2" stroke-linecap="round" />
                     </svg>
                 </div>
-                <h4>Thông tin liên hệ</h4>
-                <p>Hotline, email, địa chỉ văn phòng.</p>
+                <a href="..\ThongKeDonHang\ThongKeDonHang.php" target="_seft">
+                    <h4>Trạng thái đơn hàng</h4>
+                </a>
+                <p>Đơn đã lấy, đang giao, đã giao và đơn hủy.</p>
             </article>
 
             <article class="card" role="button" tabindex="0">

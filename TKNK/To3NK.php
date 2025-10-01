@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Danh sách hàng - ECUS5VNACCS (Mẫu)</title>
+    <title>Danh sách hàng</title>
     <style>
     :root {
         --bg: #f5f7fb;
@@ -52,9 +52,10 @@
         margin-bottom: 18px
     }
 
-    header h1 {
-        font-size: 20px;
-        margin: 0
+    h2 {
+        text-align: center;
+        color: #003399;
+        margin-bottom: 20px;
     }
 
     .card {
@@ -202,12 +203,8 @@
 
 <body>
     <div class="container">
-        <header>
-            <h1>Form: Danh sách hàng (Mẫu ECUS5VNACCS 2018)</h1>
-            <div class="muted">Mẫu cho khai báo từng dòng hàng trong tờ khai.</div>
-        </header>
-
         <div class="card">
+            <h2 class="title">Tờ khai nhập khẩu - Danh sách hàng</h2>
             <form id="mainForm" onsubmit="return false">
                 <div class="grid">
                     <div class="col-3">
@@ -272,28 +269,24 @@
         </div>
 
         <div style="height:18px"></div>
-        <div class="card small muted">
-            Lưu ý: Thuế suất và tiền thuế thường do hệ thống Hải quan trả về. Ở bản mẫu này, bạn có thể nhập thuế suất
-            tạm để tính thử. Các cột có thể mở rộng theo cấu hình phần mềm thực tế.
-        </div>
 
     </div>
 
     <template id="rowTemplate">
         <tr>
             <td class="right lineNo"></td>
-            <td><input type="text" class="hsCode" placeholder="0101.21" /></td>
-            <td><input type="text" class="desc" placeholder="Mô tả hàng" /></td>
-            <td><input type="text" class="unit" placeholder="kg/cái" /></td>
-            <td><input type="number" class="qty" min="0" step="any" value="0" /></td>
-            <td><input type="number" class="unitPrice" min="0" step="any" value="0" /></td>
-            <td><input type="number" class="value" readonly /></td>
-            <td><input type="text" class="origin" /></td>
-            <td><input type="text" class="pack" /></td>
-            <td><input type="text" class="bill" /></td>
-            <td><input type="number" class="taxRate" min="0" step="any" value="0" /></td>
-            <td><input type="number" class="taxAmount" readonly /></td>
-            <td><input type="text" class="docs" /></td>
+            <td><input type="text" name="HSC" id="HSC" class="hsCode" placeholder="0101.21" /></td>
+            <td><input type="text" name="TH" id="TH" class="desc" placeholder="Mô tả hàng" /></td>
+            <td><input type="text" name="DVT" id="DVT" class="unit" placeholder="kg/cái" /></td>
+            <td><input type="number" name="SL" id="SL" class="qty" min="0" step="any" value="0" /></td>
+            <td><input type="number" name="GIA" id="GIA" class="unitPrice" min="0" step="any" value="0" /></td>
+            <td><input type="number" name="VALUE" id="VALUE" class="value" readonly /></td>
+            <td><input type="text" name="XX" id="XX" class="origin" /></td>
+            <td><input type="text" name="BB" id="BB" class="pack" /></td>
+            <td><input type="text" name="VD" id="VD" class="bill" /></td>
+            <td><input type="number" name="TS" id="TS" class="taxRate" min="0" step="any" value="0" /></td>
+            <td><input type="number" name="TT" id="TT" class="taxAmount" readonly /></td>
+            <td><input type="text" name="GC" id="GC" class="docs" /></td>
             <td><button type="button" class="removeBtn btn-danger">X</button></td>
         </tr>
     </template>

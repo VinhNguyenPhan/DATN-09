@@ -220,7 +220,6 @@
                 <button>Trang sau</button>
             </a>
             <button>Lưu</button>
-            <button>Tạo mới</button>
             <button class="red">Đóng</button>
         </div>
     </div>

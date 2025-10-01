@@ -57,7 +57,7 @@
                     <option value="C21">C21: Hàng đưa vào khu phi thuế quan</option>
                     <option value="H11">H11: Hàng nhập khẩu khác</option>
                 </select>
-                <label style="width: 179px">Phân loại cá nhân/tổ chức:</label>
+                <label style="width: 240px">Phân loại cá nhân/tổ chức:</label>
                 <select>
                     <option value="P1">1: Cá nhân gửi cá nhân</option>
                     <option value="P2">2: Tổ chức gửi cá nhân</option>
@@ -72,7 +72,7 @@
                     <option value="28NJ">28NJ - Chi cục HQ Hà Nam</option>
                     <option value="01VN">01NV - Chi cục HQ Nội Bài</option>
                 </select>
-                <label style="width: 179px">Mã hiệu phương thức vận chuyển:</label>
+                <label style="width: 240px">Mã hiệu phương thức vận chuyển:</label>
                 <select>
                     <option value="P1">1: Đường không</option>
                     <option value="P2">2: Đường biển (container)</option>
@@ -99,7 +99,7 @@
                     <option value="J">J: Hàng khác theo quy định của Chính phủ</option>
                     <option value="K">K: Hàng bảo quản đặc biệt</option>
                 </select>
-                <label style="width: 179px">Mã bộ phận xử lí tờ khai:</label>
+                <label style="width: 240px">Mã bộ phận xử lí tờ khai:</label>
                 <select>
                     <option value="00">00: Bộ phận hàng hóa nhập khẩu hàng mậu dịch Kho TCS.</option>
                     <option value="01">01: Bộ phận hàng hóa nhập khẩu hàng mậu dịch Kho SCSC.</option>
@@ -263,7 +263,6 @@
                     <a href="\TKNK\To2NK.php" target="_seft">
                         <button>Trang sau</button>
                     </a>
-                    <button>Tạo mới</button>
                     <button>Tìm tờ khai</button>
                     <button class="red">Đóng</button>
                 </div>
