@@ -122,6 +122,14 @@
         color: #0f1724
     }
 
+    button.red {
+        background-color: #d9534f;
+    }
+
+    button.red:hover {
+        background-color: #c9302c;
+    }
+
     .table-wrapper {
         overflow: auto;
         margin-top: 14px
@@ -439,11 +447,12 @@
     });
     </script>
     <div class="center">
-        <a href="To2.php" target="seft">
-            <button class="btn">Trang trước</button>
+        <a href="\TKXK\To2XK.php" target="_seft">
+            <button>Trang trước</button>
         </a>
-        <button class="btn">Lưu</button>
-        <button class="btn reset">Xóa</button>
+        <button>Lưu</button>
+        <button>Tạo mới</button>
+        <button class="red">Đóng</button>
     </div>
 </body>
 
