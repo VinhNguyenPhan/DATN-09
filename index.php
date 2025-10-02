@@ -74,6 +74,12 @@
         font-weight: 700
     }
 
+    .cta-login:hover {
+        transform: scale(1.05);
+        /* phóng to nhẹ */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
     /* Hero */
     .hero {
         padding: 36px 36px 24px;
@@ -95,6 +101,19 @@
         color: var(--blue);
         font-weight: 800;
         margin: 0
+    }
+
+    a {
+        text-decoration: none;
+        /* bỏ gạch chân */
+        color: blue;
+        /* đổi màu chữ (tùy chọn) */
+        font-size: 18px;
+    }
+
+    a:hover {
+        color: orange;
+        /* đổi màu khi hover */
     }
 
     .hero-sub {
@@ -119,6 +138,14 @@
         cursor: pointer
     }
 
+    .primary-btn:hover {
+        background-color: #2980b9;
+        /* đổi màu nền */
+        transform: scale(1.05);
+        /* phóng to nhẹ */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
     /* Feature grid */
     .features {
         max-width: 1100px;
@@ -141,6 +168,12 @@
         border: 1px solid rgba(15, 23, 42, 0.04)
     }
 
+    .card:hover {
+        background-color: #2980b9;
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
     .card__icon {
         width: 56px;
         height: 56px;
@@ -159,8 +192,8 @@
 
     .card p {
         margin: 0;
-        color: var(--muted);
-        font-size: 13px
+        color: black;
+        font-size: 13px;
     }
 
     /* Search bar & notice */
@@ -315,7 +348,7 @@
                             kho vận — tất cả tại một nơi.</p>
                         <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
                             <button class="primary-btn">Bắt đầu ngay</button>
-                            <button
+                            <button class="card"
                                 style="background:transparent;border:1px solid rgba(47,84,145,0.12);padding:10px 14px;border-radius:12px;cursor:pointer">Tìm
                                 hiểu thêm</button>
                         </div>
@@ -361,8 +394,8 @@
                 </div>
                 <a href="\TKXK\To1XK.php" target="_seft">
                     <h4>Tờ khai xuất khẩu</h4>
+                    <p>Truy cập & khai báo nhanh — mẫu và tệp đính kèm.</p>
                 </a>
-                <p>Truy cập & khai báo nhanh — mẫu và tệp đính kèm.</p>
             </article>
 
             <article class="card" role="button" tabindex="0">
@@ -379,8 +412,8 @@
                 </div>
                 <a href="\TKNK\To1NK.php" target="_seft">
                     <h4>Tờ khai nhập khẩu</h4>
+                    <p>Quản lý & khai báo nhập khẩu — trạng thái, lịch sử.</p>
                 </a>
-                <p>Quản lý & khai báo nhập khẩu — trạng thái, lịch sử.</p>
             </article>
 
             <article class="card" role="button" tabindex="0">
@@ -395,8 +428,8 @@
                 </div>
                 <a href="\ChucNangDonHang\ChucNangDonHang.php">
                     <h4>Xem vị trí đơn hàng</h4>
+                    <p>Theo dõi real-time bằng số vận đơn.</p>
                 </a>
-                <p>Theo dõi real-time bằng số vận đơn.</p>
             </article>
 
             <article class="card" role="button" tabindex="0">
@@ -408,8 +441,10 @@
                             stroke-linejoin="round" />
                     </svg>
                 </div>
-                <h4>Tra cứu cước phí</h4>
-                <p>Nhập tuyến & loại hàng – nhận báo giá nhanh.</p>
+                <a href="../TraCuuCuocPhi/TraCuuCuocPhi.php">
+                    <h4>Tra cứu cước phí</h4>
+                    <p>Nhập tuyến & loại hàng – nhận báo giá nhanh.</p>
+                </a>
             </article>
 
             <article class="card" role="button" tabindex="0">
@@ -424,8 +459,8 @@
                 </div>
                 <a href="..\ThongKeDonHang\ThongKeDonHang.php" target="_seft">
                     <h4>Trạng thái đơn hàng</h4>
+                    <p>Đơn đã lấy, đang giao, đã giao và đơn hủy.</p>
                 </a>
-                <p>Đơn đã lấy, đang giao, đã giao và đơn hủy.</p>
             </article>
 
             <article class="card" role="button" tabindex="0">
