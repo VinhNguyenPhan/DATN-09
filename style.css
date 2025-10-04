@@ -1,4 +1,3 @@
-/* Đặt logo ở góc trái và canh giữa chiều cao header */
 header {
     display: flex;
     align-items: center;
