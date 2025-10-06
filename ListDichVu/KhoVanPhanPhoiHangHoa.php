@@ -1,4 +1,16 @@
 <section class="about-section">
+    <header class="header">
+        <!-- Logo: Toàn bộ logo là link -->
+        <a href="../index.php" class="brand">
+            <div class="logo-box">
+                <span class="logo-text">U&amp;I</span>
+            </div>
+            <div class="brand-info">
+                <div class="brand-text">LOGISTICS</div>
+                <div class="sub">Khai báo & Giải pháp vận tải</div>
+            </div>
+        </a>
+    </header>
     <div class="container">
         <!-- Cột trái -->
         <div class="about-left">
@@ -71,6 +83,84 @@
 </section>
 
 <style>
+/* ===== HEADER & LOGO ===== */
+.header {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background: transparent;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    /* bỏ gạch chân */
+}
+
+/* Logo hình vuông */
+.logo-box {
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    background-color: #1f6fb2;
+    /* xanh dương chủ đạo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+/* Chữ U&I trong logo */
+.logo-text {
+    font-family: "Inter", sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: #fff;
+    /* màu trắng */
+    letter-spacing: 0.5px;
+}
+
+.brand-text {
+    font-family: "Inter", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    /* màu đen */
+    letter-spacing: 0.8px;
+}
+
+/* Phần chữ LOGISTICS */
+.brand-info .title {
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: #1f3c88;
+    font-size: 18px;
+}
+
+.brand-info .sub {
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 400;
+}
+
+/* Hiệu ứng hover toàn khối logo */
+.brand:hover .logo-box {
+    transform: scale(1.05);
+    background-color: #2b86d6;
+}
+
+
+/* Giữ nguyên màu khi click/focus */
+.brand:visited,
+.brand:active,
+.brand:focus {
+    text-decoration: none;
+    outline: none;
+}
+
 .about-section {
     padding: 60px 80px;
     background: #f9fafc;

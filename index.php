@@ -63,6 +63,11 @@
         box-sizing: border-box;
     }
 
+    .logo:hover {
+        transform: scale(1.05);
+        background: #2b86d6;
+    }
+
     html,
     body {
         height: 100%;

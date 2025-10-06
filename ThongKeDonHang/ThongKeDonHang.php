@@ -7,30 +7,77 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
     body {
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #d0f2ff, #a8e0ff);
+        font-family: "Inter", sans-serif;
+        background: #ffffff;
         margin: 0;
-        padding: 15px;
+        padding: 0;
     }
 
-    /* Thanh tiêu đề U&I */
+    /* ===== PHẦN LOGO ===== */
     .header {
-        text-align: center;
-        font-size: 22px;
-        font-weight: bold;
-        color: #ffffff;
-        background: linear-gradient(135deg, #4facfe, #00f2fe);
-        padding: 10px 0;
-        border-radius: 8px;
-        margin-bottom: 15px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+        padding: 20px 40px;
+        background-color: #fff;
     }
 
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+    }
+
+    .logo-box {
+        width: 55px;
+        height: 55px;
+        border-radius: 12px;
+        background-color: #1f6fb2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .logo-text {
+        font-weight: 800;
+        font-size: 20px;
+        color: #fff;
+    }
+
+    .brand-info {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+    }
+
+    .brand-info .title {
+        font-size: 20px;
+        font-weight: 800;
+        color: #000;
+        letter-spacing: 0.5px;
+    }
+
+    .brand-info .sub {
+        font-size: 13px;
+        color: #555;
+        font-weight: 400;
+    }
+
+    /* ===== TIÊU ĐỀ QUẢN LÝ ĐƠN HÀNG ===== */
+    .page-title {
+        text-align: center;
+        font-size: 32px;
+        font-weight: 700;
+        color: #000;
+        margin: 10px 0 20px;
+    }
+
+    /* ===== DASHBOARD GỐC ===== */
     .dashboard {
         display: flex;
         gap: 15px;
         align-items: stretch;
+        padding: 0 20px 20px;
     }
 
     .left {
@@ -61,7 +108,6 @@
         font-weight: bold;
         color: white;
         height: 55px;
-        /* nhỏ gọn hơn */
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -81,7 +127,6 @@
         font-size: 12px;
     }
 
-    /* Màu từng trạng thái */
     .lay {
         background: linear-gradient(135deg, #1abc9c, #16a085);
     }
@@ -98,7 +143,6 @@
         background: linear-gradient(135deg, #e74c3c, #c0392b);
     }
 
-    /* Biểu đồ tròn */
     .pieCard {
         background: white;
         border-radius: 8px;
@@ -110,7 +154,6 @@
         flex-direction: column;
         justify-content: center;
         height: 120px;
-        /* gọn lại */
     }
 
     .pieCard h3 {
@@ -126,11 +169,24 @@
 </head>
 
 <body>
-    <!-- Header U&I -->
-    <div class="header">U&I Dashboard</div>
+    <!-- PHẦN LOGO -->
+    <header class="header">
+        <a href="../index.php" class="brand">
+            <div class="logo-box">
+                <span class="logo-text">U&I</span>
+            </div>
+            <div class="brand-info">
+                <span class="title">LOGISTICS</span>
+                <span class="sub">Khai báo và giải pháp vận tải</span>
+            </div>
+        </a>
+    </header>
 
+    <!-- TIÊU ĐỀ CHÍNH -->
+    <div class="page-title">Quản lý đơn hàng</div>
+
+    <!-- DASHBOARD -->
     <div class="dashboard">
-        <!-- Cột trái -->
         <div class="left">
             <div class="card lay">
                 <h3>ĐÃ LẤY</h3>
@@ -154,14 +210,12 @@
             </div>
         </div>
 
-        <!-- Cột phải -->
         <div class="right">
             <canvas id="barChart"></canvas>
         </div>
     </div>
 
     <script>
-    // Biểu đồ cột
     new Chart(document.getElementById('barChart'), {
         type: 'bar',
         data: {
@@ -204,7 +258,6 @@
         }
     });
 
-    // Biểu đồ tròn
     new Chart(document.getElementById('pieChart'), {
         type: 'doughnut',
         data: {

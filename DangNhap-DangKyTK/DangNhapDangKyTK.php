@@ -5,14 +5,84 @@
     <meta charset="UTF-8">
     <title>Đăng nhập - Logistic</title>
     <style>
+    * {
+        box-sizing: border-box;
+    }
+
     body {
         font-family: Arial, sans-serif;
         background: #f9fafb;
         margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* --- PHẦN HEADER --- */
+    .header {
+        display: flex;
+        align-items: center;
+        padding: 20px 40px;
+        background: transparent;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+    }
+
+    .logo-box {
+        width: 55px;
+        height: 55px;
+        border-radius: 12px;
+        background-color: #1f6fb2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .logo-text {
+        font-family: "Inter", sans-serif;
+        font-weight: 800;
+        font-size: 20px;
+        color: #fff;
+        letter-spacing: 0.5px;
+    }
+
+    .brand-text {
+        font-family: "Inter", sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: #000;
+        letter-spacing: 0.8px;
+    }
+
+    .brand-info .sub {
+        font-size: 13px;
+        color: #6b7280;
+        font-weight: 400;
+    }
+
+    .brand:hover .logo-box {
+        transform: scale(1.05);
+        background-color: #2b86d6;
+    }
+
+    /* --- PHẦN ĐĂNG NHẬP --- */
+    .login-wrapper {
+        flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        padding-top: 80px;
     }
 
     .login-container {
@@ -117,34 +187,45 @@
 </head>
 
 <body>
+    <header class="header">
+        <a href="../index.php" class="brand" style="padding-left:9px">
+            <div class="logo-box">
+                <span class="logo-text">U&amp;I</span>
+            </div>
+            <div class="brand-info">
+                <div class="brand-text">LOGISTICS</div>
+                <div class="sub">Khai báo & Giải pháp vận tải</div>
+            </div>
+        </a>
+    </header>
 
-    <div class="login-container">
-        <h2>Đăng nhập</h2>
+    <div class="login-wrapper">
+        <div class="login-container">
+            <h2>Đăng nhập</h2>
 
-        <!-- Tabs chọn vai trò -->
-        <div class="role-tabs">
-            <button class="active" id="btn-customer" onclick="switchRole('customer')">Khách hàng</button>
-            <button id="btn-staff" onclick="switchRole('staff')">Quản lý / Nhân viên</button>
-        </div>
-
-        <!-- Form đăng nhập -->
-        <form id="login-form">
-            <div class="form-group">
-                <label for="username">Tên đăng nhập</label>
-                <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập">
+            <div class="role-tabs">
+                <button class="active" id="btn-customer" onclick="switchRole('customer')">Khách hàng</button>
+                <button id="btn-staff" onclick="switchRole('staff')">Quản lý / Nhân viên</button>
             </div>
 
-            <div class="form-group">
-                <label for="password">Mật khẩu</label>
-                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu">
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập</label>
+                    <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu">
+                </div>
+
+                <button type="submit" class="login-btn">Đăng nhập</button>
+            </form>
+
+            <div class="extra-links">
+                <a href="#">Quên mật khẩu?</a> |
+                <a href="#">Đăng ký</a>
             </div>
-
-            <button type="submit" class="login-btn">Đăng nhập</button>
-        </form>
-
-        <div class="extra-links">
-            <a href="#">Quên mật khẩu?</a> |
-            <a href="#">Đăng ký</a>
         </div>
     </div>
 
@@ -153,8 +234,6 @@
 
     function switchRole(role) {
         currentRole = role;
-
-        // highlight tab
         document.getElementById("btn-customer").classList.remove("active");
         document.getElementById("btn-staff").classList.remove("active");
 
@@ -169,7 +248,6 @@
         e.preventDefault();
         alert("Bạn đang đăng nhập với vai trò: " + (currentRole === "customer" ? "Khách hàng" :
             "Quản lý / Nhân viên"));
-        // Sau này có thể gửi dữ liệu lên server: username, password, currentRole
     });
     </script>
 

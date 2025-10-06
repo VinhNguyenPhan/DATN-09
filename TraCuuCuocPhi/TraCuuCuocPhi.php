@@ -13,19 +13,76 @@
         color: #1e293b;
     }
 
+    /* ===== HEADER ===== */
     header {
         background: #ffffff;
-        padding: 20px 50px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        padding: 22px 40px;
         border-bottom: 1px solid #e2e8f0;
     }
 
-    header h1 {
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+    }
+
+    .logo-box {
+        width: 55px;
+        height: 55px;
+        border-radius: 12px;
+        background-color: #1f6fb2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .logo-text {
+        font-family: "Inter", sans-serif;
+        font-weight: 800;
         font-size: 20px;
+        color: #fff;
+        letter-spacing: 0.5px;
+    }
+
+    .brand-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1;
+    }
+
+    .brand-text .title {
+        font-family: "Inter", sans-serif;
+        font-size: 18px;
+        font-weight: 800;
+        color: #000;
+        letter-spacing: 0.8px;
+    }
+
+    .brand-text .sub {
+        font-family: "Inter", sans-serif;
+        font-size: 13px;
+        color: #6b7280;
+        margin-top: 4px;
+        font-weight: 400;
+    }
+
+    .brand:visited,
+    .brand:active,
+    .brand:focus {
+        text-decoration: none;
+        outline: none;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 22px;
         color: #1e3a8a;
         font-weight: bold;
+        margin: 28px 0;
     }
 
     .container {
@@ -41,7 +98,6 @@
         margin-bottom: 20px;
     }
 
-    /* Bảng giá */
     .pricing-table {
         width: 100%;
         border-collapse: collapse;
@@ -69,7 +125,7 @@
         border-bottom: none;
     }
 
-    /* Form tra cứu */
+    /* ===== TRA CỨU ===== */
     .search-box {
         background: #fff;
         padding: 30px;
@@ -80,21 +136,31 @@
     .search-box h3 {
         color: #1e3a8a;
         margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .search-row {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 
     .form-group {
-        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+        min-width: 220px;
     }
 
     label {
-        display: block;
-        margin-bottom: 6px;
         font-weight: 500;
+        margin-bottom: 6px;
     }
 
     input,
     select {
-        width: 100%;
+        width: 90%;
         padding: 12px;
         border: 1px solid #cbd5e1;
         border-radius: 10px;
@@ -107,10 +173,15 @@
         border-color: #1d4ed8;
     }
 
+    .btn-center {
+        text-align: center;
+        margin-top: 20px;
+    }
+
     button {
         background: #1d4ed8;
         color: #fff;
-        padding: 12px 24px;
+        padding: 12px 40px;
         border: none;
         border-radius: 10px;
         font-size: 16px;
@@ -133,17 +204,23 @@
 </head>
 
 <body>
+    <!-- HEADER -->
     <header>
-        <h1>U&I LOGISTICS</h1>
-        <nav>
-            <a href="#">Trang chủ</a> |
-            <a href="#">Dịch vụ</a> |
-            <a href="#">Hỗ trợ</a>
-        </nav>
+        <a href="../index.php" class="brand">
+            <div class="logo-box">
+                <span class="logo-text">U&amp;I</span>
+            </div>
+            <div class="brand-text">
+                <span class="title">LOGISTICS</span>
+                <span class="sub">Khai báo và giải pháp vận tải</span>
+            </div>
+        </a>
     </header>
 
+    <h1>Bảng giá & Tra cứu cước phí</h1>
+
     <div class="container">
-        <!-- Bảng giá -->
+        <!-- BẢNG GIÁ -->
         <h2>Bảng giá cước phí vận chuyển</h2>
         <table class="pricing-table">
             <tr>
@@ -178,28 +255,35 @@
             </tr>
         </table>
 
-        <!-- Form tra cứu -->
+        <!-- TRA CỨU -->
         <div class="search-box">
             <h3>Tra cứu cước phí</h3>
-            <div class="form-group">
-                <label>Nơi gửi</label>
-                <input type="text" id="from" placeholder="Nhập nơi gửi">
+            <div class="search-row">
+                <div class="form-group">
+                    <label for="from" style="padding-left:130px">Nơi gửi</label>
+                    <input type="text" id="from" placeholder="Nhập nơi gửi">
+                </div>
+
+                <div class="form-group">
+                    <label for="to" style="padding-left:130px">Nơi nhận</label>
+                    <input type="text" id="to" placeholder="Nhập nơi nhận">
+                </div>
+
+                <div class="form-group">
+                    <label for="vehicle" style="padding-left:110px">Phương tiện</label>
+                    <select id="vehicle">
+                        <option value="Xe tải">Xe tải</option>
+                        <option value="Container">Container</option>
+                        <option value="Máy bay">Máy bay</option>
+                        <option value="Tàu hỏa">Tàu hỏa</option>
+                        <option value="Tàu biển">Tàu biển</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Nơi nhận</label>
-                <input type="text" id="to" placeholder="Nhập nơi nhận">
+
+            <div class="btn-center">
+                <button onclick="calculate()">Tính phí</button>
             </div>
-            <div class="form-group">
-                <label>Phương tiện</label>
-                <select id="vehicle">
-                    <option value="xe tải">Xe tải</option>
-                    <option value="container">Container</option>
-                    <option value="máy bay">Máy bay</option>
-                    <option value="tàu hỏa">Tàu hỏa</option>
-                    <option value="tàu biển">Tàu biển</option>
-                </select>
-            </div>
-            <button onclick="calculate()">Tính phí</button>
 
             <div class="result" id="result"></div>
         </div>
