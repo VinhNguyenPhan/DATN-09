@@ -14,7 +14,6 @@
     <div class="container">
         <h2>Tờ khai nhập khẩu - Thông tin chung 1</h2>
         <form method="POST" action="To2NK.php">
-            <!-- Nhóm loại hình -->
             <fieldset>
                 <legend>Nhóm loại hình:</legend>
                 <div class="radio-group">
@@ -25,13 +24,11 @@
                 </div>
             </fieldset>
 
-            <!-- Thông tin khai báo -->
             <div class="form-group">
                 <label>Mã loại hình:</label>
                 <select name="ma_loai_hinh">
                     <option value="A11">A11: Nhập kinh doanh tiêu dùng</option>
                     <option value="A12">A12: Nhập kinh doanh sản xuất</option>
-                    <!-- ... -->
                 </select>
                 <label style="width: 240px">Phân loại cá nhân/tổ chức:</label>
                 <select name="phan_loai_to_chuc">
@@ -66,7 +63,6 @@
                 </select>
             </div>
 
-            <!-- Người nhập khẩu -->
             <fieldset>
                 <legend>Thông tin người nhập khẩu:</legend>
                 <div class="form-group">
@@ -102,7 +98,6 @@
                 </div>
             </fieldset>
 
-            <!-- Người xuất khẩu -->
             <fieldset>
                 <legend>Thông tin người xuất khẩu:</legend>
                 <div class="form-group">
@@ -138,7 +133,6 @@
                 </div>
             </fieldset>
 
-            <!-- Vận đơn -->
             <fieldset>
                 <legend>Thông tin vận đơn:</legend>
                 <div class="form-group">
@@ -217,10 +211,18 @@
             </fieldset>
 
             <div class="button-group">
-                <button type="submit">Trang sau</button>
+                <button type="submit" name="action" onclick="window.location.href='../TKNK/to2nk.php'">Trang
+                    sau</button>
+                <button type="submit" name="action">Lưu</button>
+                <button type="button" onclick="timToKhai()">Tìm tờ khai</button>
+                <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
             </div>
+            <script>
+            function timToKhai() {
+                alert("Thực hiện tìm tờ khai...");
+            }
+            </script>
         </form>
-    </div>
 </body>
 
 </html>

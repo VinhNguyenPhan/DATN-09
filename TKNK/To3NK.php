@@ -4,6 +4,9 @@
         header("Location: To1NK.php");
     }
     $_SESSION["To2NK"] = $_POST;
+    // echo '<pre>';
+    // print_r($_SESSION['To2NK']);
+    // exit();
 ?>
 <!doctype html>
 <html lang="vi">
@@ -52,7 +55,7 @@
         background-color: #c9302c;
     }
 
-    header {
+    .header {
         display: flex;
         align-items: center;
         gap: 16px;
@@ -193,7 +196,6 @@
         margin-top: 12px
     }
 
-    /* responsive */
     @media (max-width:900px) {
 
         .col-3,
@@ -255,7 +257,6 @@
                                         </tr>
                                     </thead>
                                     <tbody id="itemsBody">
-                                        <!-- rows inserted by JS -->
                                     </tbody>
                                 </table>
                             </div>
@@ -312,7 +313,6 @@
             itemsBody.appendChild(tr);
             updateLineNumbers();
 
-            // populate if data passed
             if (data) {
                 tr.querySelector('.hsCode').value = data.hs || '';
                 tr.querySelector('.desc').value = data.desc || '';
@@ -410,7 +410,6 @@
             }
         });
 
-        // init with one sample row
         addRow({
             hs: '0101.21',
             desc: 'Mẫu hàng hóa',
@@ -424,7 +423,6 @@
             docs: 'C/O A'
         });
 
-        // Export / get JSON of items
         function getAllItems() {
             return Array.from(itemsBody.querySelectorAll('tr')).map(r => ({
                 lineNo: parseInt(r.querySelector('.lineNo').textContent || 0),
@@ -443,7 +441,6 @@
             }));
         }
 
-        // for debugging: press Ctrl+Alt+E to console.log JSON
         document.addEventListener('keydown', e => {
             if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'e') {
                 console.log(getAllItems());
@@ -452,14 +449,17 @@
         });
         </script>
         <div class="button-group">
-            <a href="\TKNK\To2NK.php" target="_seft">
-                <button class="btn">Trang trước</button>
-            </a>
-            <a href="\TKNK\xulyNK.php">
-                <button class="btn">Lưu</button>
-            </a>
-            <button class="red">Đóng</button>
+            <button type="button" onclick="window.location.href='../TKNK/to2NK.php'">Trang
+                trước</button>
+            <button type="submit" name="action" value="save">Lưu</button>
+            <button type="button" onclick="timToKhai()">Tìm tờ khai</button>
+            <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
         </div>
+        <script>
+        function timToKhai() {
+            alert("Thực hiện tìm tờ khai...");
+        }
+        </script>
     </form>
 </body>
 

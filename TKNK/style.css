@@ -12,10 +12,9 @@ body {
     font-size: 14px;
 }
 
-/* Khung chính */
+
 .container {
     width: 1000px;
-    /* tăng chút để đủ chỗ */
     margin: 30px auto;
     background: #fff;
     border: 1px solid #ccc;
@@ -23,14 +22,13 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Tiêu đề */
+
 h2 {
     text-align: center;
     color: #003399;
     margin-bottom: 20px;
 }
 
-/* Fieldset */
 fieldset {
     margin: 20px 0;
     padding: 15px;
@@ -42,15 +40,12 @@ legend {
     padding: 0 10px;
 }
 
-/* Form group */
 .form-group {
     display: flex;
     flex-wrap: wrap;
-    /* xuống dòng nếu chật */
     align-items: center;
     margin: 10px 0;
     gap: 10px;
-    /* khoảng cách giữa các ô */
 }
 
 
@@ -65,27 +60,23 @@ legend {
     max-width: 120px;
 }
 
-/* Input và select */
 .form-group input,
 .form-group select,
 .form-group textarea {
     flex: 1;
     min-width: 200px;
-    /* tránh quá nhỏ */
     max-width: 678px;
     padding: 6px;
     border: 1px solid #aaa;
     border-radius: 3px;
 }
 
-/* Radio group */
 .radio-group {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
 }
 
-/* Button group */
 .button-group {
     text-align: center;
     margin-top: 30px;

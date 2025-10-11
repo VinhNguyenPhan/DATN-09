@@ -12,7 +12,6 @@
         padding: 0;
     }
 
-    /* ===== PHẦN LOGO ===== */
     .header {
         display: flex;
         align-items: center;
@@ -62,7 +61,6 @@
         font-weight: 400;
     }
 
-    /* ===== TIÊU ĐỀ TRANG ===== */
     .page-title {
         text-align: center;
         font-size: 22px;
@@ -71,7 +69,6 @@
         margin: 10px 0 25px;
     }
 
-    /* ===== CARD CHỨC NĂNG ===== */
     .container {
         display: flex;
         justify-content: center;
@@ -124,7 +121,6 @@
         background: #155b8a;
     }
 
-    /* ===== MODAL ===== */
     .modal {
         display: none;
         position: fixed;
@@ -158,7 +154,6 @@
         color: #000;
     }
 
-    /* ===== BẢNG CÔNG NỢ ===== */
     .debt-table {
         width: 100%;
         border-collapse: collapse;
@@ -195,11 +190,38 @@
         background: gray;
         cursor: not-allowed;
     }
+
+    #qrSection {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+    }
+
+    #qrSection h3 {
+        color: #1f3c88;
+        margin-bottom: 10px;
+    }
+
+    #qrImage {
+        width: 200px;
+        height: auto;
+        margin-top: 10px;
+        border: 4px solid #1f6fb2;
+        border-radius: 12px;
+    }
+
+    #qrDesc {
+        color: #333;
+        margin-top: 8px;
+        font-size: 14px;
+    }
     </style>
 </head>
 
 <body>
-    <!-- PHẦN LOGO -->
+
     <header class="header">
         <a href="../index.php" class="brand">
             <div class="logo-box">
@@ -212,10 +234,10 @@
         </a>
     </header>
 
-    <!-- TIÊU ĐỀ TRANG -->
+
     <div class="page-title">Theo dõi công nợ & Thanh toán online</div>
 
-    <!-- CARD CHỨC NĂNG -->
+
     <div class="container">
         <div class="card">
             <div class="icon">💳</div>
@@ -225,7 +247,7 @@
         </div>
     </div>
 
-    <!-- MODAL HIỂN THỊ CÔNG NỢ -->
+
     <div id="debtModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeDebtModal()">&times;</span>
@@ -249,7 +271,7 @@
                         <td>5.000.000 đ</td>
                         <td>Chưa thanh toán</td>
                         <td>10/10/2025</td>
-                        <td><button class="pay-btn">Thanh toán</button></td>
+                        <td><button class="pay-btn" onclick="showQR('HD001', '5.000.000')">Thanh toán</button></td>
                     </tr>
                     <tr>
                         <td>HD002</td>
@@ -261,6 +283,13 @@
                     </tr>
                 </tbody>
             </table>
+
+
+            <div id="qrSection">
+                <h3>Quét mã QR để thanh toán</h3>
+                <img id="qrImage" src="" alt="QR Code Thanh Toán">
+                <p id="qrDesc"></p>
+            </div>
         </div>
     </div>
 
@@ -272,6 +301,22 @@
 
     function closeDebtModal() {
         document.getElementById("debtModal").style.display = "none";
+        document.getElementById("qrSection").style.display = "none";
+    }
+
+    function showQR(invoiceId, amount) {
+        const qrSection = document.getElementById("qrSection");
+        const qrImage = document.getElementById("qrImage");
+        const qrDesc = document.getElementById("qrDesc");
+
+
+        const yourQR = "https://img.vietqr.io/image/VPB-0383671656-print.png";
+
+        qrImage.src = yourQR;
+        qrDesc.textContent =
+            `Hóa đơn: ${invoiceId} | Số tiền: ${amount} đ | Vui lòng quét mã để thanh toán.`;
+
+        qrSection.style.display = "block";
     }
     </script>
 </body>

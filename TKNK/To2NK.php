@@ -1,4 +1,3 @@
-<!-- <pre> -->
 <?php 
     require_once(__DIR__."/../core/database.php");
     // print_r($_POST);
@@ -7,6 +6,9 @@
         header("Location: To1NK.php");
     }
     $_SESSION['To1NK'] = $_POST;
+    // echo '<pre>';
+    // print_r($_SESSION['To1NK']);
+    // exit();
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -60,7 +62,7 @@
                 <legend>Hóa đơn thương mại:</legend>
                 <div class="form-group">
                     <label>Phân loại hình thức hóa đơn:</label>
-                    <select>
+                    <select name="PLHTHD">
                         <option value="A2">A: Hóa đơn</option>
                         <option value="B2">B: Chứng từ thay thế hóa đơn</option>
                         <option value="D2">D: Hóa đơn điện tử (trong trường hợp đăng kí hóa đơn điện tử trên VNACCS)
@@ -77,7 +79,7 @@
                     <label>Ngày phát hành:</label>
                     <input type="date" name="NPH" id="NPH">
                     <label style="padding-left: 37px;">Phương thức thanh toán:</label>
-                    <select>
+                    <select name="PTTT">
                         <option value="TT">T/T</option>
                         <option value="TTR">TTR</option>
                         <option value="COD">COD</option>
@@ -86,14 +88,14 @@
                 </div>
                 <div class="form-group">
                     <label>Mã phân loại hóa đơn: </label>
-                    <select>
+                    <select name="MPLHD">
                         <option value="A3">A: Hóa đơn thương mại</option>
                         <option value="B3">B: Chứng từ thay thế hóa đơn thương mại hoặc không có hóa đơn thương mại:
                         </option>
                         <option value="D3">D: Hóa đơn điện tử được khai báo qua nghiệp vụ khai hóa đơn IVA</option>
                     </select>
                     <label style="padding-left: 37px;">Điều kiện giá hóa đơn: </label>
-                    <select>
+                    <select name="DKGHD">
                         <option value="EXW">EXW</option>
                         <option value="FCA">FCA</option>
                         <option value="CPT">CPT</option>
@@ -109,9 +111,9 @@
                 </div>
                 <div class="form-group">
                     <label>Tổng trị giá hóa đơn:</label>
-                    <input type="number" type="TTGHD" id="TTGHD" placeholder="Tổng trị giá hóa đơn">
+                    <input type="number" name="TTGHD" id="TTGHD" placeholder="Tổng trị giá hóa đơn">
                     <label style="padding-left: 38px;">Mã đồng tiền hóa đơn :</label>
-                    <select>
+                    <select name="MDTHD">
                         <option value="USD">USD</option>
                         <option value="CNY">CNY</option>
                         <option value="VND">VND</option>
@@ -124,7 +126,7 @@
                 <legend>Tờ khai trị giá</legend>
                 <div class="form-group">
                     <label>Mã phân loại khai trị giá:</label>
-                    <select>
+                    <select name="MPLKTG">
                         <option value="MPLKTG0">0: Khai trị giá tổng hợp</option>
                         <option value="MPLKTG1">1: Xác định trị giá tính thuế theo phương pháp trị giá giao dịch của
                             hàng
@@ -175,7 +177,7 @@
                 </div>
                 <div class="form-group">
                     <label>Người nộp thuế: </label>
-                    <select>
+                    <select name="NNT">
                         <option value="NNT1">1: Người nhập khẩu</option>
                         <option value="NNT2">2: Đại lý hải quan</option>
                     </select>
@@ -185,8 +187,8 @@
                 <legend>Thuế và bảo lãnh</legend>
                 <div class="form-group">
                     <label>Mã lý do đề nghị BP:</label>
-                    <input type="text" placeholder="Mã lý do đề nghị BP">
-                    <select>
+                    <input type="text" name="MLDDNBP" placeholder="Mã lý do đề nghị BP">
+                    <select name="MLDDNBP1">
                         <option value="MLDDNBPA">A:chờ xác định mã số hàng hóa</option>
                         <option value="MLDDNBPB">B:chờ xác định trị giá tính thuế</option>
                         <option value="MLDDNBPC">C:trường hợp khác</option>
@@ -195,7 +197,7 @@
                 <div class="form-group">
                     <label>Mã ngân hàng trả thuế thay:</label>
                     <input type="text" name="MNHTTT" id="MNHTTT" placeholder="Số tài khoản">
-                    <select>
+                    <select name="MaNHTTT">
                         <option value="BIDV">BIDV</option>
                         <option value="TECHCOMBANK">TECHCOMBANK</option>
                         <option value="VPBANK">VPBANK</option>
@@ -211,7 +213,7 @@
                 </div>
                 <div class="form-group">
                     <label>Mã xác định thời hạn nộp thuế : </label>
-                    <select>
+                    <select name="MXDTHNT">
                         <option value="MXDTHNTA">A:Trường hợp được áp dụng thời hạn nộp thuế do sử dụng bảo lãnh riêng.
                         </option>
                         <option value="MXDTHNTB">B:Trường hợp được áp dụng thời hạn nộp thuế do sử dụng bảo lãnh chung
@@ -224,7 +226,7 @@
                 <div class="form-group">
                     <label>Mã ngân hàng bảo lãnh:</label>
                     <input type="text" name="MNHBL" id="MNHBL" placeholder="Số tài khoản">
-                    <select>
+                    <select name="MNHBL">
                         <option value="BIDV1">BIDV</option>
                         <option value="TECHCOMBANK1">TECHCOMBANK</option>
                         <option value="VPBANK1">VPBANK</option>
@@ -248,7 +250,7 @@
                 </div>
                 <div class="form-group">
                     <label style="padding-left: 192px">(1)</label>
-                    <select>
+                    <select name="SDKKBDT1">
                         <option value="INV1">INV</option>
                         <option value="BL1">B/L</option>
                         <option value="AWB1">AWB</option>
@@ -262,7 +264,7 @@
                 </div>
                 <div class="form-group">
                     <label style="padding-left: 192px">(2)</label>
-                    <select>
+                    <select name="SDKKBDT2">
                         <option value="INV2">INV</option>
                         <option value="BL2">B/L</option>
                         <option value="AWB2">AWB</option>
@@ -276,7 +278,7 @@
                 </div>
                 <div class="form-group">
                     <label style="padding-left: 192px">(3)</label>
-                    <select>
+                    <select name="SDKKBDT3">
                         <option value="INV3">INV</option>
                         <option value="BL3">B/L</option>
                         <option value="AWB3">AWB</option>
@@ -323,7 +325,7 @@
                 </div>
                 <div class="form-group">
                     <label>Địa điểm đích vận chuyển bảo thuế: </label>
-                    <select>
+                    <select name="DDDVCBT">
                         <option value="03S03">03S03</option>
                     </select>
                     <label style="padding-left: 148px; width: 219px;">Ngày đến: </label>
@@ -352,17 +354,20 @@
                     <input type="text" name="PQLNBCDN" id="PQLNBCDN" placeholder="Số quản lý của nội bộ doanh nghiệp">
                 </div>
             </fieldset>
-            <!-- Nút chức năng -->
             <div class="button-group">
-                <a href="\TKNK\To1NK.php" target="_seft">
-                    <button>Trang trước</button>
-                </a>
-                <a href="\TKNK\To3NK.php" target="_seft">
-                    <button>Trang sau</button>
-                </a>
-                <button>Tìm tờ khai</button>
-                <button class="red">Đóng</button>
+                <button type="submit" name="action" value="next"
+                    onclick="window.location.href='../TKNK/to1NK.php'">Trang trước</button>
+                <button type="submit" name="action" value="next"
+                    onclick="window.location.href='../TKNK/to3NK.php'">Trang sau</button>
+                <button type="button" name="action" value="save">Lưu</button>
+                <button type="button" onclick="timToKhai()">Tìm tờ khai</button>
+                <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
             </div>
+            <script>
+            function timToKhai() {
+                alert("Thực hiện tìm tờ khai...");
+            }
+            </script>
         </form>
     </div>
 </body>

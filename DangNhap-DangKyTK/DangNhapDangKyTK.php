@@ -1,3 +1,19 @@
+<?php 
+    require_once(__DIR__."/../core/database.php");
+
+    if(isset($_POST['submit'])){
+        if(empty($_POST['username']) && empty($_POST['password'])){
+            $error = "Vui Lòng nhập username hoặc password";
+        }else{
+            $checkuser = ($conn->query("SELECT * FROM `users` WHERE username = '".$_POST['username']."' AND password = '".md5($_POST['password'])."'"))->fetch_assoc();
+            if($checkuser <= 0){
+                $error = "Tài Khoản Không Tồn Tại";
+            }else{
+                print_r($checkuser);
+            }
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -208,7 +224,7 @@
                 <button id="btn-staff" onclick="switchRole('staff')">Quản lý / Nhân viên</button>
             </div>
 
-            <form id="login-form">
+            <form id="login-form" method="POST" action="/DangNhap-DangKyTK/DangNhapDangKyTK.php">
                 <div class="form-group">
                     <label for="username">Tên đăng nhập</label>
                     <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập">
@@ -218,8 +234,8 @@
                     <label for="password">Mật khẩu</label>
                     <input type="password" id="password" name="password" placeholder="Nhập mật khẩu">
                 </div>
-
-                <button type="submit" class="login-btn">Đăng nhập</button>
+                <?=$error??""?>
+                <button type="submit" name="submit" value="true" class="login-btn">Đăng nhập</button>
             </form>
 
             <div class="extra-links">
@@ -244,11 +260,11 @@
         }
     }
 
-    document.getElementById("login-form").addEventListener("submit", function(e) {
-        e.preventDefault();
-        alert("Bạn đang đăng nhập với vai trò: " + (currentRole === "customer" ? "Khách hàng" :
-            "Quản lý / Nhân viên"));
-    });
+    // document.getElementById("login-form").addEventListener("submit", function(e) {
+    //     // e.preventDefault();
+    //     alert("Bạn đang đăng nhập với vai trò: " + (currentRole === "customer" ? "Khách hàng" :
+    //         "Quản lý / Nhân viên"));
+    // });
     </script>
 
 </body>

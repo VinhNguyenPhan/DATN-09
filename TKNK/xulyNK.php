@@ -1,216 +1,89 @@
-<pre>
-    <?php
-require_once (__DIR__."/../core/database.php");
+<?php
+require_once (__DIR__ ."/../core/database.php");
 
-// gom dữ liệu
 $data1 = $_SESSION['To1NK'] ?? [];
 $data2 = $_SESSION['To2NK'] ?? [];
-$data3 = $_POST; // danh sách hàng
+$data3 = $_POST; 
 
-print_r($data1);
-// print_r($data2);
-// print_r($data3);
 function n($v) {
     if ($v === null) return null;
     $v = trim((string)$v);
     return ($v === '') ? null : $v;
 }
+
+$last_id = null;
+
 try {
-    // 1) Insert bảng cha to_khai_nhap_khau
-    $so_to_khai = uniqid("TKN_");
+    $to1nk = "INSERT INTO `to1nk` (
+        `nhom_loai_hinh`, `ma_loai_hinh`, `phan_loai_to_chuc`, `co_quan_hq`,
+        `phuong_thuc_vc`, `ma_phan_loai_hang`, `ma_bo_phan_xu_ly`, `MSTDNNK`, `MBCNK`,
+        `TDNNK`, `DCDNNK`, `SDTDNNK`, `NUTNK`, `SDTUTNK`, `DCUTNK`, `MSTDNXK`, `MBCXK`,
+        `TDNXK`, `DCDNXK`, `SDTDNXK`, `NUTXK`, `SDTUTXK`, `DCUTXK`, `SVD`, `NVD`, `SLK`,
+        `don_vi_kien`, `TTLH`, `don_vi_tl`, `MDDLK`, `dia_diem_luu_kho`, `KH_SHBB`,
+        `so_hieu_tau`, `PTVC`, `NHD`, `DDDH`, `ma_dd_dohang`, `DDXH`, `ma_dd_xephang`,
+        `SLCT`, `ma_kq_ktnd`
+    ) VALUES (
+        '".$data1['nhom_loai_hinh']."', '".$data1['ma_loai_hinh']."', '".$data1['phan_loai_to_chuc']."', '".$data1['co_quan_hq']."',
+        '".$data1['phuong_thuc_vc']."', '".$data1['ma_phan_loai_hang']."', '".$data1['ma_bo_phan_xu_ly']."', '".$data1['MSTDNNK']."', '".$data1['MBCNK']."',
+        '".$data1['TDNNK']."', '".$data1['DCDNNK']."', '".$data1['SDTDNNK']."', '".$data1['NUTNK']."', '".$data1['SDTUTNK']."', '".$data1['DCUTNK']."',
+        '".$data1['MSTDNXK']."', '".$data1['MBCXK']."', '".$data1['TDNXK']."', '".$data1['DCDNXK']."', '".$data1['SDTDNXK']."',
+        '".$data1['NUTXK']."', '".$data1['SDTUTXK']."', '".$data1['DCUTXK']."', '".$data1['SVD']."', '".$data1['NVD']."',
+        '".$data1['SLK']."', '".$data1['don_vi_kien']."', '".$data1['TTLH']."', '".$data1['don_vi_tl']."', '".$data1['MDDLK']."',
+        '".$data1['dia_diem_luu_kho']."', '".$data1['KH_SHBB']."', '".$data1['so_hieu_tau']."', '".$data1['PTVC']."',
+        '".$data1['NHD']."', '".$data1['DDDH']."', '".$data1['ma_dd_dohang']."', '".$data1['DDXH']."',
+        '".$data1['ma_dd_xephang']."', '".$data1['SLCT']."', '".$data1['ma_kq_ktnd']."'
+    )";
 
-    $sql = "INSERT INTO to_khai_nhap_khau
-    (so_to_khai, nhom_loai_hinh, ma_loai_hinh, phan_loai_to_chuc,
-     co_quan_hq, phuong_thuc_vc, ma_phan_loai_hang, ma_bo_phan_xu_ly,
-     mst_dn_nk, ma_bc_dn_nk, ten_dn_nk, dia_chi_dn_nk, sdt_dn_nk,
-     ten_uy_thac_nk, sdt_uy_thac_nk, dia_chi_uy_thac_nk,
-     mst_dn_xk, ma_bc_dn_xk, ten_dn_xk, dia_chi_dn_xk, sdt_dn_xk,
-     ten_uy_thac_xk, sdt_uy_thac_xk, dia_chi_uy_thac_xk,
-     so_van_don, ngay_van_don, so_luong_kien, don_vi_kien,
-     tong_trong_luong, don_vi_tl, ma_dia_diem_luu_kho, dia_diem_luu_kho,
-     ky_hieu_bao_bi, so_hieu_tau, phuong_tien_vc, ngay_hang_den,
-     dia_diem_do_hang, ma_dd_dohang, dia_diem_xep_hang, ma_dd_xephang,
-     so_luong_container, ma_kq_ktnd, ghi_chu_chung)
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
-$stmt = $conn->prepare($sql);
-if (!$stmt) {
-    die("❌ Prepare failed: " . $conn->error);
-}
-$nhom_loai_hinh     = n($data1['nhom_loai_hinh'] ?? null);
-$ma_loai_hinh       = n($data1['ma_loai_hinh'] ?? null);
-$phan_loai_to_chuc  = n($data1['phan_loai_to_chuc'] ?? null);
-$co_quan_hq         = n($data1['co_quan_hq'] ?? null);
-$phuong_thuc_vc     = n($data1['phuong_thuc_vc'] ?? null);
-$ma_phan_loai_hang  = n($data1['ma_phan_loai_hang'] ?? null);
-$ma_bo_phan_xu_ly   = n($data1['ma_bo_phan_xu_ly'] ?? null);
-$mst_dn_nk          = n($data1['MSTDNNK'] ?? null);
-$ma_bc_dn_nk        = n($data1['MBCNK'] ?? null);
-$ten_dn_nk          = n($data1['TDNNK'] ?? null);
-$dia_chi_dn_nk      = n($data1['DCDNNK'] ?? null);
-$sdt_dn_nk          = n($data1['SDTDNNK'] ?? null);
-$ten_uy_thac_nk     = n($data1['NUTNK'] ?? null);
-$sdt_uy_thac_nk     = n($data1['SDTUTNK'] ?? null);
-$dia_chi_uy_thac_nk = n($data1['DCUTNK'] ?? null);
-$mst_dn_xk          = n($data1['MSTDNXK'] ?? null);
-$ma_bc_dn_xk        = n($data1['MBCXK'] ?? null);
-$ten_dn_xk          = n($data1['TDNXK'] ?? null);
-$dia_chi_dn_xk      = n($data1['DCDNXK'] ?? null);
-$sdt_dn_xk          = n($data1['SDTDNXK'] ?? null);
-$ten_uy_thac_xk     = n($data1['NUTXK'] ?? null);
-$sdt_uy_thac_xk     = n($data1['SDTUTXK'] ?? null);
-$dia_chi_uy_thac_xk = n($data1['DCUTXK'] ?? null);
-$so_van_don         = n($data1['SVD'] ?? null);
-$ngay_van_don       = n($data1['NVD'] ?? null);
-$so_luong_kien      = (int)($data1['SLK'] ?? 0);
-$don_vi_kien        = n($data1['don_vi_kien'] ?? null);
-$tong_trong_luong   = (float)($data1['TTLH'] ?? 0);
-$don_vi_tl          = n($data1['don_vi_tl'] ?? null);
-$ma_dia_diem_luu_kho= n($data1['MDDLK'] ?? null);
-$dia_diem_luu_kho   = n($data1['dia_diem_luu_kho'] ?? null);
-$ky_hieu_bao_bi     = n($data1['KH_SHBB'] ?? null);
-$so_hieu_tau        = n($data1['so_hieu_tau'] ?? null);
-$phuong_tien_vc     = n($data1['PTVC'] ?? null);
-$ngay_hang_den      = n($data1['NHD'] ?? null);
-$dia_diem_do_hang   = n($data1['DDDH'] ?? null);
-$ma_dd_dohang       = n($data1['ma_dd_dohang'] ?? null);
-$dia_diem_xep_hang  = n($data1['DDXH'] ?? null);
-$ma_dd_xephang      = n($data1['ma_dd_xephang'] ?? null);
-$so_luong_container = (int)($data1['SLCT'] ?? 0);
-$ma_kq_ktnd         = n($data1['ma_kq_ktnd'] ?? null);
-$ghi_chu_chung      = n($data2['GCC'] ?? null);
-
-$stmt->bind_param(
-    "ssssssssssssssssssssssssssissssssssssssisss", 
-    $so_to_khai,
-    $nhom_loai_hinh,
-    $ma_loai_hinh,
-    $phan_loai_to_chuc,
-    $co_quan_hq,
-    $phuong_thuc_vc,
-    $ma_phan_loai_hang,
-    $ma_bo_phan_xu_ly,
-    $mst_dn_nk,
-    $ma_bc_dn_nk,
-    $ten_dn_nk,
-    $dia_chi_dn_nk,
-    $sdt_dn_nk,
-    $ten_uy_thac_nk,
-    $sdt_uy_thac_nk,
-    $dia_chi_uy_thac_nk,
-    $mst_dn_xk,
-    $ma_bc_dn_xk,
-    $ten_dn_xk,
-    $dia_chi_dn_xk,
-    $sdt_dn_xk,
-    $ten_uy_thac_xk,
-    $sdt_uy_thac_xk,
-    $dia_chi_uy_thac_xk,
-    $so_van_don,
-    $ngay_van_don,
-    $so_luong_kien,
-    $don_vi_kien,
-    $tong_trong_luong,
-    $don_vi_tl,
-    $ma_dia_diem_luu_kho,
-    $dia_diem_luu_kho,
-    $ky_hieu_bao_bi,
-    $so_hieu_tau,
-    $phuong_tien_vc,
-    $ngay_hang_den,
-    $dia_diem_do_hang,
-    $ma_dd_dohang,
-    $dia_diem_xep_hang,
-    $ma_dd_xephang,
-    $so_luong_container,
-    $ma_kq_ktnd,
-    $ghi_chu_chung
-);
-$stmt->execute();
-
-    $to_khai_id = $stmt->insert_id;
-    $stmt->close();
-
-    // 2) Insert bảng to_khai_bo_sung
-$sql = "INSERT INTO to_khai_bo_sung 
-    (to_khai_id, ma_vb_pqk, 
-     gp_nhap_khau1, gp_nhap_khau11,
-     gp_nhap_khau2, gp_nhap_khau22,
-     gp_nhap_khau3, gp_nhap_khau33,
-     gp_nhap_khau4, gp_nhap_khau44,
-     so_tiep_nhan_hd, so_hd, ngay_phat_hanh,
-     phuong_thuc_tt, tong_tri_gia, tien_te,
-     ct_ktg, nnt)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
-$stmt = $conn->prepare($sql);
-if (!$stmt) {
-    die("❌ Lỗi prepare to_khai_bo_sung: " . $conn->error);
-}
-
-$stmt->bind_param(
-    "isssssssssss sdss",   // type string
-    $to_khai_id,
-    $data2['MVBPQK'],
-    $data2['GPNK1'],
-    $data2['GPNK11'],
-    $data2['GPNK2'],
-    $data2['GPNK22'],
-    $data2['GPNK3'],
-    $data2['GPNK33'],
-    $data2['GPNK4'],
-    $data2['GPNK44'],
-    $data2['STNHDDT'],
-    $data2['SHD'],
-    $data2['NPH'],         // DATE (nếu bạn truyền string dạng yyyy-mm-dd thì dùng 's')
-    $data2['PTTT'],
-    $data2['TTGHD'],       // DECIMAL -> d
-    $data2['TTT'],
-    $data2['CTKTG'],
-    $data2['NNT']
-);
-
-$stmt->execute();
-$stmt->close();
-
-    // ========== 3. Insert bảng chi_tiet_hang ==========
-    $sql = "INSERT INTO chi_tiet_hang
-        (to_khai_id, line_no, ma_hs, ten_hang, don_vi, so_luong, don_gia, tri_gia,
-         nuoc_xuat_xu, loai_bao_bi, so_van_don, thue_suat, tien_thue, chung_tu)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    $stmt = $conn->prepare($sql);
-
-    // Lấy toàn bộ input dạng mảng (do trùng name nhiều dòng -> PHP thành array)
-    $rows = count($data3['HSC'] ?? []);
-    for ($i=0; $i < $rows; $i++) {
-        $ma_hs = n($data3['HSC'][$i] ?? null);
-        $ten_hang = n($data3['TH'][$i] ?? null);
-        $don_vi = n($data3['DVT'][$i] ?? null);
-        $so_luong = (float)($data3['SL'][$i] ?? 0);
-        $don_gia = (float)($data3['GIA'][$i] ?? 0);
-        $tri_gia = (float)($data3['VALUE'][$i] ?? $so_luong*$don_gia);
-        $nuoc_xuat = n($data3['XX'][$i] ?? null);
-        $loai_bao = n($data3['BB'][$i] ?? null);
-        $so_van = n($data3['VD'][$i] ?? null);
-        $thue_suat = (float)($data3['TS'][$i] ?? 0);
-        $tien_thue = (float)($data3['TT'][$i] ?? 0);
-        $chung_tu = n($data3['GC'][$i] ?? null);
-
-        $line_no = $i+1;
-
-        $stmt->bind_param("iissssssssssss",
-            $to_khai_id, $line_no, $ma_hs, $ten_hang, $don_vi,
-            $so_luong, $don_gia, $tri_gia, $nuoc_xuat, $loai_bao,
-            $so_van, $thue_suat, $tien_thue, $chung_tu
-        );
-        $stmt->execute();
-    }
-    $stmt->close();
-
-    $conn->commit();
-    echo "✅ Lưu thành công tờ khai: $so_to_khai";
-
+    $conn->query($to1nk);
+    $last_id = $conn->insert_id; 
 } catch (Exception $e) {
-    $conn->rollback();
-    echo "❌ Lỗi: " . $e->getMessage();
+    error_log("Lỗi khi thêm to1nk: " . $e->getMessage());
 }
+
+try {
+    
+    $to2nk = "INSERT INTO `to2nk` (
+        `to1nk`, `MVBPQK`, `GPNK1`, `GPNK11`, `GPNK2`, `GPNK22`, `GPNK3`, `GPNK33`, `GPNK4`, `GPNK44`, 
+        `PLHTHD`, `STNHDDT`, `SHD`, `NPH`, `PTTT`, `MPLHD`, `DKGHD`, `TTGHD`, `MDTHD`, `MPLKTG`, `ML1`, 
+        `MDT1`, `PVC1`, `ML2`, `MDT2`, `PBH2`, `CTKTG`, `NNT`, `MLDDNBP`, `MLDDNBP1`, `MNHTTT`, `MaNHTTT`, 
+        `NPHHM`, `KHCTHM`, `SCTHM`, `MXDTHNT`, `MNHBL`, `NPHBL`, `KHCTBL`, `SCTBL`, `SDKKBDT1`, `SDK1`, 
+        `SDKKBDT2`, `SDK2`, `SDKKBDT3`, `SDK3`, `NDPNK`, `NKHVC`, `DD1`, `ND1`, `NKH1`, `DD2`, `ND2`, `NKH2`, 
+        `DD3`, `ND3`, `NKH3`, `DDDVCBT`, `ND11`, `SHD1`, `NBD`, `NKT`, `CT`, `PQLNBCDN`
+    ) VALUES (
+        '".$last_id."', '".$data2['MVBPQK']."', '".$data2['GPNK1']."', '".$data2['GPNK11']."', '".$data2['GPNK2']."', '".$data2['GPNK22']."', '".$data2['GPNK3']."', '".$data2['GPNK33']."', '".$data2['GPNK4']."', '".$data2['GPNK44']."',
+        '".$data2['PLHTHD']."', '".$data2['STNHDDT']."', '".$data2['SHD']."', '".$data2['NPH']."', '".$data2['PTTT']."', '".$data2['MPLHD']."', '".$data2['DKGHD']."', '".$data2['TTGHD']."', '".$data2['MDTHD']."', '".$data2['MPLKTG']."', '".$data2['ML1']."',
+        '".$data2['MDT1']."', '".$data2['PVC1']."', '".$data2['ML2']."', '".$data2['MDT2']."', '".$data2['PBH2']."', '".$data2['CTKTG']."', '".$data2['NNT']."', '".$data2['MLDDNBP']."', '".$data2['MLDDNBP1']."', '".$data2['MNHTTT']."', '".$data2['MaNHTTT']."', 
+        '".$data2['NPHHM']."', '".$data2['KHCTHM']."', '".$data2['SCTHM']."', '".$data2['MXDTHNT']."', '".$data2['MNHBL']."', '".$data2['NPHBL']."', '".$data2['KHCTBL']."', '".$data2['SCTBL']."', '".$data2['SDKKBDT1']."', '".$data2['SDK1']."', 
+        '".$data2['SDKKBDT2']."', '".$data2['SDK2']."', '".$data2['SDKKBDT3']."', '".$data2['SDK3']."', '".$data2['NDPNK']."', '".$data2['NKHVC']."', '".$data2['DD1']."', '".$data2['ND1']."', '".$data2['NKH1']."', '".$data2['DD2']."', '".$data2['ND2']."', '".$data2['NKH2']."', 
+        '".$data2['DD3']."', '".$data2['ND3']."', '".$data2['NKH3']."', '".$data2['DDDVCBT']."', '".$data2['ND11']."', '".$data2['SHD1']."', '".$data2['NBD']."', '".$data2['NKT']."', '".$data2['CT']."', '".$data2['PQLNBCDN']."'
+    )";
+    $conn->query($to2nk);
+} catch (Exception $e) {
+    error_log("Lỗi khi thêm to2nk: " . $e->getMessage());
+}
+
+try {
+    
+    foreach ($data3['HSC'] as $key => $value) {
+        $to3nk = "INSERT INTO `to3nk` (
+            `to1nk`, `STK`, `NGAY`, `NK`, `GCC`, `HSC`, `TH`, 
+            `DVT`, `SL`, `GIA`, `VALUE`, `XX`, `BB`, 
+            `VD`, `TS`, `TT`, `GC`
+        ) VALUES (
+            '".$last_id."', '".$data3['STK']."', '".$data3['NGAY']."', '".$data3['NK']."', '".$data3['GCC']."', '".$data3['HSC'][$key]."', '".$data3['TH'][$key]."', 
+            '".$data3['DVT'][$key]."', '".$data3['SL'][$key]."', '".$data3['GIA'][$key]."', '".$data3['VALUE'][$key]."', '".$data3['XX'][$key]."', '".$data3['BB'][$key]."', 
+            '".$data3['VD'][$key]."', '".$data3['TS'][$key]."', '".$data3['TT'][$key]."', '".$data3['GC'][$key]."'
+        )";
+        $conn->query($to3nk);
+    }
+} catch (Exception $e) {
+    error_log("Lỗi khi thêm to3nk: " . $e->getMessage());
+}
+
+if ($last_id) {
+    header("Location: done.php?id=" . urlencode($last_id));
+    exit();
+} else {
+    echo "Lỗi: Không lấy được ID to1nk.";
+}
+?>
