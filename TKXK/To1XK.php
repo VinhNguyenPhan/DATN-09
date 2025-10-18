@@ -1,5 +1,11 @@
 <?php 
     require_once(__DIR__."/../core/database.php");
+    // thêm mới bảo vệ đăng nhập
+     if (empty($_SESSION['user_id'])) {
+     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
+     header("Location: $redirect");
+     exit;
+ }
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -15,53 +21,77 @@
         <h2>Tờ khai xuất khẩu - Thông tin chung</h2>
         <form method="POST" action="To2XK.php">
             <fieldset>
+                <legend>Loại Xuất Khẩu:</legend>
+                <div class="radio-group">
+                    <label><input type="radio" name="khuvuc" value="trong_nuoc" checked>Trong nước</label>
+                    <label><input type="radio" name="khuvuc" value="ngoai_nuoc">Ngoài nước</label>
+                </div>
+            </fieldset>
+            <fieldset>
                 <legend>Nhóm loại hình:</legend>
                 <div class="radio-group">
-                    <label><input type="radio" name="nhom_loai_hinh" checked> Kinh doanh, đầu tư</label>
-                    <label><input type="radio" name="nhom_loai_hinh"> Sản xuất xuất khẩu</label>
-                    <label><input type="radio" name="nhom_loai_hinh"> Gia công</label>
-                    <label><input type="radio" name="nhom_loai_hinh"> Chế xuất</label>
+                    <label><input type="radio" value="Kinh doanh, đầu tư" name="nhom_loai_hinh" checked> Kinh doanh, đầu
+                        tư</label>
+                    <label><input type="radio" value="Sản xuất xuất khẩu" value="" name="nhom_loai_hinh"> Sản xuất xuất
+                        khẩu</label>
+                    <label><input type="radio" value="Gia công" name="nhom_loai_hinh"> Gia công</label>
+                    <label><input type="radio" value="Chế xuất" name="nhom_loai_hinh"> Chế xuất</label>
                 </div>
             </fieldset>
 
             <div class="form-group">
                 <label>Mã loại hình:</label>
                 <select name="MLH">
-                    <option value="A11">A11: Nhập kinh doanh tiêu dùng</option>
-                    <option value="A12">A12: Nhập kinh doanh sản xuất</option>
-                    <option value="A21">A21: Chuyển tiêu thụ nội địa từ nguồn tạm nhập</option>
-                    <option value="A31">A31: Nhập khẩu hàng hóa đã xuất khẩu</option>
-                    <option value="A41">A41: Nhập kinh doanh của doanh nghiệp thực hiện quyền nhập khẩu</option>
-                    <option value="A42">A42: Thay đổi mục đích sử dụng hoặc chuyển tiêu thụ nội địa từ các loại hình
+                    <option value="Nhập kinh doanh tiêu dùng">A11: Nhập kinh doanh tiêu dùng</option>
+                    <option value="Nhập kinh doanh sản xuất">A12: Nhập kinh doanh sản xuất</option>
+                    <option value="Chuyển tiêu thụ nội địa từ nguồn tạm nhập">A21: Chuyển tiêu thụ nội địa từ nguồn tạm
+                        nhập</option>
+                    <option value="Nhập khẩu hàng hóa đã xuất khẩu">A31: Nhập khẩu hàng hóa đã xuất khẩu</option>
+                    <option value="Nhập kinh doanh của doanh nghiệp thực hiện quyền nhập khẩu">A41: Nhập kinh doanh của
+                        doanh nghiệp thực hiện quyền nhập khẩu</option>
+                    <option value="Thay đổi mục đích sử dụng hoặc chuyển tiêu thụ nội địa từ các loại hình
+                        khác,
+                        trừ tạm nhập">A42: Thay đổi mục đích sử dụng hoặc chuyển tiêu thụ nội địa từ các loại hình
                         khác,
                         trừ tạm nhập
                     </option>
-                    <option value="A43">A43: Nhập khẩu hàng hóa thuộc Chương trình ưu đãi thuế</option>
-                    <option value="A44">A44: Tạm nhập hàng hóa bán tại cửa hàng miễn thuế</option>
-                    <option value="E11">E11: Nhập nguyên liệu của DNCX từ nước ngoài</option>
-                    <option value="E13">E13: Nhập hàng hóa khác vào DNCX</option>
-                    <option value="E15">E15: Nhập nguyên liệu, vật tư của DNCX từ nội địa</option>
-                    <option value="E21">E21: Nhập nguyên liệu, vật tư để gia công cho thương nhân nước ngoài</option>
-                    <option value="E23">E23: Nhập nguyên liệu, vật tư gia công từ hợp đồng khác chuyển sang</option>
-                    <option value="E31">E31: Nhập nguyên liệu sản xuất xuất khẩu</option>
-                    <option value="E33">E33: Nhập nguyên liệu, vật tư vào kho bảo thuế</option>
-                    <option value="E41">E41: Nhập sản phẩm thuê gia công ở nước ngoài</option>
-                    <option value="G11">G11: Tạm nhập hàng kinh doanh tạm nhập tái xuất</option>
-                    <option value="G12">G12: Tạm nhập máy móc, thiết bị phục vụ dự án có thời hạn</option>
-                    <option value="G13">G13: Tạm nhập miễn thuế</option>
-                    <option value="G14">G14: Tạm nhập khác</option>
-                    <option value="G51">G51: Tái nhập hàng hóa đã tạm xuất</option>
-                    <option value="C11">C11: Hàng nước ngoài gửi kho ngoại quan</option>
-                    <option value="C21">C21: Hàng đưa vào khu phi thuế quan</option>
-                    <option value="H11">H11: Hàng nhập khẩu khác</option>
+                    <option value="Nhập khẩu hàng hóa thuộc Chương trình ưu đãi thuế">A43: Nhập khẩu hàng hóa thuộc
+                        Chương trình ưu đãi thuế</option>
+                    <option value="Tạm nhập hàng hóa bán tại cửa hàng miễn thuế">A44: Tạm nhập hàng hóa bán tại cửa hàng
+                        miễn thuế</option>
+                    <option value="Nhập nguyên liệu của DNCX từ nước ngoài">E11: Nhập nguyên liệu của DNCX từ nước ngoài
+                    </option>
+                    <option value="Nhập hàng hóa khác vào DNCX">E13: Nhập hàng hóa khác vào DNCX</option>
+                    <option value="Nhập nguyên liệu, vật tư của DNCX từ nội địa">E15: Nhập nguyên liệu, vật tư của DNCX
+                        từ nội địa</option>
+                    <option value="Nhập nguyên liệu, vật tư để gia công cho thương nhân nước ngoài">E21: Nhập nguyên
+                        liệu, vật tư để gia công cho thương nhân nước ngoài</option>
+                    <option value="Nhập nguyên liệu, vật tư gia công từ hợp đồng khác chuyển sang">E23: Nhập nguyên
+                        liệu, vật tư gia công từ hợp đồng khác chuyển sang</option>
+                    <option value="Nhập nguyên liệu sản xuất xuất khẩu">E31: Nhập nguyên liệu sản xuất xuất khẩu
+                    </option>
+                    <option value="Nhập nguyên liệu, vật tư vào kho bảo thuế">E33: Nhập nguyên liệu, vật tư vào kho bảo
+                        thuế</option>
+                    <option value="Nhập sản phẩm thuê gia công ở nước ngoài">E41: Nhập sản phẩm thuê gia công ở nước
+                        ngoài</option>
+                    <option value="Tạm nhập hàng kinh doanh tạm nhập tái xuất">G11: Tạm nhập hàng kinh doanh tạm nhập
+                        tái xuất</option>
+                    <option value="Tạm nhập máy móc, thiết bị phục vụ dự án có thời hạn">G12: Tạm nhập máy móc, thiết bị
+                        phục vụ dự án có thời hạn</option>
+                    <option value="Tạm nhập miễn thuế">G13: Tạm nhập miễn thuế</option>
+                    <option value="Tạm nhập khác">G14: Tạm nhập khác</option>
+                    <option value="Tái nhập hàng hóa đã tạm xuất">G51: Tái nhập hàng hóa đã tạm xuất</option>
+                    <option value="Hàng nước ngoài gửi kho ngoại quan">C11: Hàng nước ngoài gửi kho ngoại quan</option>
+                    <option value="Hàng đưa vào khu phi thuế quan">C21: Hàng đưa vào khu phi thuế quan</option>
+                    <option value="Hàng nhập khẩu khác">H11: Hàng nhập khẩu khác</option>
                 </select>
                 <label style="width: 240px">Phân loại cá nhân/tổ chức:</label>
                 <select name="PLCNTC">
-                    <option value="PLCNTC1">1: Cá nhân gửi cá nhân</option>
-                    <option value="PLCNTC2">2: Tổ chức gửi cá nhân</option>
-                    <option value="PLCNTC3">3: Cá nhân gửi tổ chức</option>
-                    <option value="PLCNTC4">4: Tổ chức gửi tổ chức</option>
-                    <option value="PLCNTC5">5: Khác</option>
+                    <option value="Cá nhân gửi cá nhân">1: Cá nhân gửi cá nhân</option>
+                    <option value="Tổ chức gửi cá nhân">2: Tổ chức gửi cá nhân</option>
+                    <option value="Cá nhân gửi tổ chức">3: Cá nhân gửi tổ chức</option>
+                    <option value="Tổ chức gửi tổ chức">4: Tổ chức gửi tổ chức</option>
+                    <option value="Khác">5: Khác</option>
                 </select>
             </div>
             <div class="form-group">
@@ -71,14 +101,14 @@
                     <option value="01NV">01NV - Chi cục HQ Nội Bài</option>
                 </select>
                 <label style="width: 240px">Mã hiệu phương thức vận chuyển:</label>
-                <select name="MHPTVC">
-                    <option value="MHPTVC1">1: Đường không</option>
-                    <option value="MHPTVC2">2: Đường biển (container)</option>
-                    <option value="MHPTVC3">3: Đường biển (hàng rời, lỏng…)</option>
-                    <option value="MHPTVC4">4: Đường bộ (xe tải)</option>
-                    <option value="MHPTVC5">5: Đường sắt</option>
-                    <option value="MHPTVC6">6: Đường sông</option>
-                    <option value="MHPTVC9">9: Khác</option>
+                <select name="MHPTVC1">
+                    <option value="Đường không">1: Đường không</option>
+                    <option value="Đường biển (container)">2: Đường biển (container)</option>
+                    <option value="Đường biển (hàng rời, lỏng…)">3: Đường biển (hàng rời, lỏng…)</option>
+                    <option value="Đường bộ (xe tải)">4: Đường bộ (xe tải)</option>
+                    <option value="Đường sắt">5: Đường sắt</option>
+                    <option value="Đường sông">6: Đường sông</option>
+                    <option value="Khác">9: Khác</option>
                 </select>
             </div>
             <div class="form-group">
@@ -185,28 +215,25 @@
                         <option value="LBR">LBR: Pao</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top: 10px;">
                     <label>Mã địa điểm lưu kho hàng chờ thông quan dự kiến:</label>
                     <input type="text" name="MDDLKCTQDK" placeholder="Mã địa điểm lưu kho">
-                    <select name="MDDLKCTQ">
-                        <option value="OSA">OSAKA</option>
-                        <option value="HAN">HANOI</option>
+                    <select name="MDDLKCTQ" id="location-select">
+                        <!-- Danh sách sẽ được sinh tự động -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Địa điểm nhận hàng cuối cùng:</label>
                     <input type="text" name="DDNHCC" id="DDNHCC" placeholder="Địa điểm nhận hàng cuối cùng">
-                    <select name="DDNH">
-                        <option value="OSA">OSAKA</option>
-                        <option value="HAN">HANOI</option>
+                    <select name="DDNH" id="location-select2">
+                        <!-- Danh sách sẽ được sinh tự động -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Địa điểm xếp hàng:</label>
                     <input type="text" name="DDXH" id="DDXK" placeholder="Địa điểm xếp hàng">
-                    <select name="DDXH1">
-                        <option value="OSA">OSAKA</option>
-                        <option value="HAN">HANOI</option>
+                    <select name="DDXH1" id="location-select3">
+                        <!-- Danh sách sẽ được sinh tự động -->
                     </select>
                 </div>
                 <div class="form-group">
@@ -413,6 +440,83 @@
             </script>
         </form>
     </div>
+
+    <script>
+    // Danh sách địa điểm
+    const locations = {
+        trong_nuoc: [{
+                code: "HAN",
+                name: "HANOI"
+            },
+            {
+                code: "SGN",
+                name: "HO CHI MINH"
+            },
+            {
+                code: "DAD",
+                name: "Đà Nẵng"
+            },
+            {
+                code: "HCM",
+                name: "DANANG"
+            },
+            {
+                code: "DAD",
+                name: "DANANG"
+            }
+        ],
+        ngoai_nuoc: [{
+                code: "OSA",
+                name: "OSAKA"
+            },
+            {
+                code: "NRT",
+                name: "TOKYO"
+            },
+            {
+                code: "ICN",
+                name: "SEOUL"
+            }
+        ]
+    };
+
+    // Hàm hiển thị danh sách trong dropdown
+    function updateLocationSelect(type) {
+        const select = document.getElementById("location-select");
+        const select2 = document.getElementById("location-select2");
+        const select3 = document.getElementById("location-select3");
+
+        // Xóa danh sách cũ
+        select.innerHTML = "";
+        select2.innerHTML = "";
+        select3.innerHTML = "";
+
+        // Lặp qua danh sách địa điểm
+        locations[type].forEach(loc => {
+            const option1 = document.createElement("option");
+            option1.value = loc.code;
+            option1.textContent = loc.name;
+
+            const option2 = option1.cloneNode(true);
+            const option3 = option1.cloneNode(true);
+
+            select.appendChild(option1);
+            select2.appendChild(option2);
+            select3.appendChild(option3);
+        });
+    }
+
+
+    // Khi chọn radio button
+    document.querySelectorAll('input[name="khuvuc"]').forEach(radio => {
+        radio.addEventListener("change", e => {
+            updateLocationSelect(e.target.value);
+        });
+    });
+
+    // Hiển thị mặc định (trong nước)
+    updateLocationSelect("trong_nuoc");
+    </script>
 </body>
 
 </html>

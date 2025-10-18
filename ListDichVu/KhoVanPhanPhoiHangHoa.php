@@ -1,47 +1,45 @@
-<section class="about-section">
-    <header class="header">
-        <!-- Logo: Toàn bộ logo là link -->
-        <a href="../index.php" class="brand">
-            <div class="logo-box">
-                <span class="logo-text">U&amp;I</span>
-            </div>
-            <div class="brand-info">
-                <div class="brand-text">LOGISTICS</div>
-                <div class="sub">Khai báo & Giải pháp vận tải</div>
-            </div>
-        </a>
-    </header>
-    <div class="container">
-        <!-- Cột trái -->
-        <div class="about-left">
-            <h2>Giới thiệu về dịch vụ</h2>
-            <p>
-                ông ty Cổ phần Logistics U&I tự hào là đơn vị phát triển dịch vụ Kho vận và Phân phối hàng hóa đáng tin
-                cậy tại Việt Nam nhờ sở hữu hệ thống kho ngoại quan lớn nhất Đông Nam Á với tổng diện tích hơn 242.320
-                m² (tương đương 2.609.000 ft²). Hệ thống kho vận và trung tâm phân phối có sức chứa hơn 2.000.000 m²
-                (tương đương 21.527.820 ft²) được đặt tại các khu vực kinh tế trọng điểm trên cả nước.
-            </p>
-            <p>
-                Hệ thống kho vận U&I Logistics được trang bị cơ sở hạ tầng hiện đại, công nghệ đúng chuẩn C-TPAT của CBP
-                Hoa Kỳ và đạt chứng nhận ISO 9001 như: Phần mềm quản lý kho hiện đại (WMS), hệ thống quản lý hàng hóa
-                bằng mã code, hệ thống hút ẩm tự động kiểm soát độ ẩm và côn trùng, v.v. Nhờ đó, U&I Logistics đã nhận
-                được sự tin cậy từ nhiều đối tác chiến lược uy tín như Saigon Co.op và Trancy Logistics và tự tin cung
-                cấp những giải pháp thiết thực đáp ứng mọi nhu cầu khắt khe của từng khách hàng.
-            </p>
+<?php
+include_once(__DIR__.'/../public/header.php');
+?>
+<section class="about-wrapper">
+    <div class="about-section">
+        <div class="container">
+            <!-- Cột trái -->
+            <div class="about-left">
+                <h2>Giới thiệu về dịch vụ</h2>
+                <p>
+                    ông ty Cổ phần Logistics U&I tự hào là đơn vị phát triển dịch vụ Kho vận và Phân phối hàng hóa đáng
+                    tin
+                    cậy tại Việt Nam nhờ sở hữu hệ thống kho ngoại quan lớn nhất Đông Nam Á với tổng diện tích hơn
+                    242.320
+                    m² (tương đương 2.609.000 ft²). Hệ thống kho vận và trung tâm phân phối có sức chứa hơn 2.000.000 m²
+                    (tương đương 21.527.820 ft²) được đặt tại các khu vực kinh tế trọng điểm trên cả nước.
+                </p>
+                <p>
+                    Hệ thống kho vận U&I Logistics được trang bị cơ sở hạ tầng hiện đại, công nghệ đúng chuẩn C-TPAT của
+                    CBP
+                    Hoa Kỳ và đạt chứng nhận ISO 9001 như: Phần mềm quản lý kho hiện đại (WMS), hệ thống quản lý hàng
+                    hóa
+                    bằng mã code, hệ thống hút ẩm tự động kiểm soát độ ẩm và côn trùng, v.v. Nhờ đó, U&I Logistics đã
+                    nhận
+                    được sự tin cậy từ nhiều đối tác chiến lược uy tín như Saigon Co.op và Trancy Logistics và tự tin
+                    cung
+                    cấp những giải pháp thiết thực đáp ứng mọi nhu cầu khắt khe của từng khách hàng.
+                </p>
 
-            <h3>Các dịch vụ kho vận và phân phối hàng hóa bao gồm:</h3>
-            <ul class="service-list">
-                <li>📌 Kho ngoại quan</li>
-                <li>📌 Trung tâm phân phối dược phẩm</li>
-                <li>📌 Trung tâm phân phối hàng hóa tiêu dùng</li>
-                <li>📌 Kho thương mại điện tử</li>
-                <li>📌 Xử lý chứng từ</li>
-                <li>📌 Quản lý hàng tồn kho</li>
-                <li>📌 Quản lý đơn hàng</li>
-                <li>📌 Các dịch vụ gia tăng (đóng hàng vào pallet, đóng gói/đóng gói lại, phân loại hàng hoá, in
-                    nhãn/dán nhãn, phân phối, barcode và các giải pháp hỗ trợ, v.v)</li>
-            </ul>
-            <!-- 
+                <h3>Các dịch vụ kho vận và phân phối hàng hóa bao gồm:</h3>
+                <ul class="service-list">
+                    <li>📌 Kho ngoại quan</li>
+                    <li>📌 Trung tâm phân phối dược phẩm</li>
+                    <li>📌 Trung tâm phân phối hàng hóa tiêu dùng</li>
+                    <li>📌 Kho thương mại điện tử</li>
+                    <li>📌 Xử lý chứng từ</li>
+                    <li>📌 Quản lý hàng tồn kho</li>
+                    <li>📌 Quản lý đơn hàng</li>
+                    <li>📌 Các dịch vụ gia tăng (đóng hàng vào pallet, đóng gói/đóng gói lại, phân loại hàng hoá, in
+                        nhãn/dán nhãn, phân phối, barcode và các giải pháp hỗ trợ, v.v)</li>
+                </ul>
+                <!-- 
         Kho ngoại quan
         Trung tâm phân phối dược phẩm
         Trung tâm phân phối hàng hóa tiêu dùng
@@ -51,121 +49,53 @@
         Quản lý đơn hàng
         Các dịch vụ gia tăng (đóng hàng vào pallet, đóng gói/đóng gói lại, phân loại hàng hoá, in nhãn/dán nhãn, phân phối, barcode và các giải pháp hỗ trợ, v.v) -->
 
-        </div>
+            </div>
 
-        <!-- Cột phải -->
-        <div class="about-right">
-            <h2>Đặc điểm nổi bật</h2>
-            <div class="highlight-grid">
-                <div class="highlight-card">
-                    <h3>Top 1</h3>
-                    <p>Kho ngoại quan lớn nhất ĐNA</p>
-                </div>
-                <div class="highlight-card">
-                    <h3>2.000.000 m² </h3>
-                    <p>diện tích lưu trữ hàng hóa</p>
-                </div>
-                <div class="highlight-card">
-                    <h3>465.071 m²</h3>
-                    <p>diện tích sàn kho</p>
-                </div>
-                <div class="highlight-card">
-                    <h3>2.000+</h3>
-                    <p>đơn hàng mỗi ngày</p>
-                </div>
-                <div class="highlight-card">
-                    <h3>34.000+</h3>
-                    <p>SKUs mỗi ngày</p>
+            <!-- Cột phải -->
+            <div class="about-right">
+                <h2>Đặc điểm nổi bật</h2>
+                <div class="highlight-grid">
+                    <div class="highlight-card">
+                        <h3>Top 1</h3>
+                        <p>Kho ngoại quan lớn nhất ĐNA</p>
+                    </div>
+                    <div class="highlight-card">
+                        <h3>2.000.000 m² </h3>
+                        <p>diện tích lưu trữ hàng hóa</p>
+                    </div>
+                    <div class="highlight-card">
+                        <h3>465.071 m²</h3>
+                        <p>diện tích sàn kho</p>
+                    </div>
+                    <div class="highlight-card">
+                        <h3>2.000+</h3>
+                        <p>đơn hàng mỗi ngày</p>
+                    </div>
+                    <div class="highlight-card">
+                        <h3>34.000+</h3>
+                        <p>SKUs mỗi ngày</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </section>
 
 <style>
-/* ===== HEADER & LOGO ===== */
-.header {
-    display: flex;
-    align-items: center;
-    padding: 5px;
+.about-wrapper {
     background: transparent;
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    /* bỏ gạch chân */
-}
-
-/* Logo hình vuông */
-.logo-box {
-    width: 55px;
-    height: 55px;
-    border-radius: 12px;
-    background-color: #1f6fb2;
-    /* xanh dương chủ đạo */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, background 0.3s ease;
-}
-
-/* Chữ U&I trong logo */
-.logo-text {
-    font-family: "Inter", sans-serif;
-    font-weight: 800;
-    font-size: 20px;
-    color: #fff;
-    /* màu trắng */
-    letter-spacing: 0.5px;
-}
-
-.brand-text {
-    font-family: "Inter", sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: #000;
-    /* màu đen */
-    letter-spacing: 0.8px;
-}
-
-/* Phần chữ LOGISTICS */
-.brand-info .title {
-    font-weight: 800;
-    letter-spacing: 0.3px;
-    color: #1f3c88;
-    font-size: 18px;
-}
-
-.brand-info .sub {
-    font-size: 13px;
-    color: #6b7280;
-    font-weight: 400;
-}
-
-/* Hiệu ứng hover toàn khối logo */
-.brand:hover .logo-box {
-    transform: scale(1.05);
-    background-color: #2b86d6;
-}
-
-
-/* Giữ nguyên màu khi click/focus */
-.brand:visited,
-.brand:active,
-.brand:focus {
-    text-decoration: none;
-    outline: none;
+    padding: 40px 0;
 }
 
 .about-section {
-    padding: 60px 80px;
-    background: #f9fafc;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 60px;
     font-family: "Inter", sans-serif;
 }
+
 
 .container {
     display: flex;
@@ -258,3 +188,4 @@
     font-weight: 500;
 }
 </style>
+<?php include_once(__DIR__.'/../public/footer.php'); ?>

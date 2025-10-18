@@ -1,5 +1,21 @@
 <?php 
     require_once(__DIR__."/../core/database.php");
+     if (empty($_SESSION['user_id'])) {
+     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
+     header("Location: $redirect");
+     exit;
+
+     
+ }
+//  if(!empty($_GET['id'])){
+//         $sql = "SELECT * FROM `to1NK` WHERE id = ?";
+//         $stmt = $conn->prepare($sql);
+//         $stmt->bind_param("s", $_GET['id']);
+//         $stmt->execute();
+//         $result = $stmt->get_result();
+//         $data = $result->fetch_assoc();
+//         print_r($data); 
+//      }
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -19,8 +35,8 @@
                 <div class="radio-group">
                     <label><input type="radio" value="KDSX" name="nhom_loai_hinh" checked> Kinh doanh, đầu tư</label>
                     <label><input type="radio" value="SXXK" name="nhom_loai_hinh"> Sản xuất xuất khẩu</label>
-                    <label><input type="radio" value="GC" name="nhom_loai_hinh"> Gia công</label>
-                    <label><input type="radio" value="CX" name="nhom_loai_hinh"> Chế xuất</label>
+                    <label><input type="radio" value="GiaCong" name="nhom_loai_hinh"> Gia công</label>
+                    <label><input type="radio" value="CheXuat" name="nhom_loai_hinh"> Chế xuất</label>
                 </div>
             </fieldset>
 

@@ -1,5 +1,10 @@
 <?php
     require_once (__DIR__ ."/../core/database.php");
+    if (empty($_SESSION['user_id'])) {
+     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
+     header("Location: $redirect");
+     exit;
+ }
     if(!$_POST){
         header("Location: To1XK.php");
     }

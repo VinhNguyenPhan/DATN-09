@@ -7,7 +7,7 @@
                 <span class="logo-text">U&amp;I</span>
             </div>
             <div class="brand-info">
-                <div class="brand-text">LOGISTICS</div>
+                <div class="brand-text">U&I LOGISTICS</div>
                 <div class="sub">Khai báo & Giải pháp vận tải</div>
             </div>
         </a>
@@ -152,7 +152,7 @@
 .brand-text {
     font-size: 18px;
     font-weight: 700;
-    color: #000;
+    color: #1f3c88;
 }
 
 .sub {

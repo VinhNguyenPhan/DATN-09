@@ -1,6 +1,5 @@
 <?php
 require_once(__DIR__."/../core/database.php");
-session_start();
 
 if (($_SESSION['role'] ?? '') !== 'admin') {
     die("⛔ Bạn không có quyền thực hiện hành động này!");

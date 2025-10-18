@@ -107,6 +107,14 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
 
 <body>
 
+    <!-- if(isset($a)){
+    echo $a;
+}else{
+    echo 'không tồn tại'
+}
+
+$a??'khong ton tai' -->
+
     <h2>📘 Thông tin chung (Tờ khai nhập khẩu)</h2>
     <div class="section">
         <div class="info-grid">

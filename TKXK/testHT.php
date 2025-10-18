@@ -37,75 +37,103 @@ $stmt3->close();
     <meta charset="UTF-8">
     <title>Xem tờ khai xuất khẩu</title>
     <style>
-    body {
-        font-family: "Segoe UI", sans-serif;
-        background: #f4f8fb;
-        color: #333;
+    * {
+        box-sizing: border-box;
         margin: 0;
-        padding: 20px;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        line-height: 1.3;
+        font-size: 14px;
+    }
+
+    .container {
+        width: 1000px;
+        margin: 30px auto;
+        background: #fff;
+        border: 1px solid #ccc;
+        padding: 20px 30px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
-        color: #1f6fb2;
-        border-bottom: 2px solid #1f6fb2;
-        padding-bottom: 5px;
-    }
-
-    .section {
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        padding: 20px;
+        text-align: center;
+        color: #003399;
         margin-bottom: 20px;
     }
 
-    .info-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px 20px;
+    /* Fieldset */
+    fieldset {
+        margin: 20px 0;
+        padding: 15px;
+        border: 1px solid #ccc;
     }
 
-    .info-grid div {
-        background: #f9fcff;
-        padding: 6px 10px;
-        border-radius: 6px;
-        border: 1px solid #e1e8f0;
+    legend {
+        font-weight: bold;
+        padding: 0 10px;
     }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background: #fff;
+    .form-group {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 10px 0;
+        gap: 10px;
     }
 
-    th,
-    td {
-        border: 1px solid #ddd;
-        padding: 8px;
+    .form-group label {
+        width: 219px;
+        font-weight: bold;
     }
 
-    th {
-        background: #1f6fb2;
-        color: white;
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        flex: 1;
+        min-width: 200px;
+        padding: 6px;
+        border: 1px solid #aaa;
+        border-radius: 3px;
+    }
+
+    .radio-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+
+    .button-group {
         text-align: center;
+        margin-top: 30px;
     }
 
-    tr:nth-child(even) {
-        background-color: #f9f9f9;
+    button {
+        padding: 10px 20px;
+        margin: 5px;
+        font-weight: bold;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: #fff;
+        background-color: #337ab7;
+        transition: background-color 0.2s;
     }
 
-    .btn {
-        display: inline-block;
-        padding: 8px 16px;
-        background: #1f6fb2;
-        color: white;
-        text-decoration: none;
-        border-radius: 6px;
-        margin-top: 15px;
+    button:hover {
+        background-color: #286090;
     }
 
-    .btn:hover {
-        background: #155b8c;
+    button.red {
+        background-color: #d9534f;
+    }
+
+    button.red:hover {
+        background-color: #c9302c;
     }
     </style>
 </head>
@@ -189,19 +217,6 @@ $stmt3->close();
             <div style="grid-column: 1 / -1;"><b>Số chứng từ bảo lãnh:</b>
                 <?= htmlspecialchars($to1xk['SCTBL'] ?? '') ?>
             </div>
-            <div><b>Ngày được phép nhập kho:</b>
-                <?= htmlspecialchars($to1xk['NDPNK'] ?? '') ?>
-            </div>
-            <div><b>Ngày khởi hành vận chuyển:</b>
-                <?= htmlspecialchars($to1xk['NKHVC'] ?? '') ?>
-            </div>
-
-
-
-
-
-
-
         </div>
     </div>
     </div>

@@ -2,6 +2,11 @@
     require_once(__DIR__."/../core/database.php");
     // print_r($_POST);
     // exit();
+    if (empty($_SESSION['user_id'])) {
+     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
+     header("Location: $redirect");
+     exit;
+ }
     if(!$_POST){
         header("Location: To1NK.php");
     }
@@ -9,6 +14,7 @@
     // echo '<pre>';
     // print_r($_SESSION['To1NK']);
     // exit();
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">

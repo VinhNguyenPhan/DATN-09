@@ -1,6 +1,23 @@
-<?php 
-require_once(__DIR__."/core/database.php");
-?>
+<?php session_start(); ?>
+<?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
+<!-- Hiện menu chức năng như bình thường -->
+<li class="dropdown"> ... Chức năng/Khai báo ...</li>
+<?php else: ?>
+<!-- Hoặc hiện link dẫn tới đăng nhập (khi click vào vẫn chuyển về login) -->
+<li class="dropdown">
+    <a href="/DangNhap-DangKyTK/DangNhapDangKyTK.php">Chức năng/Khai báo</a>
+</li>
+<?php endif; ?>
+
+<!-- Và đổi nút Đăng nhập/Đăng xuất -->
+<?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']===true): ?>
+<a class="cta-login" href="/logout.php">Đăng xuất (
+    <?=htmlspecialchars($_SESSION['username'])?>)
+</a>
+<?php else: ?>
+<a class="cta-login" href="/DangNhap-DangKyTK/DangNhapDangKyTK.php">Đăng nhập</a>
+<?php endif; ?>
+
 
 <!doctype html>
 <html lang="vi">
@@ -301,126 +318,6 @@ require_once(__DIR__."/core/database.php");
         font-weight: 600;
         transition: color 0.3s ease;
     }
-
-    /*logout menu*/
-    /* --- Hồ sơ tài khoản / User Menu --- */
-    /* --- Hồ sơ tài khoản / User Menu --- */
-    .user-profile {
-        position: relative;
-        display: inline-block;
-        font-family: "Inter", sans-serif;
-    }
-
-    /* Kích hoạt hover */
-    .user-profile:hover .user-dropdown,
-    .user-profile:focus-within .user-dropdown {
-        display: block;
-    }
-
-    /* Nút kích hoạt */
-    .user-toggle {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-        background: #f3f6fb;
-        padding: 6px 10px;
-        border-radius: 20px;
-        border: 1px solid #d0e3f7;
-        transition: background 0.2s ease, box-shadow 0.2s ease;
-        position: relative;
-        z-index: 10;
-    }
-
-    .user-toggle:hover {
-        background: #e8f1fb;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    }
-
-    /* Avatar */
-    .avatar {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background: var(--blue);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-weight: 700;
-        font-size: 14px;
-    }
-
-    /* Dropdown menu */
-    .user-dropdown {
-        display: none;
-        position: absolute;
-        right: 0;
-        top: calc(100% + 6px);
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: var(--shadow);
-        list-style: none;
-        padding: 6px 0;
-        margin: 0;
-        min-width: 190px;
-        z-index: 5;
-        animation: fadeIn 0.2s ease;
-        pointer-events: auto;
-    }
-
-    /* Tạo “vùng đệm an toàn” giúp hover dễ hơn */
-    .user-profile::after {
-        content: "";
-        position: absolute;
-        top: 100%;
-        right: 0;
-        width: 100%;
-        height: 10px;
-        background: transparent;
-    }
-
-    /* Item */
-    .user-dropdown li {
-        padding: 0;
-    }
-
-    .user-dropdown a {
-        display: block;
-        padding: 10px 16px;
-        color: var(--accent);
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 15px;
-        transition: background 0.2s ease, color 0.2s ease;
-    }
-
-    .user-dropdown a:hover {
-        background: #f0f5ff;
-        color: #e91e63;
-    }
-
-    .user-dropdown a.logout {
-        color: #c0392b;
-        font-weight: 600;
-    }
-
-    .user-dropdown a.logout:hover {
-        background: #ffeaea;
-    }
-
-    /* Animation */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-6px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
     </style>
 </head>
 
@@ -463,16 +360,14 @@ require_once(__DIR__."/core/database.php");
                         <li role="none"><a role="menuitem" href="/ListDichVu/VanTaiQuocTe.php">Vận tải quốc tế</a></li>
                     </ul>
                 </li>
-                <?php if(!empty($_SESSION["user_id"])):?>
+
                 <li class="dropdown" role="none" aria-haspopup="true">
                     <a role="menuitem" href="#" aria-expanded="false">Chức năng/Khai báo ▾</a>
                     <ul class="dropdown-menu" role="menu" aria-label="Danh sách chức năng">
                         <li role="none"><a role="menuitem" href="/TKXK/To1XK.php">Tờ khai xuất khẩu</a></li>
                         <li role="none"><a role="menuitem" href="/TKNK/To1NK.php">Tờ khai nhập khẩu</a></li>
-                        <li role="none"><a role="menuitem" href="/TraCuuDonHang/TraCuu.php">Tìm tờ khai</a>
-                        </li>
-                        <li role="none"><a role="menuitem" href="/ChucNangDonHang/ChucNangDonHang.php">Tra cứu vị trí
-                                đơn hàng</a></li>
+                        <li role="none"><a role="menuitem" href="/ChucNangDonHang/ChucNangDonHang.php">Tra cứu đơn
+                                hàng</a></li>
                         <li role="none"><a role="menuitem" href="/TraCuuCuocPhi/TraCuuCuocPhi.php">Tra cứu cước phí</a>
                         </li>
                         <li role="none"><a role="menuitem" href="/ThongKeDonHang/ThongKeDonHang.php">Thống kê đơn
@@ -480,11 +375,8 @@ require_once(__DIR__."/core/database.php");
                         </li>
                         <li role="none"><a role="menuitem" href="/TTCongNo/ThanhToanCongNo.php">Thanh toán công nợ</a>
                         </li>
-                        <li role="none"><a role="menuitem" href="/TraCuuDonHang/ChinhSuaTrangThaiDH.php">Chỉnh sửa trạng
-                                thái đơn hàng</a>
                     </ul>
                 </li>
-                <?php endif; ?>
 
                 <li role="none"><a href="../TinTuc/TinTuc.php" role="menuitem" href="#">Tin tức</a></li>
                 <li role="none"><a role="menuitem" href="../LienHe/ThongTinLienHe.php" target="_self">Liên hệ</a></li>
@@ -496,35 +388,7 @@ require_once(__DIR__."/core/database.php");
             <button type="submit">Tìm</button>
         </form>
 
-        <?php if (!isset($_SESSION['user_id'])): ?>
-        <!-- CHƯA ĐĂNG NHẬP -->
         <a class="cta-login" href="../DangNhap-DangKyTK/DangNhapDangKyTK.php">Đăng nhập</a>
-        <?php else: ?>
-        <!-- ĐÃ ĐĂNG NHẬP -->
-        <?php
-        $uid = $_SESSION['user_id'];
-        $user = $conn->query("SELECT username FROM users WHERE id = '$uid'")->fetch_assoc();
-    ?>
-        <div class="user-profile">
-            <div class="user-toggle" tabindex="0">
-                <div class="avatar">
-                    <span><?= strtoupper(substr($user['username'], 0, 1)) ?></span>
-                </div>
-                <span class="welcome-text"><?= htmlspecialchars($user['username']) ?></span>
-                <svg class="icon-caret" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    viewBox="0 0 16 16">
-                    <path d="M1.5 5.5l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none"
-                        stroke-linecap="round" />
-                </svg>
-            </div>
-
-            <ul class="user-dropdown">
-                <li><a href="../DangNhap-DangKyTK/HoSoTK.php">👤 Hồ sơ tài khoản</a></li>
-                <li><a href="../DangNhap-DangKyTK/Logout.php" class="logout">🚪 Đăng xuất</a></li>
-            </ul>
-        </div>
-        <?php endif; ?>
-
     </header>
 
     <main>
@@ -584,7 +448,7 @@ require_once(__DIR__."/core/database.php");
                 <h2>Giải pháp logistics tích hợp</h2>
                 <p>Chúng tôi cung cấp dịch vụ logistics trọn gói từ kho bãi, vận chuyển, hải quan đến giao hàng tận nơi
                     – mang đến hiệu quả tối đa cho doanh nghiệp.</p>
-                <a href="../GioiThieu/CongTyThanhVien.php">XEM THÊM</a>
+                <a href="../ListDichVu/CongTyThanhVien.php">XEM THÊM</a>
             </div>
             <div class="feature-img">
                 <img src="https://www.unilogistics.vn/upload/images/dich-vu/Van_tai_duong_bien_1.jpg"

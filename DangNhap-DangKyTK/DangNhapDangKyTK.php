@@ -1,18 +1,42 @@
 <?php 
-    require_once(__DIR__."/../core/database.php");
+require_once(__DIR__."/../core/database.php");
+if(!empty($_SESSION["user_id"])){
+    echo "<script>
+        setTimeout(function(){
+            window.location.href = '../index.php';
+        }, 1);
+    </script>";
+    
+}
+if (isset($_POST['submit'])) {
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 
-    if(isset($_POST['submit'])){
-        if(empty($_POST['username']) && empty($_POST['password'])){
-            $error = "Vui Lòng nhập username hoặc password";
-        }else{
-            $checkuser = ($conn->query("SELECT * FROM `users` WHERE username = '".$_POST['username']."' AND password = '".md5($_POST['password'])."'"))->fetch_assoc();
-            if($checkuser <= 0){
-                $error = "Tài Khoản Không Tồn Tại";
-            }else{
-                print_r($checkuser);
-            }
+    if (empty($username) || empty($password)) {
+        $toast = ["type" => "error", "msg" => "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!"];
+    } else {
+        $sql = "SELECT * FROM `users` WHERE username = ? AND password = ?";
+        $stmt = $conn->prepare($sql);
+        $hashPass = md5($password);
+        $stmt->bind_param("ss", $username, $hashPass);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+
+        if (!$user) {
+            $toast = ["type" => "error", "msg" => "Tài khoản hoặc mật khẩu không đúng!"];
+        } else {
+            $_SESSION["user_id"] = $user["id"];
+            $toast = ["type" => "success", "msg" => "Đăng nhập thành công!"];
+            // Chuyển hướng sau 1 giây
+            echo "<script>
+                setTimeout(function(){
+                    window.location.href = '../index.php';
+                }, 1000);
+            </script>";
         }
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -20,6 +44,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập - Logistic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <style>
     * {
         box-sizing: border-box;
@@ -34,7 +61,6 @@
         flex-direction: column;
     }
 
-    /* --- PHẦN HEADER --- */
     .header {
         display: flex;
         align-items: center;
@@ -77,7 +103,7 @@
         font-family: "Inter", sans-serif;
         font-size: 18px;
         font-weight: 700;
-        color: #000;
+        color: #1f3c88;
         letter-spacing: 0.8px;
     }
 
@@ -92,7 +118,6 @@
         background-color: #2b86d6;
     }
 
-    /* --- PHẦN ĐĂNG NHẬP --- */
     .login-wrapper {
         flex: 1;
         display: flex;
@@ -116,30 +141,8 @@
         color: #2563eb;
     }
 
-    .role-tabs {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        border-radius: 12px;
-        background: #e5e7eb;
-        padding: 5px;
-    }
-
-    .role-tabs button {
-        flex: 1;
-        padding: 10px;
-        border: none;
-        background: transparent;
-        border-radius: 10px;
-        cursor: pointer;
-        font-weight: bold;
-        color: #374151;
-        transition: 0.3s;
-    }
-
-    .role-tabs button.active {
-        background: #2563eb;
-        color: #fff;
+    .login-container h3 {
+        color: #2563eb;
     }
 
     .form-group {
@@ -209,7 +212,7 @@
                 <span class="logo-text">U&amp;I</span>
             </div>
             <div class="brand-info">
-                <div class="brand-text">LOGISTICS</div>
+                <div class="brand-text">U&I LOGISTICS</div>
                 <div class="sub">Khai báo & Giải pháp vận tải</div>
             </div>
         </a>
@@ -218,13 +221,8 @@
     <div class="login-wrapper">
         <div class="login-container">
             <h2>Đăng nhập</h2>
-
-            <div class="role-tabs">
-                <button class="active" id="btn-customer" onclick="switchRole('customer')">Khách hàng</button>
-                <button id="btn-staff" onclick="switchRole('staff')">Quản lý / Nhân viên</button>
-            </div>
-
-            <form id="login-form" method="POST" action="/DangNhap-DangKyTK/DangNhapDangKyTK.php">
+            <h3>Vui lòng đăng nhập tài khoản hệ thống</h3>
+            <form method="POST" action="">
                 <div class="form-group">
                     <label for="username">Tên đăng nhập</label>
                     <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập">
@@ -234,39 +232,27 @@
                     <label for="password">Mật khẩu</label>
                     <input type="password" id="password" name="password" placeholder="Nhập mật khẩu">
                 </div>
-                <?=$error??""?>
+
                 <button type="submit" name="submit" value="true" class="login-btn">Đăng nhập</button>
             </form>
 
             <div class="extra-links">
-                <a href="#">Quên mật khẩu?</a> |
-                <a href="#">Đăng ký</a>
+                <a href="#">Quên mật khẩu?</a>
             </div>
         </div>
     </div>
 
+    <?php if (isset($toast)) : ?>
     <script>
-    let currentRole = "customer";
-
-    function switchRole(role) {
-        currentRole = role;
-        document.getElementById("btn-customer").classList.remove("active");
-        document.getElementById("btn-staff").classList.remove("active");
-
-        if (role === "customer") {
-            document.getElementById("btn-customer").classList.add("active");
-        } else {
-            document.getElementById("btn-staff").classList.add("active");
-        }
-    }
-
-    // document.getElementById("login-form").addEventListener("submit", function(e) {
-    //     // e.preventDefault();
-    //     alert("Bạn đang đăng nhập với vai trò: " + (currentRole === "customer" ? "Khách hàng" :
-    //         "Quản lý / Nhân viên"));
-    // });
+    $(document).ready(function() {
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "timeOut": "2000"
+        };
+        toastr["<?= $toast['type'] ?>"]("<?= $toast['msg'] ?>");
+    });
     </script>
-
+    <?php endif; ?>
 </body>
 
 </html>

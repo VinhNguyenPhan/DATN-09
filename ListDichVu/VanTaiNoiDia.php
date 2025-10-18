@@ -1,149 +1,78 @@
-<section class="about-section">
-    <header class="header">
-        <!-- Logo: Toàn bộ logo là link -->
-        <a href="../index.php" class="brand">
-            <div class="logo-box">
-                <span class="logo-text">U&amp;I</span>
-            </div>
-            <div class="brand-info">
-                <div class="brand-text">LOGISTICS</div>
-                <div class="sub">Khai báo & Giải pháp vận tải</div>
-            </div>
-        </a>
-    </header>
-    <div class="container">
-        <!-- Cột trái -->
-        <div class="about-left">
-            <h2>Giới thiệu về dịch vụ</h2>
-            <p>
-                Với hơn 140 xe đầu kéo container được lắp đặt thiết bị giám sát hành trình và hơn 200 rơ mooc hợp chuẩn,
-                U&I Logistics cung cấp giải pháp vận tải đường bộ kết nối các khu vực kinh tế trọng điểm Bắc – Trung –
-                Nam.
-            </p>
-            <p>
-                Chúng tôi ứng dụng công nghệ vào vận hành giúp xác định chính xác vị trí đầu kéo, rơ mooc, tiết kiệm tối
-                đa thời gian và chi phí vận chuyển cho khách hàng. Nổi bật là hệ thống theo dõi hành trình hàng hóa theo
-                công nghệ GPS, phần mềm quản lý vận tải (TMS) cùng app mobile dành cho tài xế. Nhờ đó, chúng tôi đã vận
-                tải thành công 20.000 TEUs/tháng.
+<?php
+include_once(__DIR__.'/../public/header.php');
+?>
+<section class="about-wrapper">
+    <div class="about-section">
+        <div class="container">
+            <!-- Cột trái -->
+            <div class="about-left">
+                <h2>Giới thiệu về dịch vụ</h2>
+                <p>
+                    Với hơn 140 xe đầu kéo container được lắp đặt thiết bị giám sát hành trình và hơn 200 rơ mooc hợp
+                    chuẩn,
+                    U&I Logistics cung cấp giải pháp vận tải đường bộ kết nối các khu vực kinh tế trọng điểm Bắc – Trung
+                    –
+                    Nam.
+                </p>
+                <p>
+                    Chúng tôi ứng dụng công nghệ vào vận hành giúp xác định chính xác vị trí đầu kéo, rơ mooc, tiết kiệm
+                    tối
+                    đa thời gian và chi phí vận chuyển cho khách hàng. Nổi bật là hệ thống theo dõi hành trình hàng hóa
+                    theo
+                    công nghệ GPS, phần mềm quản lý vận tải (TMS) cùng app mobile dành cho tài xế. Nhờ đó, chúng tôi đã
+                    vận
+                    tải thành công 20.000 TEUs/tháng.
 
-            <h3>Các dịch vụ vận tải hàng hóa nội địa gồm: </h3>
-            <ul class="service-list">
-                <li>📌 Vận chuyển đường bộ bằng container</li>
-                <li>📌 Vận chuyển đường sắt</li>
-                <li>📌 Vận chuyển đường thủy nội địa</li>
-                <li>📌 Vận chuyển đường biển ven bờ</li>
-            </ul>
-        </div>
+                <h3>Các dịch vụ vận tải hàng hóa nội địa gồm: </h3>
+                <ul class="service-list">
+                    <li>📌 Vận chuyển đường bộ bằng container</li>
+                    <li>📌 Vận chuyển đường sắt</li>
+                    <li>📌 Vận chuyển đường thủy nội địa</li>
+                    <li>📌 Vận chuyển đường biển ven bờ</li>
+                </ul>
+            </div>
 
-        <!-- Cột phải -->
-        <div class="about-right">
-            <h2>Đặc điểm nổi bật</h2>
-            <div class="highlight-grid">
-                <div class="highlight-card">
-                    <h3>100</h3>
-                    <p>đầu kéo</p>
-                </div>
-                <div class="highlight-card">
-                    <h3>200</h3>
-                    <p>rơ móc</p>
-                </div>
-                <div class="highlight-card">
-                    <h3>200,000</h3>
-                    <p>TEUs mỗi tháng</p>
-                </div>
-                <div class="highlight-card">
-                    <h3>150,000</h3>
-                    <p>TEUs hàng hóa/năm</p>
+            <!-- Cột phải -->
+            <div class="about-right">
+                <h2>Đặc điểm nổi bật</h2>
+                <div class="highlight-grid">
+                    <div class="highlight-card">
+                        <h3>100</h3>
+                        <p>đầu kéo</p>
+                    </div>
+                    <div class="highlight-card">
+                        <h3>200</h3>
+                        <p>rơ móc</p>
+                    </div>
+                    <div class="highlight-card">
+                        <h3>200,000</h3>
+                        <p>TEUs mỗi tháng</p>
+                    </div>
+                    <div class="highlight-card">
+                        <h3>150,000</h3>
+                        <p>TEUs hàng hóa/năm</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </section>
 
 <style>
-/* ===== HEADER & LOGO ===== */
-.header {
-    display: flex;
-    align-items: center;
-    padding: 5px;
+.about-wrapper {
     background: transparent;
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    /* bỏ gạch chân */
-}
-
-/* Logo hình vuông */
-.logo-box {
-    width: 55px;
-    height: 55px;
-    border-radius: 12px;
-    background-color: #1f6fb2;
-    /* xanh dương chủ đạo */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, background 0.3s ease;
-}
-
-/* Chữ U&I trong logo */
-.logo-text {
-    font-family: "Inter", sans-serif;
-    font-weight: 800;
-    font-size: 20px;
-    color: #fff;
-    /* màu trắng */
-    letter-spacing: 0.5px;
-}
-
-.brand-text {
-    font-family: "Inter", sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: #000;
-    /* màu đen */
-    letter-spacing: 0.8px;
-}
-
-/* Phần chữ LOGISTICS */
-.brand-info .title {
-    font-weight: 800;
-    letter-spacing: 0.3px;
-    color: #1f3c88;
-    font-size: 18px;
-}
-
-.brand-info .sub {
-    font-size: 13px;
-    color: #6b7280;
-    font-weight: 400;
-}
-
-/* Hiệu ứng hover toàn khối logo */
-.brand:hover .logo-box {
-    transform: scale(1.05);
-    background-color: #2b86d6;
-}
-
-
-/* Giữ nguyên màu khi click/focus */
-.brand:visited,
-.brand:active,
-.brand:focus {
-    text-decoration: none;
-    outline: none;
+    padding: 40px 0;
 }
 
 .about-section {
-    padding: 60px 80px;
-    background: #f9fafc;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 60px;
     font-family: "Inter", sans-serif;
 }
+
 
 .container {
     display: flex;
@@ -236,3 +165,4 @@
     font-weight: 500;
 }
 </style>
+<?php include_once(__DIR__.'/../public/footer.php'); ?>
