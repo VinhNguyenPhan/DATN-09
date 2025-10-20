@@ -161,7 +161,7 @@
                 </div>
                 <div class="form-group">
                     <label>Phí vận chuyển: </label>
-                    <label style="width: 70px;">Mã loại: </label>
+                    <label style="width:70px;">Mã loại: </label>
                     <input type="text" name="ML1" id="ML1" style="min-width: 100px;max-width: 112px;">
                     <label style="width: 106px;">Mã đồng tiền: </label>
                     <input type="text" name="MDT1" id="MDT1" style="min-width: 100px;max-width: 104px;">

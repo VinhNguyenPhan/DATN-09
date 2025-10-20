@@ -234,7 +234,7 @@ canvas {
             <p><?=$counts['shipping']??0?> ĐH</p>
         </div>
         <div class="card thanhcong">
-            <h3>ĐÃ GIAO</h3>
+            <h3>HOÀN THÀNH</h3>
             <p><?=$counts['done']??0?> ĐH</p>
         </div>
         <div class="card huy">
@@ -270,7 +270,7 @@ new Chart(document.getElementById('barChart'), {
                 backgroundColor: '#f39c12'
             },
             {
-                label: 'Đã giao',
+                label: 'Hoàn thành',
                 data: <?= $jsDone ?>,
                 backgroundColor: '#3498db'
             },
@@ -305,7 +305,7 @@ new Chart(document.getElementById('barChart'), {
 new Chart(document.getElementById('pieChart'), {
     type: 'doughnut',
     data: {
-        labels: ['Đã lấy', 'Đang giao', 'Đã giao', 'Đã hủy'],
+        labels: ['Đã lấy', 'Đang giao', 'Hoàn thành', 'Đã hủy'],
         datasets: [{
             data: [<?=$counts['shipped']??0?>, <?=$counts['shipping']??0?>, <?=$counts['done']??0?>,
                 <?=$counts['cancel']??0?>

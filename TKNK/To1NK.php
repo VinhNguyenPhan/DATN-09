@@ -31,13 +31,10 @@
         <h2>Tờ khai nhập khẩu - Thông tin chung 1</h2>
         <form method="POST" action="To2NK.php">
             <fieldset>
-                <legend>Nhóm loại hình:</legend>
-                <div class="radio-group">
-                    <label><input type="radio" value="KDSX" name="nhom_loai_hinh" checked> Kinh doanh, đầu tư</label>
-                    <label><input type="radio" value="SXXK" name="nhom_loai_hinh"> Sản xuất xuất khẩu</label>
-                    <label><input type="radio" value="GiaCong" name="nhom_loai_hinh"> Gia công</label>
-                    <label><input type="radio" value="CheXuat" name="nhom_loai_hinh"> Chế xuất</label>
-                </div>
+                <legend>Thông tin chung</legend>
+                <div class="form-group">
+                    <label style="width: 240px">Nhóm loại hình:</label>
+
             </fieldset>
 
             <div class="form-group">
