@@ -30,10 +30,13 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
 
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
+=======
+>>>>>>> eb839a154b3daf194cc14baffd6416ba95608e6e
     <title>Tờ khai nhập khẩu - Xem thông tin</title>
     <link rel="stylesheet" href="style.css?v1.0.3">
     <style>
@@ -50,6 +53,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
 
 <body>
     <div class="container">
+<<<<<<< HEAD
         <h2>Tờ khai nhập khẩu - Thông tin chung 1</h2>
         <fieldset>
             <div class="form-group">
@@ -70,6 +74,32 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
             </div>
 
             <div class="form-group">
+=======
+        <h2>Tờ khai nhập khẩu - Thông tin tổng hợp</h2>
+
+        <!-- ====== THÔNG TIN CHUNG 1 ====== -->
+        <fieldset>
+            <legend>Thông tin chung 1</legend>
+
+            <div class="form-group">
+                <label style="width:219px">Nhóm loại hình:</label>
+                <input type="text" disabled value="<?= htmlspecialchars($to1nk['nhom_loai_hinh'] ?? '') ?>">
+            </div>
+
+            <div class="form-group">
+                <label>Mã loại hình:</label>
+                <select disabled>
+                    <option><?= htmlspecialchars($to1nk['ma_loai_hinh'] ?? '') ?></option>
+                </select>
+
+                <label style="width:240px">Phân loại cá nhân/tổ chức:</label>
+                <select disabled>
+                    <option><?= htmlspecialchars($to1nk['phan_loai_to_chuc'] ?? '') ?></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+>>>>>>> eb839a154b3daf194cc14baffd6416ba95608e6e
                 <label>Cơ quan Hải quan:</label>
                 <select disabled>
                     <option><?= htmlspecialchars($to1nk['co_quan_hq'] ?? '') ?></option>
@@ -230,6 +260,7 @@ $isAdmin = ($_SESSION['role'] ?? '') === 'admin';
                     </select>
                 </div>
             </fieldset>
+<<<<<<< HEAD
 
             <?php 
 $to2nk = $_SESSION['To2NK'] ?? [];
@@ -312,12 +343,92 @@ $to2nk = $_SESSION['To2NK'] ?? [];
                     <label>Điều kiện giá hóa đơn:</label>
                     <select disabled>
                         <?php
+=======
+        </fieldset>
+
+        <?php 
+$to2nk = $_SESSION['To2NK'] ?? [];
+?>
+
+        <fieldset>
+            <legend>Thông tin giấy phép và văn bản</legend>
+            <div class="form-group">
+                <label>Mã văn bản phạm quy khác:</label>
+                <input type="text" value="<?= htmlspecialchars($data['MVBPQK'] ?? '') ?>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Giấy phép nhập khẩu (1):</label>
+                <input type="text" value="<?= htmlspecialchars($data['GPNK1'] ?? '') ?>" readonly>
+                <input type="text" value="<?= htmlspecialchars($data['GPNK11'] ?? '') ?>" readonly>
+            </div>
+            <div class="form-group">
+                <label>Giấy phép nhập khẩu (2):</label>
+                <input type="text" value="<?= htmlspecialchars($data['GPNK2'] ?? '') ?>" readonly>
+                <input type="text" value="<?= htmlspecialchars($data['GPNK22'] ?? '') ?>" readonly>
+            </div>
+            <div class="form-group">
+                <label>Giấy phép nhập khẩu (3):</label>
+                <input type="text" value="<?= htmlspecialchars($data['GPNK3'] ?? '') ?>" readonly>
+                <input type="text" value="<?= htmlspecialchars($data['GPNK33'] ?? '') ?>" readonly>
+            </div>
+            <div class="form-group">
+                <label>Giấy phép nhập khẩu (4):</label>
+                <input type="text" value="<?= htmlspecialchars($data['GPNK4'] ?? '') ?>" readonly>
+                <input type="text" value="<?= htmlspecialchars($data['GPNK44'] ?? '') ?>" readonly>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Hóa đơn thương mại</legend>
+            <div class="form-group">
+                <label>Phân loại hình thức hóa đơn:</label>
+                <select disabled>
+                    <option <?= isset($data['PLHTHD']) && $data['PLHTHD']=='A2'?'selected':'' ?>>A: Hóa đơn</option>
+                    <option <?= isset($data['PLHTHD']) && $data['PLHTHD']=='B2'?'selected':'' ?>>B: Chứng từ thay thế
+                        hóa đơn</option>
+                    <option <?= isset($data['PLHTHD']) && $data['PLHTHD']=='D2'?'selected':'' ?>>D: Hóa đơn điện tử
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Số tiếp nhận hóa đơn điện tử:</label>
+                <input type="text" value="<?= htmlspecialchars($data['STNHDDT'] ?? '') ?>" readonly>
+                <label>Số hóa đơn:</label>
+                <input type="text" value="<?= htmlspecialchars($data['SHD'] ?? '') ?>" readonly>
+            </div>
+            <div class="form-group">
+                <label>Ngày phát hành:</label>
+                <input type="date" value="<?= htmlspecialchars($data['NPH'] ?? '') ?>" readonly>
+                <label>Phương thức thanh toán:</label>
+                <select disabled>
+                    <option <?= isset($data['PTTT']) && $data['PTTT']=='TT'?'selected':'' ?>>T/T</option>
+                    <option <?= isset($data['PTTT']) && $data['PTTT']=='TTR'?'selected':'' ?>>TTR</option>
+                    <option <?= isset($data['PTTT']) && $data['PTTT']=='COD'?'selected':'' ?>>COD</option>
+                    <option <?= isset($data['PTTT']) && $data['PTTT']=='LC'?'selected':'' ?>>L/C</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Mã phân loại hóa đơn:</label>
+                <select disabled>
+                    <option <?= isset($data['MPLHD']) && $data['MPLHD']=='A3'?'selected':'' ?>>A: Hóa đơn thương mại
+                    </option>
+                    <option <?= isset($data['MPLHD']) && $data['MPLHD']=='B3'?'selected':'' ?>>B: Chứng từ thay thế
+                    </option>
+                    <option <?= isset($data['MPLHD']) && $data['MPLHD']=='D3'?'selected':'' ?>>D: Hóa đơn điện tử IVA
+                    </option>
+                </select>
+                <label>Điều kiện giá hóa đơn:</label>
+                <select disabled>
+                    <?php
+>>>>>>> eb839a154b3daf194cc14baffd6416ba95608e6e
                     $options = ['EXW','FCA','CPT','CIP','DAP','DPU','DDP','FAS','FOB','CFR','CIF'];
                     foreach($options as $opt){
                         $selected = (isset($data['DKGHD']) && $data['DKGHD']==$opt)?'selected':'';
                         echo "<option $selected>$opt</option>";
                     }
                     ?>
+<<<<<<< HEAD
                     </select>
                 </div>
                 <div class="form-group">
@@ -326,12 +437,23 @@ $to2nk = $_SESSION['To2NK'] ?? [];
                     <label>Mã đồng tiền hóa đơn:</label>
                     <select disabled>
                         <?php
+=======
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tổng trị giá hóa đơn:</label>
+                <input type="number" value="<?= htmlspecialchars($data['TTGHD'] ?? '') ?>" readonly>
+                <label>Mã đồng tiền hóa đơn:</label>
+                <select disabled>
+                    <?php
+>>>>>>> eb839a154b3daf194cc14baffd6416ba95608e6e
                     $currs = ['USD','CNY','VND','JPY','KRW'];
                     foreach($currs as $c){
                         $selected = (isset($data['MDTHD']) && $data['MDTHD']==$c)?'selected':'';
                         echo "<option $selected>$c</option>";
                     }
                     ?>
+<<<<<<< HEAD
                     </select>
                 </div>
             </fieldset>
@@ -342,6 +464,18 @@ $to2nk = $_SESSION['To2NK'] ?? [];
                     <label>Mã phân loại khai trị giá:</label>
                     <select disabled>
                         <?php
+=======
+                </select>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Tờ khai trị giá</legend>
+            <div class="form-group">
+                <label>Mã phân loại khai trị giá:</label>
+                <select disabled>
+                    <?php
+>>>>>>> eb839a154b3daf194cc14baffd6416ba95608e6e
                     $options = [
                         'MPLKTG0'=>"0: Khai trị giá tổng hợp",
                         'MPLKTG1'=>"1: Xác định trị giá tính thuế theo phương pháp trị giá giao dịch của hàng hóa giống hệt",
@@ -361,6 +495,7 @@ $to2nk = $_SESSION['To2NK'] ?? [];
                         echo "<option $selected>$txt</option>";
                     }
                     ?>
+<<<<<<< HEAD
                     </select>
                 </div>
 
@@ -589,6 +724,118 @@ $to2nk = $_SESSION['To2NK'] ?? [];
             <div class="button-group" style="text-align:center;margin-top:20px;">
                 <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
             </div>
+=======
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Phí vận chuyển:</label>
+                <label style="width:70px;">Mã loại:</label>
+                <input style="min-width: 100px;max-width: 112px;" type="text"
+                    value="<?= htmlspecialchars($data['ML1'] ?? '') ?>" readonly>
+                <label style="width: 106px;">Mã đồng tiền:</label>
+                <input style="min-width: 100px;max-width: 104px;" type="text"
+                    value="<?= htmlspecialchars($data['MDT1'] ?? '') ?>" readonly>
+                <label style="width: 124px;">Phí vận chuyển:</label>
+                <input style="min-width: 100px;max-width: 145px;" type="text"
+                    value="<?= htmlspecialchars($data['PVC1'] ?? '') ?>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Phí bảo hiểm:</label>
+                <label style="width:70px;">Mã loại:</label>
+                <input style="min-width: 100px;max-width: 112px;" type="text"
+                    value="<?= htmlspecialchars($data['ML2'] ?? '') ?>" readonly>
+                <label style="width: 106px;">Mã đồng tiền:</label>
+                <input style="min-width: 100px;max-width: 104px;" type="text"
+                    value="<?= htmlspecialchars($data['MDT2'] ?? '') ?>" readonly>
+                <label style="width: 124px;">Phí bảo hiểm:</label>
+                <input style="min-width: 100px;max-width: 145px;" type="text"
+                    value="<?= htmlspecialchars($data['PBH2'] ?? '') ?>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Chi tiết khai trị giá:</label>
+                <input type="text" value="<?= htmlspecialchars($data['CTKTG'] ?? '') ?>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Người nộp thuế:</label>
+                <select disabled>
+                    <option <?= isset($data['NNT']) && $data['NNT']=='NNT1'?'selected':'' ?>>1: Người nhập khẩu</option>
+                    <option <?= isset($data['NNT']) && $data['NNT']=='NNT2'?'selected':'' ?>>2: Đại lý hải quan</option>
+                </select>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Thuế và bảo lãnh</legend>
+            <div class="form-group">
+                <label>Mã lý do đề nghị BP:</label>
+                <input type="text" value="<?= htmlspecialchars($data['MLDDNBP'] ?? '') ?>" readonly>
+                <select disabled>
+                    <option <?= isset($data['MLDDNBP1']) && $data['MLDDNBP1']=='MLDDNBPA'?'selected':'' ?>>A: chờ xác
+                        định mã</option>
+                    <option <?= isset($data['MLDDNBP1']) && $data['MLDDNBP1']=='MLDDNBPB'?'selected':'' ?>>B: khác
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Ngân hàng bảo lãnh:</label>
+                <input type="text" value="<?= htmlspecialchars($data['NHBH'] ?? '') ?>" readonly>
+            </div>
+            <div class="form-group">
+                <label>Số bảo lãnh:</label>
+                <input type="text" value="<?= htmlspecialchars($data['SBL'] ?? '') ?>" readonly>
+            </div>
+        </fieldset>
+
+
+        <!-- ====== DANH SÁCH HÀNG ====== -->
+        <fieldset>
+            <legend>Danh sách hàng</legend>
+            <table border="1" width="100%" cellspacing="0" cellpadding="5">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã hàng</th>
+                        <th>Tên hàng</th>
+                        <th>Đơn vị tính</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>Trị giá</th>
+                        <th>Thuế suất (%)</th>
+                        <th>Tiền thuế</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($to3nk)): ?>
+                    <?php foreach ($to3nk as $i => $row): ?>
+                    <tr>
+                        <td><?= $i + 1 ?></td>
+                        <td><input type="text" disabled value="<?= htmlspecialchars($row['ma_hang'] ?? '') ?>"></td>
+                        <td><input type="text" disabled value="<?= htmlspecialchars($row['ten_hang'] ?? '') ?>"></td>
+                        <td><input type="text" disabled value="<?= htmlspecialchars($row['don_vi'] ?? '') ?>"></td>
+                        <td><input type="text" disabled value="<?= htmlspecialchars($row['so_luong'] ?? '') ?>"></td>
+                        <td><input type="text" disabled value="<?= htmlspecialchars($row['don_gia'] ?? '') ?>"></td>
+                        <td><input type="text" disabled value="<?= htmlspecialchars($row['tri_gia'] ?? '') ?>"></td>
+                        <td><input type="text" disabled value="<?= htmlspecialchars($row['thue_suat'] ?? '') ?>"></td>
+                        <td><input type="text" disabled value="<?= htmlspecialchars($row['tien_thue'] ?? '') ?>"></td>
+                    </tr>
+                    <?php endforeach; ?>
+                    <?php else: ?>
+                    <tr>
+                        <td colspan="9" style="text-align:center;">Không có dữ liệu hàng hóa</td>
+                    </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <div class="button-group" style="text-align:center;margin-top:20px;">
+            <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
+        </div>
+>>>>>>> eb839a154b3daf194cc14baffd6416ba95608e6e
     </div>
 </body>
 

@@ -32,6 +32,7 @@
         <h2>Tờ khai nhập khẩu - Thông tin chung 1</h2>
         <form method="POST" action="To2NK.php">
             <fieldset>
+<<<<<<< HEAD
                 <legend>Nhóm loại hình:</legend>
                 <div class="radio-group">
                     <label><input type="radio" value="Kinh doanh, đầu tư" name="nhom_loai_hinh" checked> Kinh doanh, đầu
@@ -85,6 +86,12 @@
                         <option value="01">01: Bộ phận hàng hóa nhập khẩu hàng mậu dịch Kho SCSC.</option>
                     </select>
                 </div>
+=======
+                <legend>Thông tin chung</legend>
+                <div class="form-group">
+                    <label style="width: 240px">Nhóm loại hình:</label>
+
+>>>>>>> eb839a154b3daf194cc14baffd6416ba95608e6e
             </fieldset>
             <fieldset>
                 <legend>Thông tin người nhập khẩu:</legend>
