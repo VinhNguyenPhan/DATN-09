@@ -8,9 +8,6 @@ if (empty($_SESSION['user_id'])) {
     exit;
 }
 
-$allowedStatuses = ['done', 'cancel', 'shipping', 'shipped'];
-
-
 
 $message = '';
 $error = '';
@@ -20,18 +17,18 @@ $currentOrder = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type = strtolower(trim($_POST['type'] ?? ''));
     $orderId = trim($_POST['order_id'] ?? '');
-    $status = strtolower(trim($_POST['status'] ?? ''));
+    $kho = strtolower(trim($_POST['kho'] ?? ''));
 
-    if (!in_array($status, $allowedStatuses, true)) {
-        $error = 'Trạng thái không hợp lệ.';
+    if ($kho==='') {
+        $error = 'Vị trí không hợp lệ.';
     } elseif ($type !== 'xk' && $type !== 'nk') {
         $error = 'Loại đơn không hợp lệ.';
     } elseif ($orderId === '') {
         $error = 'Vui lòng chọn mã vận đơn.';
     } else {
         $table = $type === 'xk' ? 'to1XK' : 'to1NK';
-        $stmt = $conn->prepare("UPDATE $table SET ThongKe = ? WHERE id = ?");
-        $stmt->bind_param('si', $status, $orderId);
+        $stmt = $conn->prepare("UPDATE $table SET vi_tri = ? WHERE id = ?");
+        $stmt->bind_param('si', $kho, $orderId);
 
         if ($stmt->execute()) {
             $_SESSION['success_message'] = '✅ Cập nhật trạng thái thành công.';
@@ -56,14 +53,13 @@ if (!empty($_SESSION['order_id_last']) && !empty($_SESSION['type_last'])) {
     unset($_SESSION['order_id_last'], $_SESSION['type_last']);
 
     $table = $type === 'xk' ? 'to1XK' : 'to1NK';
-    $stmt = $conn->prepare("SELECT id, SVD, ThongKe, created_at FROM $table WHERE id = ? LIMIT 1");
+    $stmt = $conn->prepare("SELECT id, SVD, vi_tri, created_at FROM $table WHERE id = ? LIMIT 1");
     $stmt->bind_param('i', $orderId);
     $stmt->execute();
     $currentOrder = $stmt->get_result()->fetch_assoc();
     $stmt->close();
 }
-
-include_once(__DIR__ . '/../public/header.php');
+ $datakho = $conn->query("SELECT * FROM `vi_tri`");
 ?>
 
 <style>
@@ -208,24 +204,19 @@ select:focus {
                     <option value="">-- Chọn hoặc tìm mã vận đơn --</option>
                 </select>
 
-                <select name="status" required>
+                <select style="min-width:160px" name="kho" required>
                     <?php 
-                        $statusLabels = [
-                            'done' => 'Hoàn thành',
-                            'cancel' => 'Đã hủy',
-                            'shipping' => 'Đang giao',
-                            'shipped' => 'Đã lấy hàng'
-                        ];
-                        foreach ($allowedStatuses as $st): 
+                        foreach ($datakho as $st): 
                     ?>
-                    <option value="<?= $st ?>"><?= $statusLabels[$st] ?></option>
+                    <option value="<?= $st['id'] ?>"><?= $st['name'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
 
             <div class="actions">
                 <button type="submit" class="btn primary">Cập nhật</button>
-                <a href="/TraCuuDonHang/TraCuu.php" class="btn secondary" style="text-decoration:none;">Quay lại tra
+                <a href="/CapNhatViTri/TruyVanViTri.php" class="btn secondary" style="text-decoration:none;">Quay lại
+                    tra
                     cứu</a>
             </div>
         </form>
@@ -234,15 +225,17 @@ select:focus {
         <div style="margin-top:24px; font-size:15px; text-align:center; color:#334155;">
             <b>Mã vận đơn:</b> <?= htmlspecialchars($currentOrder['SVD']) ?> |
             <?php
-                $statusLabels = [
-                    'done' => 'Hoàn thành',
-                    'cancel' => 'Đã hủy',
-                    'shipping' => 'Đang vận chuyển',
-                    'shipped' => 'Đã giao hàng'
-                ];
-                $displayStatus = $statusLabels[$currentOrder['ThongKe']] ?? $currentOrder['ThongKe'];
+                $displayStatus = $currentOrder['vi_tri'];
+                $nameKho = 'Không rõ';
+
+                foreach ($datakho as $kho) {
+                    if ($kho['id'] == $displayStatus) {
+                        $nameKho = $kho['name'];
+                        break;
+                    }
+                }
             ?>
-            <b>Trạng thái:</b> <?= htmlspecialchars($displayStatus) ?> |
+            <b>Kho:</b> <?= htmlspecialchars($nameKho) ?> |
             <b>Ngày tạo:</b> <?= htmlspecialchars($currentOrder['created_at']) ?>
         </div>
         <?php endif; ?>
@@ -270,7 +263,7 @@ $(document).ready(function() {
         if (!type) return;
 
         $order.append('<option>Đang tải...</option>');
-        fetch(`TruyVan.php?ajax=list&type=${type}`)
+        fetch(`TruyVanViTri.php?ajax=list&type=${type}`)
             .then(res => res.json())
             .then(data => {
                 $order.empty();

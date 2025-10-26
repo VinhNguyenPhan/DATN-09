@@ -1,17 +1,6 @@
-<!-- ====== PHẦN ĐIỀU KHOẢN, CHÍNH SÁCH & BẢO MẬT ====== -->
+<?php include_once(__DIR__."/../public/header.php");
+?>
 <section class="policy-section">
-    <header class="header">
-        <!-- Logo nằm bên trái -->
-        <a href="../index.php" class="brand">
-            <div class="logo-box">
-                <span class="logo-text">U&amp;I</span>
-            </div>
-            <div class="brand-info">
-                <div class="brand-text">U&I LOGISTICS</div>
-                <div class="sub">Khai báo & Giải pháp vận tải</div>
-            </div>
-        </a>
-    </header>
 
     <div class="policy-container">
         <h1>ĐIỀU KHOẢN &amp; CHÍNH SÁCH BẢO MẬT</h1>
@@ -116,48 +105,6 @@
     padding: 40px 60px;
     background: #f9fafc;
     font-family: "Inter", sans-serif;
-}
-
-/* Header */
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 20px;
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-}
-
-.logo-box {
-    width: 55px;
-    height: 55px;
-    border-radius: 12px;
-    background-color: #1f6fb2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logo-text {
-    color: #fff;
-    font-weight: 800;
-    font-size: 20px;
-}
-
-.brand-text {
-    font-size: 18px;
-    font-weight: 700;
-    color: #1f3c88;
-}
-
-.sub {
-    font-size: 13px;
-    color: #6b7280;
 }
 
 /* Nội dung chính */
@@ -266,4 +213,64 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+const chatux = new ChatUx();
+
+const opt = {
+    api: {
+        endpoint: 'http://localhost/chat/chat-server.php',
+        method: 'GET',
+        dataType: 'jsonp',
+        escapeUserInput: true
+    },
+    window: {
+        title: 'My chat', //window title 
+        size: {
+            width: 350, //window width in px
+            height: 500, //window height in px
+            minWidth: 300, //window minimum-width in px
+            minHeight: 300, //window minimum-height in px
+            titleHeight: 50 //title bar height in px
+        },
+        appearance: {
+            //border - border style of the window
+            border: {
+                shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
+                width: 0,
+                radius: 6
+            },
+            //titleBar - title style of the window
+            titleBar: {
+                fontSize: 14,
+                color: 'white',
+                background: '#4784d4',
+                leftMargin: 40,
+                height: 40,
+                buttonWidth: 36,
+                buttonHeight: 16,
+                buttonColor: 'white',
+                buttons: [
+                    //Icon named 'hideButton' to close chat window
+                    {
+                        fa: 'fas fa-times', //specify font awesome icon
+                        name: 'hideButton',
+                        visible: true
+                    }
+                ],
+                buttonsOnLeft: [
+                    //Icon named 'info' to jump to 'infourl' when clicked
+                    {
+                        fa: 'fas fa-comment-alt', //specify font awesome icon
+                        name: 'info',
+                        visible: true
+                    }
+                ],
+            },
+        }
+    },
+};
+
+chatux.init(opt);
+chatux.start(true);
 </script>
+<?php include_once(__DIR__."/../public/footer.php");
+?>

@@ -23,18 +23,20 @@ if (isset($_POST['submit'])) {
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
 
-        if (!$user) {
+                if (!$user) {
             $toast = ["type" => "error", "msg" => "Tài khoản hoặc mật khẩu không đúng!"];
         } else {
             $_SESSION["user_id"] = $user["id"];
+            $_SESSION["username"] = $user["username"];
+            $_SESSION["role"] = $user["role"]; 
             $toast = ["type" => "success", "msg" => "Đăng nhập thành công!"];
-            // Chuyển hướng sau 1 giây
             echo "<script>
                 setTimeout(function(){
                     window.location.href = '../index.php';
                 }, 1000);
             </script>";
         }
+
     }
 }
 ?>

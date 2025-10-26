@@ -1,5 +1,7 @@
 <?php
     require_once (__DIR__ ."/../core/database.php");
+    require_once(__DIR__ . '/../core/phanQuyen.php');
+    require_role(['employee','customer','admin']);
     if (empty($_SESSION['user_id'])) {
      $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
      header("Location: $redirect");
@@ -8,7 +10,7 @@
     if(!$_POST){
         header("Location: To1NK.php");
     }
-    $_SESSION["To2NK"] = $_POST;
+    $_SESSION['ToNK']['form2'] = $_POST;
     // echo '<pre>';
     // print_r($_SESSION['To2NK']);
     // exit();

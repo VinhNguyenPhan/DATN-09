@@ -1,9 +1,9 @@
 <?php
 require_once (__DIR__ ."/../core/database.php");
 
-$data1 = $_SESSION['To1XK'] ?? [];
-$data2 = $_SESSION['To2XK'] ?? [];
-$data3 = $_POST; 
+$data1 = $_SESSION['ToXK']['form1'] ?? [];
+$data2 = $_SESSION['ToXK']['form2'] ?? [];
+$data3 = $_POST;
 
 function n($v) {
     if ($v === null) return null;
@@ -102,6 +102,8 @@ try {
 }
 
 if ($last_id) {
+    $_SESSION['ToXK']['form1'] = [];
+    $_SESSION['ToXK']['form2'] = [];
     header("Location: hoanThanh.php?id=" . urlencode($last_id));
     exit();
 } else {

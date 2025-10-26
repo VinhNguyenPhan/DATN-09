@@ -1,9 +1,9 @@
 <?php
 require_once (__DIR__ ."/../core/database.php");
 
-$data1 = $_SESSION['to1nK'] ?? [];
-$data2 = $_SESSION['To2XK'] ?? [];
-$data3 = $_POST; 
+$data1 = $_SESSION['ToNK']['form1'] ?? [];
+$data2 = $_SESSION['ToNK']['form2'] ?? [];
+$data3 = $_POST;
 
 function n($v) {
     if ($v === null) return null;
@@ -11,22 +11,31 @@ function n($v) {
     return ($v === '') ? null : $v;
 }
 
+//mới thêm
 function insertSafe($conn, $table, $fields, $data) {
-    try {
-        foreach ($fields as $f) {
-            $data[$f] = isset($data[$f]) ? mysqli_real_escape_string($conn, $data[$f]) : '';
-        }
+    // Nếu không có dữ liệu thì coi như tất cả đều rỗng
+    if (empty($data)) $data = [];
 
-        $values = implode("','", array_map(fn($f) => $data[$f], $fields));
-        $sql = "INSERT INTO `$table` (" . implode(',', $fields) . ") VALUES ('{$values}')";
+    // Đảm bảo giá trị rỗng vẫn được chèn vào đúng số lượng cột
+    $values = [];
+    foreach ($fields as $f) {
+        $v = isset($data[$f]) ? trim($data[$f]) : '';
+        // Nếu muốn để NULL trong SQL thay vì chuỗi rỗng, bạn có thể đổi '' -> NULL ở đây
+        $values[] = $conn->real_escape_string($v);
+    }
 
-        if (!$conn->query($sql)) {
-            throw new Exception($conn->error);
-        }
-    } catch (Exception $e) {
-        error_log("❌ Lỗi khi thêm vào bảng `$table`: " . $e->getMessage());
+    // Ghép cột và giá trị để chèn
+    $sql = "INSERT INTO `$table` (" . implode(',', $fields) . ") VALUES ('" . implode("','", $values) . "')";
+    
+    // Debug nếu cần
+    // echo "<pre>$sql</pre>";
+
+    if (!$conn->query($sql)) {
+        throw new Exception("Lỗi khi thêm vào $table: " . $conn->error);
     }
 }
+
+//mới thêm, code cũ ở logotest
 
 $last_id = null;
 
@@ -97,6 +106,8 @@ try {
 }
 
 if ($last_id) {
+    $_SESSION['ToNK']['form1'] = [];
+    $_SESSION['ToNK']['form2'] = [];
     header("Location: done.php?id=" . urlencode($last_id));
     exit();
 } else {

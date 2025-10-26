@@ -1,5 +1,7 @@
 <?php 
     require_once(__DIR__."/../core/database.php");
+    require_once(__DIR__ . '/../core/phanQuyen.php');
+    require_role(['employee','customer','admin']);
     // thêm mới bảo vệ đăng nhập
      if (empty($_SESSION['user_id'])) {
      $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
@@ -32,7 +34,7 @@
                 <div class="radio-group">
                     <label><input type="radio" value="Kinh doanh, đầu tư" name="nhom_loai_hinh" checked> Kinh doanh, đầu
                         tư</label>
-                    <label><input type="radio" value="Sản xuất xuất khẩu" value="" name="nhom_loai_hinh"> Sản xuất xuất
+                    <label><input type="radio" value="Sản xuất xuất khẩu" name="nhom_loai_hinh"> Sản xuất xuất
                         khẩu</label>
                     <label><input type="radio" value="Gia công" name="nhom_loai_hinh"> Gia công</label>
                     <label><input type="radio" value="Chế xuất" name="nhom_loai_hinh"> Chế xuất</label>
@@ -42,6 +44,7 @@
             <div class="form-group">
                 <label>Mã loại hình:</label>
                 <select name="MLH">
+                    <option value="" checked></option>
                     <option value="Nhập kinh doanh tiêu dùng">A11: Nhập kinh doanh tiêu dùng</option>
                     <option value="Nhập kinh doanh sản xuất">A12: Nhập kinh doanh sản xuất</option>
                     <option value="Chuyển tiêu thụ nội địa từ nguồn tạm nhập">A21: Chuyển tiêu thụ nội địa từ nguồn tạm
@@ -87,6 +90,7 @@
                 </select>
                 <label style="width: 240px">Phân loại cá nhân/tổ chức:</label>
                 <select name="PLCNTC">
+                    <option value="" checked></option>
                     <option value="Cá nhân gửi cá nhân">1: Cá nhân gửi cá nhân</option>
                     <option value="Tổ chức gửi cá nhân">2: Tổ chức gửi cá nhân</option>
                     <option value="Cá nhân gửi tổ chức">3: Cá nhân gửi tổ chức</option>
@@ -97,11 +101,13 @@
             <div class="form-group">
                 <label>Cơ quan Hải quan:</label>
                 <select name="CQHQ">
+                    <option value="" checked></option>
                     <option value="28NJ">28NJ - Chi cục HQ Hà Nam</option>
                     <option value="01NV">01NV - Chi cục HQ Nội Bài</option>
                 </select>
                 <label style="width: 240px">Mã hiệu phương thức vận chuyển:</label>
-                <select name="MHPTVC1">
+                <select name="MHPTVC">
+                    <option value="" checked></option>
                     <option value="Đường không">1: Đường không</option>
                     <option value="Đường biển (container)">2: Đường biển (container)</option>
                     <option value="Đường biển (hàng rời, lỏng…)">3: Đường biển (hàng rời, lỏng…)</option>
@@ -226,14 +232,12 @@
                     <label>Địa điểm nhận hàng cuối cùng:</label>
                     <input type="text" name="DDNHCC" id="DDNHCC" placeholder="Địa điểm nhận hàng cuối cùng">
                     <select name="DDNH" id="location-select2">
-                        <!-- Danh sách sẽ được sinh tự động -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Địa điểm xếp hàng:</label>
                     <input type="text" name="DDXH" id="DDXK" placeholder="Địa điểm xếp hàng">
                     <select name="DDXH1" id="location-select3">
-                        <!-- Danh sách sẽ được sinh tự động -->
                     </select>
                 </div>
                 <div class="form-group">
@@ -442,7 +446,6 @@
     </div>
 
     <script>
-    // Danh sách địa điểm
     const locations = {
         trong_nuoc: [{
                 code: "HAN",
@@ -453,16 +456,16 @@
                 name: "HO CHI MINH"
             },
             {
-                code: "DAD",
+                code: "DAN",
                 name: "Đà Nẵng"
             },
             {
-                code: "HCM",
-                name: "DANANG"
+                code: "HAP",
+                name: "Hải Phòng"
             },
             {
-                code: "DAD",
-                name: "DANANG"
+                code: "QUN",
+                name: "Quảng Ninh"
             }
         ],
         ngoai_nuoc: [{
@@ -470,28 +473,28 @@
                 name: "OSAKA"
             },
             {
-                code: "NRT",
+                code: "TKY",
                 name: "TOKYO"
             },
             {
-                code: "ICN",
+                code: "SEO",
                 name: "SEOUL"
+            } {
+                code: "BEI",
+                name: "Bắc Kinh"
             }
         ]
     };
 
-    // Hàm hiển thị danh sách trong dropdown
     function updateLocationSelect(type) {
         const select = document.getElementById("location-select");
         const select2 = document.getElementById("location-select2");
         const select3 = document.getElementById("location-select3");
 
-        // Xóa danh sách cũ
         select.innerHTML = "";
         select2.innerHTML = "";
         select3.innerHTML = "";
 
-        // Lặp qua danh sách địa điểm
         locations[type].forEach(loc => {
             const option1 = document.createElement("option");
             option1.value = loc.code;
@@ -506,15 +509,12 @@
         });
     }
 
-
-    // Khi chọn radio button
     document.querySelectorAll('input[name="khuvuc"]').forEach(radio => {
         radio.addEventListener("change", e => {
             updateLocationSelect(e.target.value);
         });
     });
 
-    // Hiển thị mặc định (trong nước)
     updateLocationSelect("trong_nuoc");
     </script>
 </body>

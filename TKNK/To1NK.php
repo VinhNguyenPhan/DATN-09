@@ -1,11 +1,11 @@
 <?php 
     require_once(__DIR__."/../core/database.php");
+    require_once(__DIR__ . '/../core/phanQuyen.php');
+    require_role($_role_KhaiBao);
      if (empty($_SESSION['user_id'])) {
      $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
      header("Location: $redirect");
-     exit;
-
-     
+     exit;     
  }
 //  if(!empty($_GET['id'])){
 //         $sql = "SELECT * FROM `to1NK` WHERE id = ?";
@@ -17,6 +17,7 @@
 //         print_r($data); 
 //      }
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -33,52 +34,58 @@
             <fieldset>
                 <legend>Nhóm loại hình:</legend>
                 <div class="radio-group">
-                    <label><input type="radio" value="KDSX" name="nhom_loai_hinh" checked> Kinh doanh, đầu tư</label>
-                    <label><input type="radio" value="SXXK" name="nhom_loai_hinh"> Sản xuất xuất khẩu</label>
-                    <label><input type="radio" value="GiaCong" name="nhom_loai_hinh"> Gia công</label>
-                    <label><input type="radio" value="CheXuat" name="nhom_loai_hinh"> Chế xuất</label>
+                    <label><input type="radio" value="Kinh doanh, đầu tư" name="nhom_loai_hinh" checked> Kinh doanh, đầu
+                        tư</label>
+                    <label><input type="radio" value="Sản xuất xuất khẩu" value="" name="nhom_loai_hinh"> Sản xuất xuất
+                        khẩu</label>
+                    <label><input type="radio" value="Gia công" name="nhom_loai_hinh"> Gia công</label>
+                    <label><input type="radio" value="Chế xuất" name="nhom_loai_hinh"> Chế xuất</label>
+                </div>
+                <div class="form-group">
+                    <label>Mã loại hình:</label>
+                    <select name="ma_loai_hinh">
+                        <option value="" checked></option>
+                        <option value="A11">A11: Nhập kinh doanh tiêu dùng</option>
+                        <option value="A12">A12: Nhập kinh doanh sản xuất</option>
+                    </select>
+                    <label style="width: 240px">Phân loại cá nhân/tổ chức:</label>
+                    <select name="phan_loai_to_chuc">
+                        <option value="" checked></option>
+                        <option value="P1">1: Cá nhân gửi cá nhân</option>
+                        <option value="P2">2: Tổ chức gửi cá nhân</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Cơ quan Hải quan:</label>
+                    <select name="co_quan_hq">
+                        <option value="" checked></option>
+                        <option value="28NJ">28NJ - Chi cục HQ Hà Nam</option>
+                        <option value="01VN">01NV - Chi cục HQ Nội Bài</option>
+                    </select>
+                    <label style="width: 240px">Mã hiệu phương thức vận chuyển:</label>
+                    <select name="phuong_thuc_vc">
+                        <option value="" checked></option>
+                        <option value="P1">1: Đường không</option>
+                        <option value="P2">2: Đường biển (container)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Mã phân loại hàng hóa:</label>
+                    <select name="ma_phan_loai_hang">
+                        <option value="" checked></option>
+                        <option value="A">A: Hàng quà biếu, quà tặng</option>
+                        <option value="B">B: Hàng an ninh, quốc phòng</option>
+                    </select>
+                    <label style="width: 240px">Mã bộ phận xử lí tờ khai:</label>
+                    <select name="ma_bo_phan_xu_ly">
+                        <option value="" checked></option>
+                        <option value="00">00: Bộ phận hàng hóa nhập khẩu hàng mậu dịch Kho TCS.</option>
+                        <option value="01">01: Bộ phận hàng hóa nhập khẩu hàng mậu dịch Kho SCSC.</option>
+                    </select>
                 </div>
             </fieldset>
-
-            <div class="form-group">
-                <label>Mã loại hình:</label>
-                <select name="ma_loai_hinh">
-                    <option value="A11">A11: Nhập kinh doanh tiêu dùng</option>
-                    <option value="A12">A12: Nhập kinh doanh sản xuất</option>
-                </select>
-                <label style="width: 240px">Phân loại cá nhân/tổ chức:</label>
-                <select name="phan_loai_to_chuc">
-                    <option value="P1">1: Cá nhân gửi cá nhân</option>
-                    <option value="P2">2: Tổ chức gửi cá nhân</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Cơ quan Hải quan:</label>
-                <select name="co_quan_hq">
-                    <option value="28NJ">28NJ - Chi cục HQ Hà Nam</option>
-                    <option value="01VN">01NV - Chi cục HQ Nội Bài</option>
-                </select>
-                <label style="width: 240px">Mã hiệu phương thức vận chuyển:</label>
-                <select name="phuong_thuc_vc">
-                    <option value="P1">1: Đường không</option>
-                    <option value="P2">2: Đường biển (container)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Mã phân loại hàng hóa:</label>
-                <select name="ma_phan_loai_hang">
-                    <option value="A">A: Hàng quà biếu, quà tặng</option>
-                    <option value="B">B: Hàng an ninh, quốc phòng</option>
-                </select>
-                <label style="width: 240px">Mã bộ phận xử lí tờ khai:</label>
-                <select name="ma_bo_phan_xu_ly">
-                    <option value="00">00: Bộ phận hàng hóa nhập khẩu hàng mậu dịch Kho TCS.</option>
-                    <option value="01">01: Bộ phận hàng hóa nhập khẩu hàng mậu dịch Kho SCSC.</option>
-                </select>
-            </div>
-
             <fieldset>
                 <legend>Thông tin người nhập khẩu:</legend>
                 <div class="form-group">
@@ -161,6 +168,7 @@
                     <label>Số lượng kiện:</label>
                     <input type="text" name="SLK" placeholder="Số lượng kiện">
                     <select name="don_vi_kien">
+                        <option value="" checked></option>
                         <option value="SET">SET: Bộ</option>
                         <option value="DZN">DZN: Tá</option>
                         <option value="PCE">PCE: Cái/Chiếc</option>
@@ -170,6 +178,7 @@
                     <label>Tổng trọng lượng hàng:</label>
                     <input type="text" name="TTLH" placeholder="Tổng trọng lượng hàng">
                     <select name="don_vi_tl">
+                        <option value="" checked></option>
                         <option value="GRM">GRM: Gam</option>
                         <option value="KGM">KGM: Kilogam</option>
                         <option value="TNE">TNE: Tấn</option>
@@ -179,6 +188,7 @@
                     <label>Mã địa điểm lưu kho:</label>
                     <input type="text" name="MDDLK" placeholder="Mã địa điểm lưu kho">
                     <select name="dia_diem_luu_kho">
+                        <option value="" checked></option>
                         <option value="OSA">OSAKA</option>
                         <option value="HAN">HANOI</option>
                     </select>
@@ -200,6 +210,7 @@
                     <label>Địa điểm dỡ hàng:</label>
                     <input type="text" name="DDDH" placeholder="Địa điểm dỡ hàng">
                     <select name="ma_dd_dohang">
+                        <option value="" checked></option>
                         <option value="OSA">OSAKA</option>
                         <option value="HAN">HANOI</option>
                     </select>
@@ -208,6 +219,7 @@
                     <label>Địa điểm xếp hàng:</label>
                     <input type="text" name="DDXH" placeholder="Địa điểm xếp hàng">
                     <select name="ma_dd_xephang">
+                        <option value="" checked></option>
                         <option value="OSA">OSAKA</option>
                         <option value="HAN">HANOI</option>
                     </select>
@@ -219,6 +231,7 @@
                 <div class="form-group">
                     <label>Mã kết quả kiểm tra nội dung:</label>
                     <select name="ma_kq_ktnd">
+                        <option value="" checked></option>
                         <option value="A1">A: Không có bất thường</option>
                         <option value="B1">B: Có bất thường</option>
                         <option value="C1">C: Cần tham vấn HQ</option>

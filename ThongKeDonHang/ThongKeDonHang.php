@@ -1,10 +1,6 @@
 <?php 
-require_once(__DIR__."/../public/header.php");?>
-<?php 
-require_once(__DIR__."/../core/database.php");
-
-
-// --- BẢO VỆ ĐĂNG NHẬP ---
+require_once(__DIR__."/../public/header.php");
+require_role(['admin']);
 if (empty($_SESSION['user_id'])) {
     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
     header("Location: $redirect");
@@ -81,6 +77,66 @@ $jsCancel = json_encode(array_map(fn($m)=>$monthStats['cancel'][$m] ?? 0, $month
 
 <meta charset="UTF-8">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const chatux = new ChatUx();
+
+const opt = {
+    api: {
+        endpoint: 'http://localhost/chat/chat-server.php',
+        method: 'GET',
+        dataType: 'jsonp',
+        escapeUserInput: true
+    },
+    window: {
+        title: 'My chat', //window title 
+        size: {
+            width: 350, //window width in px
+            height: 500, //window height in px
+            minWidth: 300, //window minimum-width in px
+            minHeight: 300, //window minimum-height in px
+            titleHeight: 50 //title bar height in px
+        },
+        appearance: {
+            //border - border style of the window
+            border: {
+                shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
+                width: 0,
+                radius: 6
+            },
+            //titleBar - title style of the window
+            titleBar: {
+                fontSize: 14,
+                color: 'white',
+                background: '#4784d4',
+                leftMargin: 40,
+                height: 40,
+                buttonWidth: 36,
+                buttonHeight: 16,
+                buttonColor: 'white',
+                buttons: [
+                    //Icon named 'hideButton' to close chat window
+                    {
+                        fa: 'fas fa-times', //specify font awesome icon
+                        name: 'hideButton',
+                        visible: true
+                    }
+                ],
+                buttonsOnLeft: [
+                    //Icon named 'info' to jump to 'infourl' when clicked
+                    {
+                        fa: 'fas fa-comment-alt', //specify font awesome icon
+                        name: 'info',
+                        visible: true
+                    }
+                ],
+            },
+        }
+    },
+};
+
+chatux.init(opt);
+chatux.start(true);
+</script>
 
 <style>
 .page-title {
@@ -226,7 +282,7 @@ canvas {
 <div class="dashboard">
     <div class="left">
         <div class="card lay">
-            <h3>ĐÃ LẤY</h3>
+            <h3>ĐÃ LẤY HÀNG</h3>
             <p><?=$counts['shipped']??0?> ĐH</p>
         </div>
         <div class="card giao">
@@ -234,7 +290,7 @@ canvas {
             <p><?=$counts['shipping']??0?> ĐH</p>
         </div>
         <div class="card thanhcong">
-            <h3>ĐÃ GIAO</h3>
+            <h3>HOÀN THÀNH</h3>
             <p><?=$counts['done']??0?> ĐH</p>
         </div>
         <div class="card huy">
@@ -270,7 +326,7 @@ new Chart(document.getElementById('barChart'), {
                 backgroundColor: '#f39c12'
             },
             {
-                label: 'Đã giao',
+                label: 'Hoàn thành',
                 data: <?= $jsDone ?>,
                 backgroundColor: '#3498db'
             },
@@ -305,7 +361,7 @@ new Chart(document.getElementById('barChart'), {
 new Chart(document.getElementById('pieChart'), {
     type: 'doughnut',
     data: {
-        labels: ['Đã lấy', 'Đang giao', 'Đã giao', 'Đã hủy'],
+        labels: ['Đã lấy', 'Đang giao', 'Hoàn thành', 'Đã hủy'],
         datasets: [{
             data: [<?=$counts['shipped']??0?>, <?=$counts['shipping']??0?>, <?=$counts['done']??0?>,
                 <?=$counts['cancel']??0?>

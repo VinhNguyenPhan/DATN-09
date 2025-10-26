@@ -1,5 +1,7 @@
 <?php 
     require_once(__DIR__."/../core/database.php");
+    require_once(__DIR__ . '/../core/phanQuyen.php');
+    require_role(['employee','customer','admin']);
     // print_r($_POST);
     // exit();
     if (empty($_SESSION['user_id'])) {
@@ -10,7 +12,7 @@
     if(!$_POST){
         header("Location: To1NK.php");
     }
-    $_SESSION['To1NK'] = $_POST;
+    $_SESSION['ToNK']['form1'] = $_POST;
     // echo '<pre>';
     // print_r($_SESSION['To1NK']);
     // exit();
@@ -69,6 +71,7 @@
                 <div class="form-group">
                     <label>Phân loại hình thức hóa đơn:</label>
                     <select name="PLHTHD">
+                        <option value="" checked></option>
                         <option value="A2">A: Hóa đơn</option>
                         <option value="B2">B: Chứng từ thay thế hóa đơn</option>
                         <option value="D2">D: Hóa đơn điện tử (trong trường hợp đăng kí hóa đơn điện tử trên VNACCS)
@@ -86,6 +89,7 @@
                     <input type="date" name="NPH" id="NPH">
                     <label style="padding-left: 37px;">Phương thức thanh toán:</label>
                     <select name="PTTT">
+                        <option value="" checked></option>
                         <option value="TT">T/T</option>
                         <option value="TTR">TTR</option>
                         <option value="COD">COD</option>
@@ -95,6 +99,7 @@
                 <div class="form-group">
                     <label>Mã phân loại hóa đơn: </label>
                     <select name="MPLHD">
+                        <option value="" checked></option>
                         <option value="A3">A: Hóa đơn thương mại</option>
                         <option value="B3">B: Chứng từ thay thế hóa đơn thương mại hoặc không có hóa đơn thương mại:
                         </option>
@@ -102,6 +107,7 @@
                     </select>
                     <label style="padding-left: 37px;">Điều kiện giá hóa đơn: </label>
                     <select name="DKGHD">
+                        <option value="" checked></option>
                         <option value="EXW">EXW</option>
                         <option value="FCA">FCA</option>
                         <option value="CPT">CPT</option>
@@ -120,6 +126,7 @@
                     <input type="number" name="TTGHD" id="TTGHD" placeholder="Tổng trị giá hóa đơn">
                     <label style="padding-left: 38px;">Mã đồng tiền hóa đơn :</label>
                     <select name="MDTHD">
+                        <option value="" checked></option>
                         <option value="USD">USD</option>
                         <option value="CNY">CNY</option>
                         <option value="VND">VND</option>
@@ -133,6 +140,7 @@
                 <div class="form-group">
                     <label>Mã phân loại khai trị giá:</label>
                     <select name="MPLKTG">
+                        <option value="" checked></option>
                         <option value="MPLKTG0">0: Khai trị giá tổng hợp</option>
                         <option value="MPLKTG1">1: Xác định trị giá tính thuế theo phương pháp trị giá giao dịch của
                             hàng
@@ -161,7 +169,7 @@
                 </div>
                 <div class="form-group">
                     <label>Phí vận chuyển: </label>
-                    <label style="width: 70px;">Mã loại: </label>
+                    <label style="width:70px;">Mã loại: </label>
                     <input type="text" name="ML1" id="ML1" style="min-width: 100px;max-width: 112px;">
                     <label style="width: 106px;">Mã đồng tiền: </label>
                     <input type="text" name="MDT1" id="MDT1" style="min-width: 100px;max-width: 104px;">
@@ -184,6 +192,7 @@
                 <div class="form-group">
                     <label>Người nộp thuế: </label>
                     <select name="NNT">
+                        <option value="" checked></option>
                         <option value="NNT1">1: Người nhập khẩu</option>
                         <option value="NNT2">2: Đại lý hải quan</option>
                     </select>
@@ -195,6 +204,7 @@
                     <label>Mã lý do đề nghị BP:</label>
                     <input type="text" name="MLDDNBP" placeholder="Mã lý do đề nghị BP">
                     <select name="MLDDNBP1">
+                        <option value="" checked></option>
                         <option value="MLDDNBPA">A:chờ xác định mã số hàng hóa</option>
                         <option value="MLDDNBPB">B:chờ xác định trị giá tính thuế</option>
                         <option value="MLDDNBPC">C:trường hợp khác</option>
@@ -204,6 +214,7 @@
                     <label>Mã ngân hàng trả thuế thay:</label>
                     <input type="text" name="MNHTTT" id="MNHTTT" placeholder="Số tài khoản">
                     <select name="MaNHTTT">
+                        <option value="" checked></option>
                         <option value="BIDV">BIDV</option>
                         <option value="TECHCOMBANK">TECHCOMBANK</option>
                         <option value="VPBANK">VPBANK</option>
@@ -220,6 +231,7 @@
                 <div class="form-group">
                     <label>Mã xác định thời hạn nộp thuế : </label>
                     <select name="MXDTHNT">
+                        <option value="" checked></option>
                         <option value="MXDTHNTA">A:Trường hợp được áp dụng thời hạn nộp thuế do sử dụng bảo lãnh riêng.
                         </option>
                         <option value="MXDTHNTB">B:Trường hợp được áp dụng thời hạn nộp thuế do sử dụng bảo lãnh chung
@@ -233,6 +245,7 @@
                     <label>Mã ngân hàng bảo lãnh:</label>
                     <input type="text" name="MNHBL" id="MNHBL" placeholder="Số tài khoản">
                     <select name="MNHBL">
+                        <option value="" checked></option>
                         <option value="BIDV1">BIDV</option>
                         <option value="TECHCOMBANK1">TECHCOMBANK</option>
                         <option value="VPBANK1">VPBANK</option>
@@ -257,6 +270,7 @@
                 <div class="form-group">
                     <label style="padding-left: 192px">(1)</label>
                     <select name="SDKKBDT1">
+                        <option value="" checked></option>
                         <option value="INV1">INV</option>
                         <option value="BL1">B/L</option>
                         <option value="AWB1">AWB</option>
@@ -271,6 +285,7 @@
                 <div class="form-group">
                     <label style="padding-left: 192px">(2)</label>
                     <select name="SDKKBDT2">
+                        <option value="" checked></option>
                         <option value="INV2">INV</option>
                         <option value="BL2">B/L</option>
                         <option value="AWB2">AWB</option>
@@ -285,6 +300,7 @@
                 <div class="form-group">
                     <label style="padding-left: 192px">(3)</label>
                     <select name="SDKKBDT3">
+                        <option value="" checked></option>
                         <option value="INV3">INV</option>
                         <option value="BL3">B/L</option>
                         <option value="AWB3">AWB</option>
@@ -361,10 +377,8 @@
                 </div>
             </fieldset>
             <div class="button-group">
-                <button type="submit" name="action" value="next"
-                    onclick="window.location.href='../TKNK/to1NK.php'">Trang trước</button>
-                <button type="submit" name="action" value="next"
-                    onclick="window.location.href='../TKNK/to3NK.php'">Trang sau</button>
+                <button type="submit" name="action" value="previous">Trang trước</button>
+                <button type="submit" name="action" value="next">Trang sau</button>
                 <button type="button" name="action" value="save">Lưu</button>
                 <button type="button" onclick="timToKhai()">Tìm tờ khai</button>
                 <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
