@@ -1,145 +1,141 @@
 <?php
-include_once(__DIR__.'/../public/header.php');
+include_once(__DIR__ . '/../public/header.php');
 ?>
 
 <script>
-const chatux = new ChatUx();
+    const chatux = new ChatUx();
 
-const opt = {
-    api: {
-        endpoint: 'http://localhost/chat/chat-server.php',
-        method: 'GET',
-        dataType: 'jsonp',
-        escapeUserInput: true
-    },
-    window: {
-        title: 'My chat', //window title 
-        size: {
-            width: 350, //window width in px
-            height: 500, //window height in px
-            minWidth: 300, //window minimum-width in px
-            minHeight: 300, //window minimum-height in px
-            titleHeight: 50 //title bar height in px
+    const opt = {
+        api: {
+            endpoint: 'http://localhost/chat/chat-server.php',
+            method: 'GET',
+            dataType: 'jsonp',
+            escapeUserInput: true
         },
-        appearance: {
-            //border - border style of the window
-            border: {
-                shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
-                width: 0,
-                radius: 6
+        window: {
+            title: 'My chat',
+            size: {
+                width: 350,
+                height: 500,
+                minWidth: 300,
+                minHeight: 300,
+                titleHeight: 50
             },
-            //titleBar - title style of the window
-            titleBar: {
-                fontSize: 14,
-                color: 'white',
-                background: '#4784d4',
-                leftMargin: 40,
-                height: 40,
-                buttonWidth: 36,
-                buttonHeight: 16,
-                buttonColor: 'white',
-                buttons: [
-                    //Icon named 'hideButton' to close chat window
-                    {
-                        fa: 'fas fa-times', //specify font awesome icon
-                        name: 'hideButton',
-                        visible: true
-                    }
-                ],
-                buttonsOnLeft: [
-                    //Icon named 'info' to jump to 'infourl' when clicked
-                    {
-                        fa: 'fas fa-comment-alt', //specify font awesome icon
-                        name: 'info',
-                        visible: true
-                    }
-                ],
-            },
-        }
-    },
-};
+            appearance: {
+                border: {
+                    shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
+                    width: 0,
+                    radius: 6
+                },
+                titleBar: {
+                    fontSize: 14,
+                    color: 'white',
+                    background: '#4784d4',
+                    leftMargin: 40,
+                    height: 40,
+                    buttonWidth: 36,
+                    buttonHeight: 16,
+                    buttonColor: 'white',
+                    buttons: [
+                        {
+                            fa: 'fas fa-times',
+                            name: 'hideButton',
+                            visible: true
+                        }
+                    ],
+                    buttonsOnLeft: [
+                        {
+                            fa: 'fas fa-comment-alt',
+                            name: 'info',
+                            visible: true
+                        }
+                    ],
+                },
+            }
+        },
+    };
 
-chatux.init(opt);
-chatux.start(true);
+    chatux.init(opt);
+    chatux.start(true);
 </script>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <style>
-.contact-section {
-    padding: 5px 20px;
-    background: #f9fbfd;
-    text-align: center;
-}
+    .contact-section {
+        padding: 5px 20px;
+        background: #f9fbfd;
+        text-align: center;
+    }
 
-.contact-section .title {
-    font-size: 28px;
-    font-weight: bold;
-    color: #1f3c88;
-    margin-bottom: 10px;
-}
+    .contact-section .title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #1f3c88;
+        margin-bottom: 10px;
+    }
 
-.contact-section .subtitle {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 30px;
-}
+    .contact-section .subtitle {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 30px;
+    }
 
-.contact-form {
-    max-width: 600px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    text-align: left;
-}
+    .contact-form {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        text-align: left;
+    }
 
-.contact-form .form-group {
-    margin-bottom: 20px;
-}
+    .contact-form .form-group {
+        margin-bottom: 20px;
+    }
 
-.contact-form label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 500;
-    color: #333;
-}
+    .contact-form label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #333;
+    }
 
-.contact-form input,
-.contact-form select {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 15px;
-    outline: none;
-    transition: all 0.2s ease;
-}
+    .contact-form input,
+    .contact-form select {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        font-size: 15px;
+        outline: none;
+        transition: all 0.2s ease;
+    }
 
-.contact-form input:focus,
-.contact-form select:focus {
-    border-color: #1f6fb2;
-    box-shadow: 0 0 4px rgba(31, 111, 178, 0.3);
-}
+    .contact-form input:focus,
+    .contact-form select:focus {
+        border-color: #1f6fb2;
+        box-shadow: 0 0 4px rgba(31, 111, 178, 0.3);
+    }
 
-.btn-submit {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    background: #1f6fb2;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
+    .btn-submit {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: #1f6fb2;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
 
-.btn-submit:hover {
-    background: #155a91;
-}
+    .btn-submit:hover {
+        background: #155a91;
+    }
 </style>
 
 <head>
@@ -195,5 +191,5 @@ chatux.start(true);
 
 </html>
 <?php
-include_once(__DIR__.'/../public/footer.php');
+include_once(__DIR__ . '/../public/footer.php');
 ?>

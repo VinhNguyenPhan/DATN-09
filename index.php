@@ -1,68 +1,60 @@
-<?php include_once(__DIR__.'/public/header.php'); ?>
+<?php include_once(__DIR__ . '/public/header.php'); ?>
 <script>
-const chatux = new ChatUx();
+    const chatux = new ChatUx();
 
-const opt = {
-    api: {
-        endpoint: 'http://localhost/chat/chat-server.php',
-        method: 'GET',
-        dataType: 'jsonp',
-        escapeUserInput: true
-    },
-    window: {
-        title: 'My chat', //window title 
-        size: {
-            width: 350, //window width in px
-            height: 500, //window height in px
-            minWidth: 300, //window minimum-width in px
-            minHeight: 300, //window minimum-height in px
-            titleHeight: 50 //title bar height in px
+    const opt = {
+        api: {
+            endpoint: 'http://localhost/chat/chat-server.php',
+            method: 'GET',
+            dataType: 'jsonp',
+            escapeUserInput: true
         },
-        appearance: {
-            //border - border style of the window
-            border: {
-                shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
-                width: 0,
-                radius: 6
+        window: {
+            title: 'My chat',
+            size: {
+                width: 350,
+                height: 500,
+                minWidth: 300,
+                minHeight: 300,
+                titleHeight: 50
             },
-            //titleBar - title style of the window
-            titleBar: {
-                fontSize: 14,
-                color: 'white',
-                background: '#4784d4',
-                leftMargin: 40,
-                height: 40,
-                buttonWidth: 36,
-                buttonHeight: 16,
-                buttonColor: 'white',
-                buttons: [
-                    //Icon named 'hideButton' to close chat window
-                    {
-                        fa: 'fas fa-times', //specify font awesome icon
+            appearance: {
+                border: {
+                    shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
+                    width: 0,
+                    radius: 6
+                },
+                titleBar: {
+                    fontSize: 14,
+                    color: 'white',
+                    background: '#4784d4',
+                    leftMargin: 40,
+                    height: 40,
+                    buttonWidth: 36,
+                    buttonHeight: 16,
+                    buttonColor: 'white',
+                    buttons: [{
+                        fa: 'fas fa-times',
                         name: 'hideButton',
                         visible: true
-                    }
-                ],
-                buttonsOnLeft: [
-                    //Icon named 'info' to jump to 'infourl' when clicked
-                    {
-                        fa: 'fas fa-comment-alt', //specify font awesome icon
+                    }],
+                    buttonsOnLeft: [{
+                        fa: 'fas fa-comment-alt',
                         name: 'info',
                         visible: true
-                    }
-                ],
-            },
-        }
-    },
-};
+                    }],
+                },
+            }
+        },
+    };
 
-chatux.init(opt);
-chatux.start(true);
+    chatux.init(opt);
+    chatux.start(true);
 </script>
 <style>
-main {
-    display: block;
-}
+    main {
+        display: block;
+    }
 </style>
 <section class="feature-section">
     <div class="feature-text">
@@ -127,7 +119,6 @@ main {
 </section>
 </main>
 
-<!-- Footer -->
 <footer class="footer">
     <div class="footer-grid">
         <div>

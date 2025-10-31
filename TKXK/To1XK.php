@@ -2,7 +2,6 @@
 require_once(__DIR__ . "/../core/database.php");
 require_once(__DIR__ . '/../core/phanQuyen.php');
 require_role(['employee', 'customer', 'admin']);
-// thêm mới bảo vệ đăng nhập
 if (empty($_SESSION['user_id'])) {
     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
     header("Location: $redirect");
@@ -225,7 +224,6 @@ if (empty($_SESSION['user_id'])) {
                     <label>Mã địa điểm lưu kho hàng chờ thông quan dự kiến:</label>
                     <input type="text" name="MDDLKCTQDK" placeholder="Mã địa điểm lưu kho">
                     <select name="MDDLKCTQ" id="location-select">
-                        <!-- Danh sách sẽ được sinh tự động -->
                     </select>
                 </div>
                 <div class="form-group">
@@ -704,14 +702,12 @@ if (empty($_SESSION['user_id'])) {
             });
         }
 
-        // Gọi khi radio khu vực thay đổi
         document.querySelectorAll('input[name="khuvuc"]').forEach(radio => {
             radio.addEventListener("change", (e) => {
                 updateLocationSelect(e.target.value);
             });
         });
 
-        // Khởi tạo mặc định
         updateLocationSelect(document.querySelector('input[name="khuvuc"]:checked').value);
     </script>
 

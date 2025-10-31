@@ -1,4 +1,4 @@
-<?php include_once(__DIR__."/../public/header.php");
+<?php include_once(__DIR__ . "/../public/header.php");
 ?>
 <section class="policy-section">
 
@@ -9,9 +9,7 @@
             Chúng tôi cam kết cung cấp dịch vụ chuyên nghiệp, bảo mật và minh bạch theo quy định pháp luật Việt Nam.
         </p>
 
-        <!-- Accordion -->
         <div class="accordion">
-            <!-- 1 -->
             <div class="accordion-item">
                 <button class="accordion-btn">
                     <span>1. Điều khoản sử dụng</span>
@@ -30,7 +28,6 @@
                 </div>
             </div>
 
-            <!-- 2 -->
             <div class="accordion-item">
                 <button class="accordion-btn">
                     <span>2. Chính sách bảo mật thông tin</span>
@@ -55,7 +52,6 @@
                 </div>
             </div>
 
-            <!-- 3 -->
             <div class="accordion-item">
                 <button class="accordion-btn">
                     <span>3. Thanh toán &amp; Hoàn trả</span>
@@ -69,7 +65,6 @@
                 </div>
             </div>
 
-            <!-- 4 -->
             <div class="accordion-item">
                 <button class="accordion-btn">
                     <span>4. Giải quyết tranh chấp</span>
@@ -82,7 +77,6 @@
                 </div>
             </div>
 
-            <!-- 5 -->
             <div class="accordion-item">
                 <button class="accordion-btn">
                     <span>5. Liên hệ &amp; phản hồi</span>
@@ -101,176 +95,172 @@
 </section>
 
 <style>
-.policy-section {
-    padding: 40px 60px;
-    background: #f9fafc;
-    font-family: "Inter", sans-serif;
-}
+    .policy-section {
+        padding: 40px 60px;
+        background: #f9fafc;
+        font-family: "Inter", sans-serif;
+    }
 
-/* Nội dung chính */
-.policy-container {
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: center;
-}
+    /* Nội dung chính */
+    .policy-container {
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: center;
+    }
 
-.policy-container h1 {
-    font-size: 28px;
-    font-weight: 800;
-    color: #1f3c88;
-    margin-bottom: 10px;
-}
+    .policy-container h1 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #1f3c88;
+        margin-bottom: 10px;
+    }
 
-.policy-container p {
-    color: #333;
-    line-height: 1.7;
-    margin-bottom: 18px;
-}
+    .policy-container p {
+        color: #333;
+        line-height: 1.7;
+        margin-bottom: 18px;
+    }
 
-/* Accordion */
-.accordion {
-    margin: 0 auto;
-    max-width: 850px;
-    border-radius: 12px;
-    overflow: hidden;
-    text-align: left;
-}
+    /* Accordion */
+    .accordion {
+        margin: 0 auto;
+        max-width: 850px;
+        border-radius: 12px;
+        overflow: hidden;
+        text-align: left;
+    }
 
-.accordion-item {
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: 0.3s;
-}
+    .accordion-item {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: 0.3s;
+    }
 
-.accordion-btn {
-    width: 100%;
-    text-align: left;
-    padding: 16px 20px;
-    background: transparent;
-    border: none;
-    font-weight: 700;
-    font-size: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    color: #1f3c88;
-}
+    .accordion-btn {
+        width: 100%;
+        text-align: left;
+        padding: 16px 20px;
+        background: transparent;
+        border: none;
+        font-weight: 700;
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        color: #1f3c88;
+    }
 
-.accordion-btn:hover {
-    background: #eaf3ff;
-}
+    .accordion-btn:hover {
+        background: #eaf3ff;
+    }
 
-.chev {
-    color: #6b7280;
-    transition: transform 0.3s ease;
-}
+    .chev {
+        color: #6b7280;
+        transition: transform 0.3s ease;
+    }
 
-.accordion-panel {
-    max-height: 0;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    padding: 0 20px;
-}
+    .accordion-panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        padding: 0 20px;
+    }
 
-.accordion-panel p {
-    margin: 12px 0;
-}
+    .accordion-panel p {
+        margin: 12px 0;
+    }
 
-.accordion-item.open .accordion-panel {
-    max-height: 800px;
-    padding: 15px 20px 20px;
-}
+    .accordion-item.open .accordion-panel {
+        max-height: 800px;
+        padding: 15px 20px 20px;
+    }
 
-.accordion-item.open .chev {
-    transform: rotate(180deg);
-    color: #1f6fb2;
-}
+    .accordion-item.open .chev {
+        transform: rotate(180deg);
+        color: #1f6fb2;
+    }
 
-a {
-    color: #1f6fb2;
-    text-decoration: none;
-    transition: 0.3s;
-}
+    a {
+        color: #1f6fb2;
+        text-decoration: none;
+        transition: 0.3s;
+    }
 
-a:hover {
-    color: #2b86d6;
-}
+    a:hover {
+        color: #2b86d6;
+    }
 </style>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const items = document.querySelectorAll(".accordion-item");
-    items.forEach(item => {
-        const btn = item.querySelector(".accordion-btn");
-        btn.addEventListener("click", () => {
-            const open = item.classList.contains("open");
-            items.forEach(i => i.classList.remove("open"));
-            if (!open) item.classList.add("open");
+    document.addEventListener("DOMContentLoaded", () => {
+        const items = document.querySelectorAll(".accordion-item");
+        items.forEach(item => {
+            const btn = item.querySelector(".accordion-btn");
+            btn.addEventListener("click", () => {
+                const open = item.classList.contains("open");
+                items.forEach(i => i.classList.remove("open"));
+                if (!open) item.classList.add("open");
+            });
         });
     });
-});
-const chatux = new ChatUx();
+    const chatux = new ChatUx();
 
-const opt = {
-    api: {
-        endpoint: 'http://localhost/chat/chat-server.php',
-        method: 'GET',
-        dataType: 'jsonp',
-        escapeUserInput: true
-    },
-    window: {
-        title: 'My chat', //window title 
-        size: {
-            width: 350, //window width in px
-            height: 500, //window height in px
-            minWidth: 300, //window minimum-width in px
-            minHeight: 300, //window minimum-height in px
-            titleHeight: 50 //title bar height in px
+    const opt = {
+        api: {
+            endpoint: 'http://localhost/chat/chat-server.php',
+            method: 'GET',
+            dataType: 'jsonp',
+            escapeUserInput: true
         },
-        appearance: {
-            //border - border style of the window
-            border: {
-                shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
-                width: 0,
-                radius: 6
+        window: {
+            title: 'My chat',
+            size: {
+                width: 350,
+                height: 500,
+                minWidth: 300,
+                minHeight: 300,
+                titleHeight: 50
             },
-            //titleBar - title style of the window
-            titleBar: {
-                fontSize: 14,
-                color: 'white',
-                background: '#4784d4',
-                leftMargin: 40,
-                height: 40,
-                buttonWidth: 36,
-                buttonHeight: 16,
-                buttonColor: 'white',
-                buttons: [
-                    //Icon named 'hideButton' to close chat window
-                    {
-                        fa: 'fas fa-times', //specify font awesome icon
-                        name: 'hideButton',
-                        visible: true
-                    }
-                ],
-                buttonsOnLeft: [
-                    //Icon named 'info' to jump to 'infourl' when clicked
-                    {
-                        fa: 'fas fa-comment-alt', //specify font awesome icon
-                        name: 'info',
-                        visible: true
-                    }
-                ],
-            },
-        }
-    },
-};
+            appearance: {
+                border: {
+                    shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
+                    width: 0,
+                    radius: 6
+                },
+                titleBar: {
+                    fontSize: 14,
+                    color: 'white',
+                    background: '#4784d4',
+                    leftMargin: 40,
+                    height: 40,
+                    buttonWidth: 36,
+                    buttonHeight: 16,
+                    buttonColor: 'white',
+                    buttons: [
+                        {
+                            fa: 'fas fa-times',
+                            name: 'hideButton',
+                            visible: true
+                        }
+                    ],
+                    buttonsOnLeft: [
+                        {
+                            fa: 'fas fa-comment-alt',
+                            name: 'info',
+                            visible: true
+                        }
+                    ],
+                },
+            }
+        },
+    };
 
-chatux.init(opt);
-chatux.start(true);
+    chatux.init(opt);
+    chatux.start(true);
 </script>
-<?php include_once(__DIR__."/../public/footer.php");
+<?php include_once(__DIR__ . "/../public/footer.php");
 ?>

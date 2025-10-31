@@ -1,19 +1,16 @@
 <?php
-    require_once (__DIR__ ."/../core/database.php");
-    require_once(__DIR__ . '/../core/phanQuyen.php');
-    require_role(['employee','customer','admin']);
-    if (empty($_SESSION['user_id'])) {
-     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
-     header("Location: $redirect");
-     exit;
-    }
-    if(!$_POST){
-        header("Location: To1NK.php");
-    }
-    $_SESSION['ToNK']['form2'] = $_POST;
-    // echo '<pre>';
-    // print_r($_SESSION['To2NK']);
-    // exit();
+require_once(__DIR__ . "/../core/database.php");
+require_once(__DIR__ . '/../core/phanQuyen.php');
+require_role(['employee', 'customer', 'admin']);
+if (empty($_SESSION['user_id'])) {
+    $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
+    header("Location: $redirect");
+    exit;
+}
+if (!$_POST) {
+    header("Location: To1NK.php");
+}
+$_SESSION['ToNK']['form2'] = $_POST;
 ?>
 <!doctype html>
 <html lang="vi">
@@ -23,197 +20,197 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Danh sách hàng</title>
     <style>
-    :root {
-        --bg: #f5f7fb;
-        --card: #ffffff;
-        --accent: #2b6cb0;
-        --muted: #6b7280;
-        --danger: #e53e3e
-    }
+        :root {
+            --bg: #f5f7fb;
+            --card: #ffffff;
+            --accent: #2b6cb0;
+            --muted: #6b7280;
+            --danger: #e53e3e
+        }
 
-    * {
-        box-sizing: border-box
-    }
+        * {
+            box-sizing: border-box
+        }
 
-    body {
-        font-family: Inter, Segoe UI, Roboto, Arial;
-        line-height: 1.35;
-        margin: 0;
-        background: var(--bg);
-        color: #0f1724;
-        padding: 24px
-    }
+        body {
+            font-family: Inter, Segoe UI, Roboto, Arial;
+            line-height: 1.35;
+            margin: 0;
+            background: var(--bg);
+            color: #0f1724;
+            padding: 24px
+        }
 
-    .container {
-        max-width: 1100px;
-        margin: 0 auto
-    }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto
+        }
 
-    .button-group {
-        text-align: center;
-        margin-top: 30px;
-    }
+        .button-group {
+            text-align: center;
+            margin-top: 30px;
+        }
 
-    button.red {
-        background-color: #d9534f;
-    }
+        button.red {
+            background-color: #d9534f;
+        }
 
-    button.red:hover {
-        background-color: #c9302c;
-    }
+        button.red:hover {
+            background-color: #c9302c;
+        }
 
-    .header {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        margin-bottom: 18px
-    }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 18px
+        }
 
-    h2 {
-        text-align: center;
-        color: #003399;
-        margin-bottom: 20px;
-    }
+        h2 {
+            text-align: center;
+            color: #003399;
+            margin-bottom: 20px;
+        }
 
-    .card {
-        background: var(--card);
-        border-radius: 12px;
-        padding: 18px;
-        box-shadow: 0 6px 18px rgba(8, 15, 30, 0.06)
-    }
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 6px 18px rgba(8, 15, 30, 0.06)
+        }
 
-    form .grid {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: 10px
-    }
+        form .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 10px
+        }
 
-    label {
-        display: block;
-        font-size: 13px;
-        color: var(--muted);
-        margin-bottom: 6px
-    }
+        label {
+            display: block;
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 6px
+        }
 
-    input[type=text],
-    input[type=number],
-    select,
-    textarea {
-        width: 100%;
-        padding: 8px 10px;
-        border-radius: 8px;
-        border: 1px solid #d1d5db;
-        background: white;
-        font-size: 14px
-    }
+        input[type=text],
+        input[type=number],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            background: white;
+            font-size: 14px
+        }
 
-    textarea {
-        min-height: 54px
-    }
+        textarea {
+            min-height: 54px
+        }
 
-    .col-3 {
-        grid-column: span 3
-    }
+        .col-3 {
+            grid-column: span 3
+        }
 
-    .col-4 {
-        grid-column: span 4
-    }
-
-    .col-6 {
-        grid-column: span 6
-    }
-
-    .col-12 {
-        grid-column: span 12
-    }
-
-    .actions {
-        display: flex;
-        gap: 8px;
-        align-items: center
-    }
-
-    .center {
-        margin-top: 20px;
-        text-align: center;
-    }
-
-    button {
-        background: var(--accent);
-        color: white;
-        border: none;
-        padding: 10px 14px;
-        border-radius: 8px;
-        cursor: pointer
-    }
-
-    button.secondary {
-        background: #fff;
-        border: 1px solid #cbd5e1;
-        color: #0f1724
-    }
-
-    .table-wrapper {
-        overflow: auto;
-        margin-top: 14px
-    }
-
-    table {
-        border-collapse: collapse;
-        width: 100%;
-        min-width: 1200px
-    }
-
-    th,
-    td {
-        padding: 10px;
-        border-bottom: 1px solid #eef2f7;
-        text-align: left;
-        font-size: 13px
-    }
-
-    th {
-        background: #fbfdff;
-        position: sticky;
-        top: 0
-    }
-
-    .muted {
-        color: var(--muted);
-        font-size: 13px
-    }
-
-    .right {
-        text-align: right
-    }
-
-    .small {
-        font-size: 12px;
-        color: var(--muted)
-    }
-
-    .btn-danger {
-        background: var(--danger)
-    }
-
-    .controls {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        margin-top: 12px
-    }
-
-    @media (max-width:900px) {
-
-        .col-3,
         .col-4 {
+            grid-column: span 4
+        }
+
+        .col-6 {
+            grid-column: span 6
+        }
+
+        .col-12 {
             grid-column: span 12
         }
 
-        .table-wrapper table {
-            min-width: 900px
+        .actions {
+            display: flex;
+            gap: 8px;
+            align-items: center
         }
-    }
+
+        .center {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer
+        }
+
+        button.secondary {
+            background: #fff;
+            border: 1px solid #cbd5e1;
+            color: #0f1724
+        }
+
+        .table-wrapper {
+            overflow: auto;
+            margin-top: 14px
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 1200px
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eef2f7;
+            text-align: left;
+            font-size: 13px
+        }
+
+        th {
+            background: #fbfdff;
+            position: sticky;
+            top: 0
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        .right {
+            text-align: right
+        }
+
+        .small {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .btn-danger {
+            background: var(--danger)
+        }
+
+        .controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 12px
+        }
+
+        @media (max-width:900px) {
+
+            .col-3,
+            .col-4 {
+                grid-column: span 12
+            }
+
+            .table-wrapper table {
+                min-width: 900px
+            }
+        }
     </style>
 </head>
 
@@ -318,153 +315,153 @@
             </template>
 
             <script>
-            const itemsBody = document.getElementById('itemsBody');
-            const addRowBtn = document.getElementById('addRowBtn');
-            const cloneRowBtn = document.getElementById('cloneRowBtn');
-            const clearBtn = document.getElementById('clearBtn');
-            const totalValueEl = document.getElementById('totalValue');
-            const totalTaxEl = document.getElementById('totalTax');
-            const rowTemplate = document.getElementById('rowTemplate');
+                const itemsBody = document.getElementById('itemsBody');
+                const addRowBtn = document.getElementById('addRowBtn');
+                const cloneRowBtn = document.getElementById('cloneRowBtn');
+                const clearBtn = document.getElementById('clearBtn');
+                const totalValueEl = document.getElementById('totalValue');
+                const totalTaxEl = document.getElementById('totalTax');
+                const rowTemplate = document.getElementById('rowTemplate');
 
-            function addRow(data) {
-                const tr = rowTemplate.content.firstElementChild.cloneNode(true);
-                itemsBody.appendChild(tr);
-                updateLineNumbers();
-
-                if (data) {
-                    tr.querySelector('.hsCode').value = data.hs || '';
-                    tr.querySelector('.desc').value = data.desc || '';
-                    tr.querySelector('.unit').value = data.unit || '';
-                    tr.querySelector('.qty').value = data.qty || 0;
-                    tr.querySelector('.unitPrice').value = data.unitPrice || 0;
-                    tr.querySelector('.origin').value = data.origin || '';
-                    tr.querySelector('.pack').value = data.pack || '';
-                    tr.querySelector('.bill').value = data.bill || '';
-                    tr.querySelector('.taxRate').value = data.taxRate || 0;
-                    tr.querySelector('.docs').value = data.docs || '';
-                }
-
-                attachRowListeners(tr);
-                recalcAll();
-                return tr;
-            }
-
-            function attachRowListeners(tr) {
-                const qty = tr.querySelector('.qty');
-                const unitPrice = tr.querySelector('.unitPrice');
-                const taxRate = tr.querySelector('.taxRate');
-                const removeBtn = tr.querySelector('.removeBtn');
-
-                function onChange() {
-                    const q = parseFloat(qty.value) || 0;
-                    const up = parseFloat(unitPrice.value) || 0;
-                    const rate = parseFloat(taxRate.value) || 0;
-                    const value = q * up;
-                    tr.querySelector('.value').value = round(value);
-                    const tax = value * rate / 100;
-                    tr.querySelector('.taxAmount').value = round(tax);
-                    recalcAll();
-                }
-
-                qty.addEventListener('input', onChange);
-                unitPrice.addEventListener('input', onChange);
-                taxRate.addEventListener('input', onChange);
-                removeBtn.addEventListener('click', () => {
-                    tr.remove();
+                function addRow(data) {
+                    const tr = rowTemplate.content.firstElementChild.cloneNode(true);
+                    itemsBody.appendChild(tr);
                     updateLineNumbers();
+
+                    if (data) {
+                        tr.querySelector('.hsCode').value = data.hs || '';
+                        tr.querySelector('.desc').value = data.desc || '';
+                        tr.querySelector('.unit').value = data.unit || '';
+                        tr.querySelector('.qty').value = data.qty || 0;
+                        tr.querySelector('.unitPrice').value = data.unitPrice || 0;
+                        tr.querySelector('.origin').value = data.origin || '';
+                        tr.querySelector('.pack').value = data.pack || '';
+                        tr.querySelector('.bill').value = data.bill || '';
+                        tr.querySelector('.taxRate').value = data.taxRate || 0;
+                        tr.querySelector('.docs').value = data.docs || '';
+                    }
+
+                    attachRowListeners(tr);
                     recalcAll();
-                });
-            }
-
-            function round(v) {
-                return Math.round((v + Number.EPSILON) * 100) / 100
-            }
-
-            function updateLineNumbers() {
-                Array.from(itemsBody.querySelectorAll('tr')).forEach((r, i) => {
-                    r.querySelector('.lineNo').textContent = i + 1
-                });
-            }
-
-            function recalcAll() {
-                let totalValue = 0,
-                    totalTax = 0;
-                Array.from(itemsBody.querySelectorAll('tr')).forEach(r => {
-                    const v = parseFloat(r.querySelector('.value').value) || 0;
-                    const t = parseFloat(r.querySelector('.taxAmount').value) || 0;
-                    totalValue += v;
-                    totalTax += t;
-                });
-                totalValueEl.textContent = round(totalValue).toLocaleString('en-US');
-                totalTaxEl.textContent = round(totalTax).toLocaleString('en-US');
-            }
-
-            addRowBtn.addEventListener('click', () => addRow());
-            cloneRowBtn.addEventListener('click', () => {
-                const first = itemsBody.querySelector('tr');
-                if (!first) {
-                    addRow();
-                    return
+                    return tr;
                 }
-                const data = {
-                    hs: first.querySelector('.hsCode').value,
-                    desc: first.querySelector('.desc').value,
-                    unit: first.querySelector('.unit').value,
-                    qty: first.querySelector('.qty').value,
-                    unitPrice: first.querySelector('.unitPrice').value,
-                    origin: first.querySelector('.origin').value,
-                    pack: first.querySelector('.pack').value,
-                    bill: first.querySelector('.bill').value,
-                    taxRate: first.querySelector('.taxRate').value,
-                    docs: first.querySelector('.docs').value
-                };
-                addRow(data);
-            });
 
-            clearBtn.addEventListener('click', () => {
-                if (confirm('Xác nhận xóa tất cả dòng?')) {
-                    itemsBody.innerHTML = '';
-                    recalcAll();
+                function attachRowListeners(tr) {
+                    const qty = tr.querySelector('.qty');
+                    const unitPrice = tr.querySelector('.unitPrice');
+                    const taxRate = tr.querySelector('.taxRate');
+                    const removeBtn = tr.querySelector('.removeBtn');
+
+                    function onChange() {
+                        const q = parseFloat(qty.value) || 0;
+                        const up = parseFloat(unitPrice.value) || 0;
+                        const rate = parseFloat(taxRate.value) || 0;
+                        const value = q * up;
+                        tr.querySelector('.value').value = round(value);
+                        const tax = value * rate / 100;
+                        tr.querySelector('.taxAmount').value = round(tax);
+                        recalcAll();
+                    }
+
+                    qty.addEventListener('input', onChange);
+                    unitPrice.addEventListener('input', onChange);
+                    taxRate.addEventListener('input', onChange);
+                    removeBtn.addEventListener('click', () => {
+                        tr.remove();
+                        updateLineNumbers();
+                        recalcAll();
+                    });
                 }
-            });
 
-            addRow({
-                hs: '0101.21',
-                desc: 'Mẫu hàng hóa',
-                unit: 'cái',
-                qty: 10,
-                unitPrice: 12.5,
-                taxRate: 10,
-                origin: 'VN',
-                pack: 'Thùng',
-                bill: 'BL123',
-                docs: 'C/O A'
-            });
-
-            function getAllItems() {
-                return Array.from(itemsBody.querySelectorAll('tr')).map(r => ({
-                    lineNo: parseInt(r.querySelector('.lineNo').textContent || 0),
-                    hs: r.querySelector('.hsCode').value,
-                    desc: r.querySelector('.desc').value,
-                    unit: r.querySelector('.unit').value,
-                    qty: parseFloat(r.querySelector('.qty').value) || 0,
-                    unitPrice: parseFloat(r.querySelector('.unitPrice').value) || 0,
-                    value: parseFloat(r.querySelector('.value').value) || 0,
-                    origin: r.querySelector('.origin').value,
-                    pack: r.querySelector('.pack').value,
-                    bill: r.querySelector('.bill').value,
-                    taxRate: parseFloat(r.querySelector('.taxRate').value) || 0,
-                    taxAmount: parseFloat(r.querySelector('.taxAmount').value) || 0,
-                    docs: r.querySelector('.docs').value
-                }));
-            }
-
-            document.addEventListener('keydown', e => {
-                if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'e') {
-                    console.log(getAllItems());
-                    alert('Danh sách hàng đã được xuất ra console (Console sẽ hiển thị 1 JSON array)');
+                function round(v) {
+                    return Math.round((v + Number.EPSILON) * 100) / 100
                 }
-            });
+
+                function updateLineNumbers() {
+                    Array.from(itemsBody.querySelectorAll('tr')).forEach((r, i) => {
+                        r.querySelector('.lineNo').textContent = i + 1
+                    });
+                }
+
+                function recalcAll() {
+                    let totalValue = 0,
+                        totalTax = 0;
+                    Array.from(itemsBody.querySelectorAll('tr')).forEach(r => {
+                        const v = parseFloat(r.querySelector('.value').value) || 0;
+                        const t = parseFloat(r.querySelector('.taxAmount').value) || 0;
+                        totalValue += v;
+                        totalTax += t;
+                    });
+                    totalValueEl.textContent = round(totalValue).toLocaleString('en-US');
+                    totalTaxEl.textContent = round(totalTax).toLocaleString('en-US');
+                }
+
+                addRowBtn.addEventListener('click', () => addRow());
+                cloneRowBtn.addEventListener('click', () => {
+                    const first = itemsBody.querySelector('tr');
+                    if (!first) {
+                        addRow();
+                        return
+                    }
+                    const data = {
+                        hs: first.querySelector('.hsCode').value,
+                        desc: first.querySelector('.desc').value,
+                        unit: first.querySelector('.unit').value,
+                        qty: first.querySelector('.qty').value,
+                        unitPrice: first.querySelector('.unitPrice').value,
+                        origin: first.querySelector('.origin').value,
+                        pack: first.querySelector('.pack').value,
+                        bill: first.querySelector('.bill').value,
+                        taxRate: first.querySelector('.taxRate').value,
+                        docs: first.querySelector('.docs').value
+                    };
+                    addRow(data);
+                });
+
+                clearBtn.addEventListener('click', () => {
+                    if (confirm('Xác nhận xóa tất cả dòng?')) {
+                        itemsBody.innerHTML = '';
+                        recalcAll();
+                    }
+                });
+
+                addRow({
+                    hs: '0101.21',
+                    desc: 'Mẫu hàng hóa',
+                    unit: 'cái',
+                    qty: 10,
+                    unitPrice: 12.5,
+                    taxRate: 10,
+                    origin: 'VN',
+                    pack: 'Thùng',
+                    bill: 'BL123',
+                    docs: 'C/O A'
+                });
+
+                function getAllItems() {
+                    return Array.from(itemsBody.querySelectorAll('tr')).map(r => ({
+                        lineNo: parseInt(r.querySelector('.lineNo').textContent || 0),
+                        hs: r.querySelector('.hsCode').value,
+                        desc: r.querySelector('.desc').value,
+                        unit: r.querySelector('.unit').value,
+                        qty: parseFloat(r.querySelector('.qty').value) || 0,
+                        unitPrice: parseFloat(r.querySelector('.unitPrice').value) || 0,
+                        value: parseFloat(r.querySelector('.value').value) || 0,
+                        origin: r.querySelector('.origin').value,
+                        pack: r.querySelector('.pack').value,
+                        bill: r.querySelector('.bill').value,
+                        taxRate: parseFloat(r.querySelector('.taxRate').value) || 0,
+                        taxAmount: parseFloat(r.querySelector('.taxAmount').value) || 0,
+                        docs: r.querySelector('.docs').value
+                    }));
+                }
+
+                document.addEventListener('keydown', e => {
+                    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'e') {
+                        console.log(getAllItems());
+                        alert('Danh sách hàng đã được xuất ra console (Console sẽ hiển thị 1 JSON array)');
+                    }
+                });
             </script>
             <div class="button-group">
                 <button type="button" onclick="window.location.href='../TKNK/to2NK.php'">Trang
@@ -474,75 +471,69 @@
                 <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
             </div>
             <script>
-            function timToKhai() {
-                alert("Thực hiện tìm tờ khai...");
-            }
+                function timToKhai() {
+                    alert("Thực hiện tìm tờ khai...");
+                }
             </script>
     </form>
 </body>
-<!-- Thư viện đọc Excel -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <script>
-// --- Xử lý Nhập Excel ---
-const excelFileInput = document.getElementById('excelFileInput');
-const importBtn = document.getElementById('importExcelBtn');
+    const excelFileInput = document.getElementById('excelFileInput');
+    const importBtn = document.getElementById('importExcelBtn');
 
-importBtn.addEventListener('click', () => {
-    excelFileInput.click();
-});
+    importBtn.addEventListener('click', () => {
+        excelFileInput.click();
+    });
 
-excelFileInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    excelFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-        const data = new Uint8Array(evt.target.result);
-        const workbook = XLSX.read(data, {
-            type: 'array'
-        });
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+            const data = new Uint8Array(evt.target.result);
+            const workbook = XLSX.read(data, {
+                type: 'array'
+            });
 
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const rows = XLSX.utils.sheet_to_json(worksheet, {
-            header: 1
-        });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            const rows = XLSX.utils.sheet_to_json(worksheet, {
+                header: 1
+            });
 
-        if (rows.length < 2) {
-            alert("⚠️ File Excel không có dữ liệu hợp lệ!");
-            return;
-        }
+            if (rows.length < 2) {
+                alert("⚠️ File Excel không có dữ liệu hợp lệ!");
+                return;
+            }
+            itemsBody.innerHTML = '';
+            for (let i = 1; i < rows.length; i++) {
+                const r = rows[i];
+                if (!r || r.length === 0) continue;
 
-        // Xóa dữ liệu cũ
-        itemsBody.innerHTML = '';
+                const data = {
+                    hs: r[1] || '',
+                    desc: r[2] || '',
+                    unit: r[3] || '',
+                    qty: parseFloat(r[4]) || 0,
+                    unitPrice: parseFloat(r[5]) || 0,
+                    origin: r[7] || '',
+                    pack: r[8] || '',
+                    bill: r[9] || '',
+                    taxRate: parseFloat(r[10]) || 0,
+                    docs: r[12] || ''
+                };
+                addRow(data);
+            }
 
-        // Bỏ qua dòng tiêu đề (bắt đầu từ hàng 2)
-        for (let i = 1; i < rows.length; i++) {
-            const r = rows[i];
-            if (!r || r.length === 0) continue;
-
-            const data = {
-                hs: r[1] || '',
-                desc: r[2] || '',
-                unit: r[3] || '',
-                qty: parseFloat(r[4]) || 0,
-                unitPrice: parseFloat(r[5]) || 0,
-                origin: r[7] || '',
-                pack: r[8] || '',
-                bill: r[9] || '',
-                taxRate: parseFloat(r[10]) || 0,
-                docs: r[12] || ''
-            };
-            addRow(data);
-        }
-
-        recalcAll();
-        alert(`✅ Đã nhập ${rows.length - 1} dòng hàng từ Excel thành công!`);
-        excelFileInput.value = ''; // reset file input
-    };
-    reader.readAsArrayBuffer(file);
-});
+            recalcAll();
+            alert(`✅ Đã nhập ${rows.length - 1} dòng hàng từ Excel thành công!`);
+            excelFileInput.value = '';
+        };
+        reader.readAsArrayBuffer(file);
+    });
 </script>
 
 </html>

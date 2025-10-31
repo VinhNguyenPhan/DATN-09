@@ -10,8 +10,6 @@ require_once(__DIR__ . "/../core/database.php");
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Trang chủ — Logistics & Khai báo Hải quan (Mockup)</title>
     <script src="https://cdn.jsdelivr.net/gh/riversun/chatux/dist/chatux.min.js"></script>
-
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -47,8 +45,6 @@ require_once(__DIR__ . "/../core/database.php");
             font-family: 'Inter', sans-serif;
         }
 
-
-        /* Header */
         .header {
             display: flex;
             align-items: center;
@@ -95,7 +91,6 @@ require_once(__DIR__ . "/../core/database.php");
             color: var(--muted);
         }
 
-        /* Navbar */
         .navbar {
             display: flex;
             align-items: center;
@@ -155,18 +150,15 @@ require_once(__DIR__ . "/../core/database.php");
             color: #e91e63;
         }
 
-        /* Kích hoạt menu khi hover */
         .dropdown:hover>.dropdown-menu {
             display: block;
         }
 
-        /* Đảm bảo menu cha không bị lệch khi hover */
         .dropdown>a {
             position: relative;
             z-index: 201;
         }
 
-        /* Search in header */
         .header-search {
             display: flex;
             align-items: center;
@@ -216,7 +208,6 @@ require_once(__DIR__ . "/../core/database.php");
             text-decoration: none;
         }
 
-        /* Feature Section */
         .feature-section {
             display: flex;
             align-items: center;
@@ -314,22 +305,17 @@ require_once(__DIR__ . "/../core/database.php");
             transition: color 0.3s ease;
         }
 
-        /*logout menu*/
-        /* --- Hồ sơ tài khoản / User Menu --- */
-        /* --- Hồ sơ tài khoản / User Menu --- */
         .user-profile {
             position: relative;
             display: inline-block;
             font-family: "Inter", sans-serif;
         }
 
-        /* Kích hoạt hover */
         .user-profile:hover .user-dropdown,
         .user-profile:focus-within .user-dropdown {
             display: block;
         }
 
-        /* Nút kích hoạt */
         .user-toggle {
             display: flex;
             align-items: center;
@@ -349,7 +335,6 @@ require_once(__DIR__ . "/../core/database.php");
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
         }
 
-        /* Avatar */
         .avatar {
             width: 30px;
             height: 30px;
@@ -363,7 +348,6 @@ require_once(__DIR__ . "/../core/database.php");
             font-size: 14px;
         }
 
-        /* Dropdown menu */
         .user-dropdown {
             display: none;
             position: absolute;
@@ -381,7 +365,6 @@ require_once(__DIR__ . "/../core/database.php");
             pointer-events: auto;
         }
 
-        /* Tạo “vùng đệm an toàn” giúp hover dễ hơn */
         .user-profile::after {
             content: "";
             position: absolute;
@@ -392,7 +375,6 @@ require_once(__DIR__ . "/../core/database.php");
             background: transparent;
         }
 
-        /* Item */
         .user-dropdown li {
             padding: 0;
         }
@@ -421,7 +403,6 @@ require_once(__DIR__ . "/../core/database.php");
             background: #ffeaea;
         }
 
-        /* Animation */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -497,7 +478,7 @@ require_once(__DIR__ . "/../core/database.php");
                             <?php
                             if (in_array($_SESSION['role'], $_role_TimToKhai)):
                                 ?>
-                                <li role="none"><a role="menuitem" href="/TraCuuDonHang/TraCuu.php">Tìm tờ khai</a>
+                                <li role="none"><a role="menuitem" href="/TraCuuDonHang/TraCuu.php">Danh sách tờ khai</a>
                                 </li>
                             <?php endif; ?>
                             <?php
@@ -536,6 +517,12 @@ require_once(__DIR__ . "/../core/database.php");
                                 <li role="none"><a role="menuitem" href="/CapNhatViTri/CapNhatViTri.php">Cập nhật vị trí tờ
                                         khai</a></li>
                             <?php endif; ?>
+                            <?php
+                            if (in_array($_SESSION['role'], $_role_CongNo)):
+                                ?>
+                                <li role="none"><a role="menuitem" href="/TraCuuDonHang/chinhsuattt.php">Cập nhật trạng thái
+                                        thanh toán công nợ</a></li>
+                            <?php endif; ?>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -552,10 +539,8 @@ require_once(__DIR__ . "/../core/database.php");
         </form>
 
         <?php if (!isset($_SESSION['user_id'])): ?>
-            <!-- CHƯA ĐĂNG NHẬP -->
             <a class="cta-login" href="../DangNhap-DangKyTK/DangNhapDangKyTK.php">Đăng nhập</a>
         <?php else: ?>
-            <!-- ĐÃ ĐĂNG NHẬP -->
             <?php
             $uid = $_SESSION['user_id'];
             $user = $conn->query("SELECT username FROM users WHERE id = '$uid'")->fetch_assoc();

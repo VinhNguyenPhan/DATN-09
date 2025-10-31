@@ -1,11 +1,10 @@
-<?php require_once(__DIR__."/../core/database.php"); 
+<?php require_once(__DIR__ . "/../core/database.php");
 
 if (empty($_SESSION['user_id'])) {
     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
     header("Location: $redirect");
     exit;
 }
-// --- AJAX: LẤY DANH SÁCH VẬN ĐƠN ---
 if (isset($_GET['ajax']) && $_GET['ajax'] === 'list') {
     $type = $_GET['type'] ?? '';
     $table = $type === 'xk' ? 'to1XK' : ($type === 'nk' ? 'to1NK' : null);

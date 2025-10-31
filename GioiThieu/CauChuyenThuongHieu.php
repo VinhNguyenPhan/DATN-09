@@ -1,159 +1,143 @@
 <?php
-include_once(__DIR__.'/../public/header.php');
+include_once(__DIR__ . '/../public/header.php');
 ?>
 
 <script>
-const chatux = new ChatUx();
+    const chatux = new ChatUx();
 
-const opt = {
-    api: {
-        endpoint: 'http://localhost/chat/chat-server.php',
-        method: 'GET',
-        dataType: 'jsonp',
-        escapeUserInput: true
-    },
-    window: {
-        title: 'My chat', //window title 
-        size: {
-            width: 350, //window width in px
-            height: 500, //window height in px
-            minWidth: 300, //window minimum-width in px
-            minHeight: 300, //window minimum-height in px
-            titleHeight: 50 //title bar height in px
+    const opt = {
+        api: {
+            endpoint: 'http://localhost/chat/chat-server.php',
+            method: 'GET',
+            dataType: 'jsonp',
+            escapeUserInput: true
         },
-        appearance: {
-            //border - border style of the window
-            border: {
-                shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
-                width: 0,
-                radius: 6
+        window: {
+            title: 'My chat',
+            size: {
+                width: 350,
+                height: 500,
+                minWidth: 300,
+                minHeight: 300,
+                titleHeight: 50
             },
-            //titleBar - title style of the window
-            titleBar: {
-                fontSize: 14,
-                color: 'white',
-                background: '#4784d4',
-                leftMargin: 40,
-                height: 40,
-                buttonWidth: 36,
-                buttonHeight: 16,
-                buttonColor: 'white',
-                buttons: [
-                    //Icon named 'hideButton' to close chat window
-                    {
-                        fa: 'fas fa-times', //specify font awesome icon
-                        name: 'hideButton',
-                        visible: true
-                    }
-                ],
-                buttonsOnLeft: [
-                    //Icon named 'info' to jump to 'infourl' when clicked
-                    {
-                        fa: 'fas fa-comment-alt', //specify font awesome icon
-                        name: 'info',
-                        visible: true
-                    }
-                ],
-            },
-        }
-    },
-};
+            appearance: {
+                border: {
+                    shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
+                    width: 0,
+                    radius: 6
+                },
+                titleBar: {
+                    fontSize: 14,
+                    color: 'white',
+                    background: '#4784d4',
+                    leftMargin: 40,
+                    height: 40,
+                    buttonWidth: 36,
+                    buttonHeight: 16,
+                    buttonColor: 'white',
+                    buttons: [
+                        {
+                            fa: 'fas fa-times',
+                            name: 'hideButton',
+                            visible: true
+                        }
+                    ],
+                    buttonsOnLeft: [
+                        {
+                            fa: 'fas fa-comment-alt',
+                            name: 'info',
+                            visible: true
+                        }
+                    ],
+                },
+            }
+        },
+    };
 
-chatux.init(opt);
-chatux.start(true);
+    chatux.init(opt);
+    chatux.start(true);
 </script>
 
 <style>
-.about-section {
-    border-radius: 20px;
-    background: #ffffff;
-    /* nền trắng */
-    color: #222;
-    /* chữ đen dễ đọc */
-    font-family: "Inter", sans-serif;
-    padding: 85px 120px;
-    max-width: 1200px;
-    margin: 0 auto;
-    /* căn giữa toàn bộ phần */
-    line-height: 1.8;
-}
-
-/* Tiêu đề chính */
-.about-left h1 {
-    font-size: 34px;
-    font-weight: 800;
-    color: #1f3c88;
-    /* xanh dương đậm */
-    text-align: center;
-    margin-bottom: 25px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Tiêu đề phụ */
-.about-left h2 {
-    font-size: 26px;
-    font-weight: 700;
-    color: #1f6fb2;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Các tiêu đề h3 nhỏ */
-.about-left h3 {
-    font-size: 22px;
-    font-weight: 600;
-    color: #1f6fb2;
-    margin-top: 40px;
-    margin-bottom: 15px;
-    border-left: 4px solid #1f6fb2;
-    padding-left: 12px;
-}
-
-/* Đoạn văn bản */
-.about-left p {
-    font-size: 16px;
-    color: #333;
-    text-align: justify;
-    margin-bottom: 18px;
-}
-
-/* Hiệu ứng nhẹ khi hover vào đoạn */
-.about-left p:hover {
-    background: rgba(31, 111, 178, 0.04);
-    transition: 0.3s;
-}
-
-/* Tạo khoảng cách và bố cục hợp lý */
-.about-left {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-/* Responsive */
-@media (max-width: 992px) {
     .about-section {
-        padding: 0px;
-        0px;
+        border-radius: 20px;
+        background: #ffffff;
+        color: #222;
+        font-family: "Inter", sans-serif;
+        padding: 85px 120px;
+        max-width: 1200px;
+        margin: 0 auto;
+        line-height: 1.8;
     }
 
     .about-left h1 {
-        font-size: 28px;
+        font-size: 34px;
+        font-weight: 800;
+        color: #1f3c88;
+        text-align: center;
+        margin-bottom: 25px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .about-left h2 {
-        font-size: 22px;
+        font-size: 26px;
+        font-weight: 700;
+        color: #1f6fb2;
+        text-align: center;
+        margin-bottom: 20px;
     }
 
     .about-left h3 {
-        font-size: 20px;
+        font-size: 22px;
+        font-weight: 600;
+        color: #1f6fb2;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        border-left: 4px solid #1f6fb2;
+        padding-left: 12px;
     }
-}
+
+    .about-left p {
+        font-size: 16px;
+        color: #333;
+        text-align: justify;
+        margin-bottom: 18px;
+    }
+
+    .about-left p:hover {
+        background: rgba(31, 111, 178, 0.04);
+        transition: 0.3s;
+    }
+
+    .about-left {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    @media (max-width: 992px) {
+        .about-section {
+            padding: 0px;
+            0px;
+        }
+
+        .about-left h1 {
+            font-size: 28px;
+        }
+
+        .about-left h2 {
+            font-size: 22px;
+        }
+
+        .about-left h3 {
+            font-size: 20px;
+        }
+    }
 </style>
 
 <section class="about-section">
     <div class="container">
-        <!-- Cột trái -->
         <div class="about-left">
             <h1>Câu chuyện thương hiệu</h1>
             <h2>U&I Logistics – Uy tín quý hơn vàng, Tận tâm vì khách hàng!</h2>
@@ -315,4 +299,4 @@ chatux.start(true);
                 nên nhiều giá trị hơn cho ngành logistics Việt Nam!</p>
         </div>
 </section>
-<?php include_once(__DIR__.'/../public/footer.php'); ?>
+<?php include_once(__DIR__ . '/../public/footer.php'); ?>

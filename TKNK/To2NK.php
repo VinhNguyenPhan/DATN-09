@@ -1,22 +1,16 @@
-<?php 
-    require_once(__DIR__."/../core/database.php");
-    require_once(__DIR__ . '/../core/phanQuyen.php');
-    require_role(['employee','customer','admin']);
-    // print_r($_POST);
-    // exit();
-    if (empty($_SESSION['user_id'])) {
-     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
-     header("Location: $redirect");
-     exit;
- }
-    if(!$_POST){
-        header("Location: To1NK.php");
-    }
-    $_SESSION['ToNK']['form1'] = $_POST;
-    // echo '<pre>';
-    // print_r($_SESSION['To1NK']);
-    // exit();
-
+<?php
+require_once(__DIR__ . "/../core/database.php");
+require_once(__DIR__ . '/../core/phanQuyen.php');
+require_role(['employee', 'customer', 'admin']);
+if (empty($_SESSION['user_id'])) {
+    $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
+    header("Location: $redirect");
+    exit;
+}
+if (!$_POST) {
+    header("Location: To1NK.php");
+}
+$_SESSION['ToNK']['form1'] = $_POST;
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -384,9 +378,9 @@
                 <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
             </div>
             <script>
-            function timToKhai() {
-                alert("Thực hiện tìm tờ khai...");
-            }
+                function timToKhai() {
+                    alert("Thực hiện tìm tờ khai...");
+                }
             </script>
         </form>
     </div>

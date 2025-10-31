@@ -1,66 +1,62 @@
 <?php
-include_once(__DIR__.'/../public/header.php');
+include_once(__DIR__ . '/../public/header.php');
 ?>
 
 <script>
-const chatux = new ChatUx();
+    const chatux = new ChatUx();
 
-const opt = {
-    api: {
-        endpoint: 'http://localhost/chat/chat-server.php',
-        method: 'GET',
-        dataType: 'jsonp',
-        escapeUserInput: true
-    },
-    window: {
-        title: 'My chat', //window title 
-        size: {
-            width: 350, //window width in px
-            height: 500, //window height in px
-            minWidth: 300, //window minimum-width in px
-            minHeight: 300, //window minimum-height in px
-            titleHeight: 50 //title bar height in px
+    const opt = {
+        api: {
+            endpoint: 'http://localhost/chat/chat-server.php',
+            method: 'GET',
+            dataType: 'jsonp',
+            escapeUserInput: true
         },
-        appearance: {
-            //border - border style of the window
-            border: {
-                shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
-                width: 0,
-                radius: 6
+        window: {
+            title: 'My chat',
+            size: {
+                width: 350,
+                height: 500,
+                minWidth: 300,
+                minHeight: 300,
+                titleHeight: 50
             },
-            //titleBar - title style of the window
-            titleBar: {
-                fontSize: 14,
-                color: 'white',
-                background: '#4784d4',
-                leftMargin: 40,
-                height: 40,
-                buttonWidth: 36,
-                buttonHeight: 16,
-                buttonColor: 'white',
-                buttons: [
-                    //Icon named 'hideButton' to close chat window
-                    {
-                        fa: 'fas fa-times', //specify font awesome icon
-                        name: 'hideButton',
-                        visible: true
-                    }
-                ],
-                buttonsOnLeft: [
-                    //Icon named 'info' to jump to 'infourl' when clicked
-                    {
-                        fa: 'fas fa-comment-alt', //specify font awesome icon
-                        name: 'info',
-                        visible: true
-                    }
-                ],
-            },
-        }
-    },
-};
+            appearance: {
+                border: {
+                    shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
+                    width: 0,
+                    radius: 6
+                },
+                titleBar: {
+                    fontSize: 14,
+                    color: 'white',
+                    background: '#4784d4',
+                    leftMargin: 40,
+                    height: 40,
+                    buttonWidth: 36,
+                    buttonHeight: 16,
+                    buttonColor: 'white',
+                    buttons: [
+                        {
+                            fa: 'fas fa-times',
+                            name: 'hideButton',
+                            visible: true
+                        }
+                    ],
+                    buttonsOnLeft: [
+                        {
+                            fa: 'fas fa-comment-alt',
+                            name: 'info',
+                            visible: true
+                        }
+                    ],
+                },
+            }
+        },
+    };
 
-chatux.init(opt);
-chatux.start(true);
+    chatux.init(opt);
+    chatux.start(true);
 </script>
 
 <section class="timeline-section">
@@ -216,129 +212,123 @@ chatux.start(true);
 </section>
 
 <style>
-/* ----------- BỐ CỤC NGOÀI ----------- */
-.timeline-section {
-    background: #f3f5f8;
-    /* nền xám nhạt bao quanh */
-    padding: 60px 0;
-}
+    .timeline-section {
+        background: #f3f5f8;
+        padding: 60px 0;
+    }
 
-.timeline-wrapper {
-    background: #fff;
-    /* nền trắng bên trong */
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 50px 60px;
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-    font-family: "Inter", sans-serif;
-}
+    .timeline-wrapper {
+        background: #fff;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 50px 60px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        font-family: "Inter", sans-serif;
+    }
 
-/* ----------- TIÊU ĐỀ ----------- */
-.timeline-title {
-    text-align: center;
-    font-size: 30px;
-    font-weight: 800;
-    color: #1f3c88;
-    margin-bottom: 10px;
-}
+    .timeline-title {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 800;
+        color: #1f3c88;
+        margin-bottom: 10px;
+    }
 
-.timeline-intro {
-    text-align: center;
-    color: #444;
-    font-size: 16px;
-    margin-bottom: 50px;
-    line-height: 1.6;
-}
+    .timeline-intro {
+        text-align: center;
+        color: #444;
+        font-size: 16px;
+        margin-bottom: 50px;
+        line-height: 1.6;
+    }
 
-/* ----------- DÒNG THỜI GIAN ----------- */
-.timeline {
-    position: relative;
-    max-width: 1000px;
-    margin: 0 auto;
-}
+    .timeline {
+        position: relative;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
 
-.timeline::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 0;
-    width: 4px;
-    height: 100%;
-    background: #1f6fb2;
-    transform: translateX(-50%);
-    border-radius: 10px;
-}
+    .timeline::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 4px;
+        height: 100%;
+        background: #1f6fb2;
+        transform: translateX(-50%);
+        border-radius: 10px;
+    }
 
-.timeline-item {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 50px;
-    position: relative;
-}
+    .timeline-item {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 50px;
+        position: relative;
+    }
 
-.timeline-item:nth-child(even) {
-    flex-direction: row-reverse;
-}
+    .timeline-item:nth-child(even) {
+        flex-direction: row-reverse;
+    }
 
-.timeline-year {
-    background: #1f6fb2;
-    color: #fff;
-    font-size: 20px;
-    font-weight: 700;
-    padding: 14px 22px;
-    border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(31, 111, 178, 0.4);
-    z-index: 2;
-    transition: 0.3s;
-}
+    .timeline-year {
+        background: #1f6fb2;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 700;
+        padding: 14px 22px;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(31, 111, 178, 0.4);
+        z-index: 2;
+        transition: 0.3s;
+    }
 
-.timeline-content {
-    background: #fff;
-    padding: 25px 30px;
-    border-radius: 16px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-    width: 45%;
-    transition: 0.3s;
-}
+    .timeline-content {
+        background: #fff;
+        padding: 25px 30px;
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        width: 45%;
+        transition: 0.3s;
+    }
 
-.timeline-item:nth-child(odd) .timeline-content {
-    margin-left: 30px;
-}
+    .timeline-item:nth-child(odd) .timeline-content {
+        margin-left: 30px;
+    }
 
-.timeline-item:nth-child(even) .timeline-content {
-    margin-right: 30px;
-}
+    .timeline-item:nth-child(even) .timeline-content {
+        margin-right: 30px;
+    }
 
-.timeline-content h3 {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1f3c88;
-    margin-bottom: 10px;
-}
+    .timeline-content h3 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1f3c88;
+        margin-bottom: 10px;
+    }
 
-.timeline-content p {
-    font-size: 15px;
-    color: #333;
-    line-height: 1.6;
-}
+    .timeline-content p {
+        font-size: 15px;
+        color: #333;
+        line-height: 1.6;
+    }
 
-/* ----------- HIỆU ỨNG HOVER ----------- */
-.timeline-item:hover .timeline-content {
-    transform: translateY(-5px);
-    background: linear-gradient(135deg, #1f6fb2, #2b86d6);
-    color: #fff;
-}
+    .timeline-item:hover .timeline-content {
+        transform: translateY(-5px);
+        background: linear-gradient(135deg, #1f6fb2, #2b86d6);
+        color: #fff;
+    }
 
-.timeline-item:hover .timeline-content h3 {
-    color: #fff;
-}
+    .timeline-item:hover .timeline-content h3 {
+        color: #fff;
+    }
 
-.timeline-item:hover .timeline-year {
-    background: #2b86d6;
-    box-shadow: 0 6px 16px rgba(31, 111, 178, 0.6);
-}
+    .timeline-item:hover .timeline-year {
+        background: #2b86d6;
+        box-shadow: 0 6px 16px rgba(31, 111, 178, 0.6);
+    }
 </style>
 
-<?php include_once(__DIR__.'/../public/footer.php'); ?>
+<?php include_once(__DIR__ . '/../public/footer.php'); ?>

@@ -1,9 +1,9 @@
 <?php
 session_start();
 $host = "localhost";
-$user = "root";       // tài khoản MySQL
-$pass = "";           // mật khẩu MySQL
-$db = "dulieu";     // tên database
+$user = "root";
+$pass = "";
+$db = "dulieu";
 
 $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
@@ -18,13 +18,11 @@ $_role_ThongKe = ["admin"];
 $_role_ThanhToan = ["admin", "accounting", "customer"];
 $_role_ChinhSuaTrangThai = ["admin"];
 $_role_ChinhSuaViTri = ["admin", "shipper"];
-
+$_role_CongNo = ["admin", "accounting"];
 
 function SendTele($text)
 {
-   // Phụ thuộc vào hàm website() để lấy token cấu hình.
    $token = "8430398623:AAG6Sstcya8scqUVSwNZUENQdvDl8uIUdVA";
-   // Cần thay đổi URL nếu chuyển sang API Telegram chính thức hoặc worker khác.
    $url = "https://api.telegram.org/bot{$token}/sendMessage";
 
    $post = [

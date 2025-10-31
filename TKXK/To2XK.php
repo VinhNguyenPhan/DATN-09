@@ -1,21 +1,16 @@
-<?php 
-    require_once(__DIR__."/../core/database.php");
-    require_once(__DIR__ . '/../core/phanQuyen.php');
-    require_role(['employee','customer','admin']);
-    if (empty($_SESSION['user_id'])) {
-     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
-     header("Location: $redirect");
-     exit;
- }
-    // print_r($_POST);
-    // exit();
-    if(!$_POST){
-        header("Location: To1XK.php");
-    }
-    $_SESSION['ToXK']['form1'] = $_POST;
-    // echo '<pre>';
-    // print_r($_SESSION['To1NK']);
-    // exit();
+<?php
+require_once(__DIR__ . "/../core/database.php");
+require_once(__DIR__ . '/../core/phanQuyen.php');
+require_role(['employee', 'customer', 'admin']);
+if (empty($_SESSION['user_id'])) {
+    $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
+    header("Location: $redirect");
+    exit;
+}
+if (!$_POST) {
+    header("Location: To1XK.php");
+}
+$_SESSION['ToXK']['form1'] = $_POST;
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -24,133 +19,133 @@
     <meta charset="UTF-8">
     <title>Địa điểm xếp hàng</title>
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f5f7fa;
-        margin: 0;
-        padding: 20px;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+        }
 
-    .container {
-        width: 1000px;
-        margin: 30px auto;
-        background: #fff;
-        border: 1px solid #ccc;
-        padding: 20px 30px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        .container {
+            width: 1000px;
+            margin: 30px auto;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 20px 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .button-group {
-        text-align: center;
-        margin-top: 30px;
-    }
+        .button-group {
+            text-align: center;
+            margin-top: 30px;
+        }
 
-    button.red {
-        background-color: #d9534f;
-    }
+        button.red {
+            background-color: #d9534f;
+        }
 
-    button.red:hover {
-        background-color: #c9302c;
-    }
+        button.red:hover {
+            background-color: #c9302c;
+        }
 
-    h2 {
-        text-align: center;
-        color: #003399;
-        margin-bottom: 20px;
-    }
+        h2 {
+            text-align: center;
+            color: #003399;
+            margin-bottom: 20px;
+        }
 
-    .form-group {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-    }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
 
-    button {
-        padding: 10px 20px;
-        margin: 5px;
-        font-weight: bold;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        color: #fff;
-        background-color: #337ab7;
-        transition: background-color 0.2s;
-    }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #fff;
+            background-color: #337ab7;
+            transition: background-color 0.2s;
+        }
 
-    .form-group label {
-        flex: 0 0 100px;
-        font-weight: bold;
-        color: #444;
-    }
+        .form-group label {
+            flex: 0 0 100px;
+            font-weight: bold;
+            color: #444;
+        }
 
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-        flex: 1;
-        padding: 8px 10px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 14px;
-        outline: none;
-    }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
 
-    .form-group textarea {
-        resize: vertical;
-        min-height: 60px;
-    }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
 
-    .container-grid {
-        margin-top: 20px;
-    }
+        .container-grid {
+            margin-top: 20px;
+        }
 
-    .container-grid label {
-        font-weight: bold;
-        display: block;
-        margin-bottom: 10px;
-    }
+        .container-grid label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
 
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 10px;
-    }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
 
-    .grid input {
-        width: 80%;
-        padding: 6px 8px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 13px;
-    }
+        .grid input {
+            width: 80%;
+            padding: 6px 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 13px;
+        }
 
-    .actions {
-        margin-top: 20px;
-        text-align: center;
-    }
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
 
-    .btn {
-        padding: 10px 20px;
-        background: #007bff;
-        border: none;
-        color: #fff;
-        font-size: 15px;
-        border-radius: 6px;
-        cursor: pointer;
-        margin: 0 10px;
-        transition: 0.3s;
-    }
+        .btn {
+            padding: 10px 20px;
+            background: #007bff;
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: 0.3s;
+        }
 
-    .btn:hover {
-        background: #0056b3;
-    }
+        .btn:hover {
+            background: #0056b3;
+        }
 
-    .btn.reset {
-        background: #6c757d;
-    }
+        .btn.reset {
+            background: #6c757d;
+        }
 
-    .btn.reset:hover {
-        background: #4b4f52;
-    }
+        .btn.reset:hover {
+            background: #4b4f52;
+        }
     </style>
 </head>
 
@@ -240,9 +235,9 @@
                 <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
             </div>
             <script>
-            function timToKhai() {
-                alert("Thực hiện tìm tờ khai...");
-            }
+                function timToKhai() {
+                    alert("Thực hiện tìm tờ khai...");
+                }
             </script>
     </div>
     </div>

@@ -1,72 +1,67 @@
 <?php
-include_once(__DIR__.'/../public/header.php');
+include_once(__DIR__ . '/../public/header.php');
 ?>
 
 <script>
-const chatux = new ChatUx();
+    const chatux = new ChatUx();
 
-const opt = {
-    api: {
-        endpoint: 'http://localhost/chat/chat-server.php',
-        method: 'GET',
-        dataType: 'jsonp',
-        escapeUserInput: true
-    },
-    window: {
-        title: 'My chat', //window title 
-        size: {
-            width: 350, //window width in px
-            height: 500, //window height in px
-            minWidth: 300, //window minimum-width in px
-            minHeight: 300, //window minimum-height in px
-            titleHeight: 50 //title bar height in px
+    const opt = {
+        api: {
+            endpoint: 'http://localhost/chat/chat-server.php',
+            method: 'GET',
+            dataType: 'jsonp',
+            escapeUserInput: true
         },
-        appearance: {
-            //border - border style of the window
-            border: {
-                shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
-                width: 0,
-                radius: 6
+        window: {
+            title: 'My chat',
+            size: {
+                width: 350,
+                height: 500,
+                minWidth: 300,
+                minHeight: 300,
+                titleHeight: 50
             },
-            //titleBar - title style of the window
-            titleBar: {
-                fontSize: 14,
-                color: 'white',
-                background: '#4784d4',
-                leftMargin: 40,
-                height: 40,
-                buttonWidth: 36,
-                buttonHeight: 16,
-                buttonColor: 'white',
-                buttons: [
-                    //Icon named 'hideButton' to close chat window
-                    {
-                        fa: 'fas fa-times', //specify font awesome icon
-                        name: 'hideButton',
-                        visible: true
-                    }
-                ],
-                buttonsOnLeft: [
-                    //Icon named 'info' to jump to 'infourl' when clicked
-                    {
-                        fa: 'fas fa-comment-alt', //specify font awesome icon
-                        name: 'info',
-                        visible: true
-                    }
-                ],
-            },
-        }
-    },
-};
+            appearance: {
+                border: {
+                    shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
+                    width: 0,
+                    radius: 6
+                },
+                titleBar: {
+                    fontSize: 14,
+                    color: 'white',
+                    background: '#4784d4',
+                    leftMargin: 40,
+                    height: 40,
+                    buttonWidth: 36,
+                    buttonHeight: 16,
+                    buttonColor: 'white',
+                    buttons: [
+                        {
+                            fa: 'fas fa-times',
+                            name: 'hideButton',
+                            visible: true
+                        }
+                    ],
+                    buttonsOnLeft: [
+                        {
+                            fa: 'fas fa-comment-alt',
+                            name: 'info',
+                            visible: true
+                        }
+                    ],
+                },
+            }
+        },
+    };
 
-chatux.init(opt);
-chatux.start(true);
+    chatux.init(opt);
+    chatux.start(true);
 </script>
 
 <section class="about-wrapper">
     <div class="about-section">
         <div class="container">
-            <!-- Cột trái -->
             <div class="about-left">
                 <h2>Giới thiệu về dịch vụ</h2>
                 <p>
@@ -93,8 +88,6 @@ chatux.start(true);
                     <li>📌 Lập báo cáo quyết toán cho loại hình sản xuất xuất khẩu & gia công</li>
                 </ul>
             </div>
-
-            <!-- Cột phải -->
             <div class="about-right">
                 <h2>Đặc điểm nổi bật</h2>
                 <div class="highlight-grid">
@@ -120,111 +113,111 @@ chatux.start(true);
 </section>
 
 <style>
-.about-wrapper {
-    background: transparent;
-    padding: 40px 0;
-}
+    .about-wrapper {
+        background: transparent;
+        padding: 40px 0;
+    }
 
-.about-section {
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 60px;
-    font-family: "Inter", sans-serif;
-}
+    .about-section {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 60px;
+        font-family: "Inter", sans-serif;
+    }
 
 
-.container {
-    display: flex;
-    gap: 60px;
-    justify-content: space-between;
-    align-items: flex-start;
-}
+    .container {
+        display: flex;
+        gap: 60px;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
 
-/* Cột trái */
-.about-left {
-    flex: 1;
-    max-width: 60%;
-}
+    /* Cột trái */
+    .about-left {
+        flex: 1;
+        max-width: 60%;
+    }
 
-.about-left h2 {
-    font-size: 26px;
-    font-weight: 800;
-    margin-bottom: 18px;
-    color: #1f3c88;
-}
+    .about-left h2 {
+        font-size: 26px;
+        font-weight: 800;
+        margin-bottom: 18px;
+        color: #1f3c88;
+    }
 
-.about-left p {
-    line-height: 1.7;
-    margin-bottom: 16px;
-    color: #333;
-}
+    .about-left p {
+        line-height: 1.7;
+        margin-bottom: 16px;
+        color: #333;
+    }
 
-.about-left h3 {
-    font-size: 20px;
-    margin: 20px 0 14px;
-    color: #1f6fb2;
-}
+    .about-left h3 {
+        font-size: 20px;
+        margin: 20px 0 14px;
+        color: #1f6fb2;
+    }
 
-.service-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+    .service-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
 
-.service-list li {
-    margin-bottom: 10px;
-    font-weight: 500;
-    color: #444;
-    padding-left: 6px;
-}
+    .service-list li {
+        margin-bottom: 10px;
+        font-weight: 500;
+        color: #444;
+        padding-left: 6px;
+    }
 
-/* Cột phải */
-.about-right {
-    flex: 1;
-    max-width: 35%;
-}
+    /* Cột phải */
+    .about-right {
+        flex: 1;
+        max-width: 35%;
+    }
 
-.about-right h2 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #1f3c88;
-}
+    .about-right h2 {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: #1f3c88;
+    }
 
-.highlight-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-}
+    .highlight-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
 
-.highlight-card {
-    background: #fff;
-    border-radius: 14px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-    transition: 0.3s;
-}
+    .highlight-card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        transition: 0.3s;
+    }
 
-.highlight-card:hover {
-    transform: translateY(-5px);
-    background: linear-gradient(135deg, #1f6fb2, #2b86d6);
-    color: #fff;
-}
+    .highlight-card:hover {
+        transform: translateY(-5px);
+        background: linear-gradient(135deg, #1f6fb2, #2b86d6);
+        color: #fff;
+    }
 
-.highlight-card h3 {
-    font-size: 28px;
-    font-weight: 800;
-    margin: 0;
-}
+    .highlight-card h3 {
+        font-size: 28px;
+        font-weight: 800;
+        margin: 0;
+    }
 
-.highlight-card p {
-    margin-top: 8px;
-    font-size: 15px;
-    font-weight: 500;
-}
+    .highlight-card p {
+        margin-top: 8px;
+        font-size: 15px;
+        font-weight: 500;
+    }
 </style>
-<?php include_once(__DIR__.'/../public/footer.php'); ?>
+<?php include_once(__DIR__ . '/../public/footer.php'); ?>

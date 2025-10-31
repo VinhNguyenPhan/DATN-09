@@ -8,15 +8,13 @@ if (empty($_SESSION['user_id'])) {
     exit;
 }
 
-// --- KHỞI TẠO BIẾN THỐNG KÊ TỔNG ---
 $counts = [
-    'shipped' => 0,   // ĐÃ LẤY HÀNG
-    'shipping' => 0,   // ĐANG GIAO
-    'done' => 0,   // HOÀN THÀNH
-    'cancel' => 0    // ĐÃ HỦY
+    'shipped' => 0,
+    'shipping' => 0,
+    'done' => 0,
+    'cancel' => 0
 ];
 
-// --- LẤY TỔNG ĐƠN HÀNG 12 THÁNG GẦN NHẤT ---
 foreach (['to1XK', 'to1NK'] as $table) {
     $sql = "SELECT ThongKe, COUNT(*) as total
             FROM $table
@@ -36,8 +34,6 @@ foreach (['to1XK', 'to1NK'] as $table) {
         }
     }
 }
-
-// --- LẤY DỮ LIỆU BIỂU ĐỒ CỘT THEO THÁNG (12 tháng, hiển thị 6 tháng gần nhất) ---
 $monthStats = [
     'shipped' => array_fill(1, 12, 0),
     'shipping' => array_fill(1, 12, 0),
@@ -70,10 +66,9 @@ foreach (['to1XK', 'to1NK'] as $table) {
     }
 }
 
-// --- CHUẨN BỊ DỮ LIỆU GỬI SANG JS ---
 $currentMonth = (int) date('n');
 $months = [];
-for ($i = 5; $i >= 0; $i--) { // 6 tháng gần nhất
+for ($i = 5; $i >= 0; $i--) {
     $m = $currentMonth - $i;
     if ($m <= 0)
         $m += 12;
@@ -101,13 +96,9 @@ $lastUpdated = date('d/m/Y H:i');
         --ring: #e5e7eb;
 
         --green-1: #16a085;
-        /* lấy hàng */
         --orange-1: #e67e22;
-        /* đang giao */
         --blue-1: #2980b9;
-        /* hoàn thành */
         --red-1: #c0392b;
-        /* hủy */
 
         --shadow: 0 10px 25px rgba(2, 6, 23, .08);
         --radius: 14px;
@@ -124,7 +115,6 @@ $lastUpdated = date('d/m/Y H:i');
         color: var(--text);
     }
 
-    /* ======= PAGE HEADER ======= */
     .page {
         max-width: 1240px;
         margin: 0 auto;
@@ -134,9 +124,11 @@ $lastUpdated = date('d/m/Y H:i');
     .page-header {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         gap: 12px;
         margin-bottom: 22px;
+        flex-direction: column;
+        text-align: center;
     }
 
     .page .title-wrap {
@@ -146,10 +138,13 @@ $lastUpdated = date('d/m/Y H:i');
     }
 
     .page .title {
-        margin: 0;
-        font-size: 28px;
+        font-size: 30px;
         font-weight: 800;
-        letter-spacing: .2px;
+        color: #0D47A1;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: inline-block;
+        position: relative;
     }
 
     .subtitle {
@@ -185,7 +180,6 @@ $lastUpdated = date('d/m/Y H:i');
         display: inline-block
     }
 
-    /* ======= LAYOUT ======= */
     .dashboard {
         display: grid;
         grid-template-columns: 1.1fr 2fr;
@@ -198,7 +192,6 @@ $lastUpdated = date('d/m/Y H:i');
         }
     }
 
-    /* LEFT COLUMN */
     .left-col {
         display: flex;
         flex-direction: column;
@@ -276,7 +269,6 @@ $lastUpdated = date('d/m/Y H:i');
         min-height: 300px;
     }
 
-    /* RIGHT COLUMN (bar chart) */
     .right-col .panel {
         height: 100%;
         display: flex;
@@ -287,32 +279,23 @@ $lastUpdated = date('d/m/Y H:i');
         min-height: 420px;
     }
 
-    /* Optional helper */
     main {
         display: block
     }
 </style>
 
 <div class="page">
-    <!-- ======= HEADER + SUMMARY ======= -->
     <div class="page-header">
         <div class="title-wrap">
-            <h1 class="title">Thống kê đơn hàng (12 tháng gần nhất)</h1>
+            <h1 class="title">Thống kê tờ khai </h1>
             <p class="subtitle">Cập nhật lần cuối: <?= htmlspecialchars($lastUpdated) ?> · Tổng đơn:
                 <strong><?= number_format($totalOrders, 0, ',', '.') ?></strong>
             </p>
         </div>
     </div>
-
-    <!-- ======= DASHBOARD ======= -->
     <div class="dashboard">
-        <!-- LEFT -->
         <div class="left-col">
-            <!-- Tiêu đề khu trạng thái -->
-            <div class="panel" style="padding:12px 16px">
-                <h3 class="panel-title" style="margin:0">Tổng quan trạng thái</h3>
-            </div>
-
+            <h3 style="margin:0; font-size:22px ;">Tổng quan trạng thái</h3>
             <div class="status-grid">
                 <div class="card lay">
                     <div class="label">ĐÃ LẤY HÀNG</div>
@@ -340,8 +323,6 @@ $lastUpdated = date('d/m/Y H:i');
                 </div>
             </div>
         </div>
-
-        <!-- RIGHT -->
         <div class="right-col">
             <div class="panel">
                 <h3 class="panel-title">Xu hướng theo tháng (6 tháng gần nhất)</h3>
@@ -355,7 +336,6 @@ $lastUpdated = date('d/m/Y H:i');
 </div>
 
 <script>
-    // BAR CHART
     const labels = <?= $jsMonths ?>;
     new Chart(document.getElementById('barChart'), {
         type: 'bar',
@@ -409,8 +389,6 @@ $lastUpdated = date('d/m/Y H:i');
             }
         }
     });
-
-    // PIE / DOUGHNUT CHART
     new Chart(document.getElementById('pieChart'), {
         type: 'doughnut',
         data: {

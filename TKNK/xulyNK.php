@@ -16,30 +16,18 @@ function n($v)
 //mới thêm
 function insertSafe($conn, $table, $fields, $data)
 {
-    // Nếu không có dữ liệu thì coi như tất cả đều rỗng
     if (empty($data))
         $data = [];
-
-    // Đảm bảo giá trị rỗng vẫn được chèn vào đúng số lượng cột
     $values = [];
     foreach ($fields as $f) {
         $v = isset($data[$f]) ? trim($data[$f]) : '';
-        // Nếu muốn để NULL trong SQL thay vì chuỗi rỗng, bạn có thể đổi '' -> NULL ở đây
         $values[] = $conn->real_escape_string($v);
     }
-
-    // Ghép cột và giá trị để chèn
     $sql = "INSERT INTO `$table` (" . implode(',', $fields) . ") VALUES ('" . implode("','", $values) . "')";
-
-    // Debug nếu cần
-    // echo "<pre>$sql</pre>";
-
     if (!$conn->query($sql)) {
         throw new Exception("Lỗi khi thêm vào $table: " . $conn->error);
     }
 }
-
-//mới thêm, code cũ ở logotest
 
 $last_id = null;
 

@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . '/../public/header.php');
-require_role(['admin']);
+require_role(['admin', 'accounting']);
 
 if (empty($_SESSION['user_id'])) {
     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
@@ -13,8 +13,6 @@ $allowedStatuses = ['done', 'shipping'];
 $message = '';
 $error = '';
 $currentOrder = null;
-
-// --- XỬ LÝ CẬP NHẬT TRẠNG THÁI ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type = strtolower(trim($_POST['type'] ?? ''));
     $orderId = trim($_POST['order_id'] ?? '');
@@ -41,8 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
     }
 }
-
-// --- SAU KHI REDIRECT: LẤY THÔNG TIN ---
 if (!empty($_SESSION['success_message'])) {
     $message = $_SESSION['success_message'];
     unset($_SESSION['success_message']);
@@ -65,7 +61,6 @@ include_once(__DIR__ . '/../public/header.php');
 ?>
 
 <style>
-    /* CSS giữ nguyên như cũ */
     .page-container {
         padding: 6px 1%;
         width: 70%;
@@ -189,7 +184,7 @@ include_once(__DIR__ . '/../public/header.php');
 
 <div class="page-container">
     <div class="card">
-        <h1>Chỉnh sửa trạng thái tờ khai</h1>
+        <h1>Chỉnh sửa trạng thái công nợ</h1>
 
         <?php if ($message): ?>
             <div class="msg success"><?= htmlspecialchars($message) ?></div><?php endif; ?>
@@ -298,22 +293,20 @@ include_once(__DIR__ . '/../public/header.php');
             escapeUserInput: true
         },
         window: {
-            title: 'My chat', //window title 
+            title: 'My chat',
             size: {
-                width: 350, //window width in px
-                height: 500, //window height in px
-                minWidth: 300, //window minimum-width in px
-                minHeight: 300, //window minimum-height in px
-                titleHeight: 50 //title bar height in px
+                width: 350,
+                height: 500,
+                minWidth: 300,
+                minHeight: 300,
+                titleHeight: 50
             },
             appearance: {
-                //border - border style of the window
                 border: {
                     shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
                     width: 0,
                     radius: 6
                 },
-                //titleBar - title style of the window
                 titleBar: {
                     fontSize: 14,
                     color: 'white',
@@ -324,17 +317,15 @@ include_once(__DIR__ . '/../public/header.php');
                     buttonHeight: 16,
                     buttonColor: 'white',
                     buttons: [
-                        //Icon named 'hideButton' to close chat window
                         {
-                            fa: 'fas fa-times', //specify font awesome icon
+                            fa: 'fas fa-times',
                             name: 'hideButton',
                             visible: true
                         }
                     ],
                     buttonsOnLeft: [
-                        //Icon named 'info' to jump to 'infourl' when clicked
                         {
-                            fa: 'fas fa-comment-alt', //specify font awesome icon
+                            fa: 'fas fa-comment-alt',
                             name: 'info',
                             visible: true
                         }

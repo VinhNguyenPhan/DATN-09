@@ -72,8 +72,6 @@ $stmt3->close();
 <body>
     <div class="container">
         <h2>📄 Hoàn thành — Thông tin tờ khai xuất khẩu</h2>
-
-        <!-- Thông tin chung -->
         <fieldset>
             <legend>Thông tin chung</legend>
 
@@ -107,8 +105,6 @@ $stmt3->close();
                     value="<?= htmlspecialchars($to1xk['NKBDK'] ?? $to1xk['NKBDK'] ?? $to1xk['NKBDK'] ?? '') ?>">
             </div>
         </fieldset>
-
-        <!-- Doanh nghiệp xuất khẩu -->
         <fieldset>
             <legend>Thông tin người xuất khẩu</legend>
             <div class="form-group">
@@ -134,8 +130,6 @@ $stmt3->close();
                     value="<?= htmlspecialchars($to1xk['SDTDNXK'] ?? $to1xk['SDTDNXK'] ?? '') ?>">
             </div>
         </fieldset>
-
-        <!-- Ủy thác xuất khẩu -->
         <fieldset>
             <legend>Ủy thác xuất khẩu</legend>
 
@@ -156,8 +150,6 @@ $stmt3->close();
                     value="<?= htmlspecialchars($to1xk['DCNUTXK'] ?? $to1xk['DCNUTXK'] ?? '') ?>">
             </div>
         </fieldset>
-
-        <!-- Doanh nghiệp nhập khẩu -->
         <fieldset>
             <legend>Doanh nghiệp nhập khẩu</legend>
 
@@ -187,8 +179,6 @@ $stmt3->close();
                     value="<?= htmlspecialchars($to1xk['SDTDNNK'] ?? $to1xk['SDTDNNK'] ?? '') ?>">
             </div>
         </fieldset>
-
-        <!-- Ủy thác nhập khẩu -->
         <fieldset>
             <legend>Ủy thác nhập khẩu</legend>
 
@@ -209,8 +199,6 @@ $stmt3->close();
                     value="<?= htmlspecialchars($to1xk['DCNUTNK'] ?? $to1xk['DCNUTNK'] ?? '') ?>">
             </div>
         </fieldset>
-
-        <!-- Thông tin vận đơn / vận chuyển -->
         <fieldset>
             <legend>Thông tin vận đơn & vận chuyển</legend>
 
@@ -267,8 +255,6 @@ $stmt3->close();
                 <input type="text" disabled value="<?= htmlspecialchars($to1xk['KH_SH'] ?? $to1xk['KH_SH'] ?? '') ?>">
             </div>
         </fieldset>
-
-        <!-- Hóa đơn & Thanh toán -->
         <fieldset>
             <legend>Hóa đơn & Thanh toán</legend>
 
@@ -316,8 +302,6 @@ $stmt3->close();
                     value="<?= htmlspecialchars($to1xk['MDTTGTT'] ?? $to1xk['MDTTGTT'] ?? '') ?>">
             </div>
         </fieldset>
-
-        <!-- Ngân hàng & Bảo lãnh -->
         <fieldset>
             <legend>Ngân hàng & Bảo lãnh</legend>
 
@@ -365,8 +349,6 @@ $stmt3->close();
                 <input type="text" disabled value="<?= htmlspecialchars($to1xk['SCTBL'] ?? $to1xk['SCTBL'] ?? '') ?>">
             </div>
         </fieldset>
-
-        <!-- Thông tin vận chuyển (ngày nhập kho / khởi hành) -->
         <fieldset>
             <legend>Thông tin vận chuyển</legend>
 

@@ -1,9 +1,8 @@
 <?php
-// ====== BOOTSTRAP ======
 declare(strict_types=1);
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-include_once(__DIR__ . '/../public/header.php'); // giả định file này start session & tạo $conn (MySQLi)
+include_once(__DIR__ . '/../public/header.php');
 if (session_status() === PHP_SESSION_NONE)
     session_start();
 
@@ -14,17 +13,11 @@ if (empty($_SESSION['user_id'])) {
     exit;
 }
 
-// ====== HELPERS ======
 function formatCurrencyVND($amount): string
 {
     $amount = (float) $amount;
     return number_format($amount, 0, ',', '.'); // 1.234.567
 }
-
-/**
- * Tính phí trễ hạn theo lãi ngày (mặc định 0.05%/ngày).
- * $dueDate nhận 'Y-m-d' hoặc chuỗi ngày hợp lệ.
- */
 function calculateLateFee($baseAmount, $dueDate, float $ratePerDayPercent = 0.05): float
 {
     $baseAmount = (float) $baseAmount;
@@ -40,11 +33,6 @@ function calculateLateFee($baseAmount, $dueDate, float $ratePerDayPercent = 0.05
     $rate = $ratePerDayPercent / 100.0;
     return $baseAmount * $rate * $daysLate;
 }
-
-/**
- * Lấy danh sách hóa đơn/đơn hàng theo user.
- * (Bạn thay WHERE cho đúng schema của bạn nếu cần.)
- */
 function fetchInvoicesFromDb($conn, $userId): array
 {
     $rows = [];
@@ -71,8 +59,6 @@ function fetchInvoicesFromDb($conn, $userId): array
                 $row['loai'] = 'Nhập khẩu';
             $orders = array_merge($orders, $nkData);
         }
-
-        // sort theo created_at (vì không có ngay_tao)
         usort($orders, fn($a, $b) => strtotime($b['created_at'] ?? '0') <=> strtotime($a['created_at'] ?? '0'));
 
         $tz = new DateTimeZone('Asia/Ho_Chi_Minh');
@@ -89,24 +75,18 @@ function fetchInvoicesFromDb($conn, $userId): array
             ];
         }
     } catch (Throwable $e) {
-        // error_log($e->getMessage());
     }
     return $rows;
 }
 
-// ====== LẤY DỮ LIỆU & TÍNH TOÁN ======
 $userId = (int) ($_SESSION['user_id'] ?? 0);
 $invoices = fetchInvoicesFromDb($conn, $userId);
-
-// Fallback demo nếu không có dữ liệu:
 if (empty($invoices)) {
     $invoices = [
         ['id' => 'HD001', 'issued_date' => '2025-10-01', 'goods_amount' => 4800000, 'freight_fee' => 200000, 'due_date' => '2025-10-10', 'status' => 'pending'],
         ['id' => 'HD002', 'issued_date' => '2025-09-15', 'goods_amount' => 3000000, 'freight_fee' => 200000, 'due_date' => '2025-09-20', 'status' => 'done'],
     ];
 }
-
-// Tính phí trễ hạn & tổng tiền
 foreach ($invoices as $idx => $inv) {
     $goods = (float) ($inv['goods_amount'] ?? 0);
     $ship = (float) ($inv['freight_fee'] ?? 0);
@@ -133,7 +113,6 @@ foreach ($invoices as $idx => $inv) {
         .page-header {
             text-align: center;
             margin: 30px 0;
-            animation: fadeIn .6s ease;
         }
 
         .page-header h1 {
@@ -146,15 +125,6 @@ foreach ($invoices as $idx => $inv) {
             position: relative;
         }
 
-        .page-header h1::after {
-            content: "";
-            display: block;
-            width: 100px;
-            height: 3px;
-            background: #0D47A1;
-            margin: 10px auto 0;
-            border-radius: 3px;
-        }
 
         @keyframes fadeIn {
             from {
@@ -307,7 +277,6 @@ foreach ($invoices as $idx => $inv) {
             cursor: not-allowed;
         }
 
-        /* Phân trang custom */
         .pager {
             display: flex;
             align-items: center;
@@ -347,7 +316,6 @@ foreach ($invoices as $idx => $inv) {
             border-radius: 8px;
         }
 
-        /* Popup thanh toán (phủ đè) */
         .pay-modal {
             display: none;
             position: fixed;
@@ -463,7 +431,7 @@ foreach ($invoices as $idx => $inv) {
 <body>
 
     <div class="page-header">
-        <h1>Công nợ & Thanh toán</h1>
+        <h1>Thanh toán công nợ</h1>
     </div>
 
     <div class="container">
@@ -475,7 +443,6 @@ foreach ($invoices as $idx => $inv) {
         </div>
     </div>
 
-    <!-- Modal Hóa đơn -->
     <div id="debtModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="debtModalTitle">
         <div class="modal-content">
             <span class="close" onclick="closeDebtModal()" aria-label="Đóng">&times;</span>
@@ -484,16 +451,15 @@ foreach ($invoices as $idx => $inv) {
             <table id="debt-table" class="debt-table">
                 <thead>
                     <tr>
-                        <th>Mã hóa đơn</th>
-                        <th>Ngày lập</th>
+                        <th>Số vận đơn</th>
+                        <th>Ngày khai báo</th>
                         <th>Số tiền</th>
                         <th>Trạng thái</th>
                         <th>Hạn thanh toán</th>
-                        <th>Thao tác</th>
+                        <th>Trạng thái</th>
                     </tr>
                 </thead>
                 <tbody id="debt-tbody">
-                    <!-- sẽ render bằng JS -->
                 </tbody>
             </table>
 
@@ -513,7 +479,6 @@ foreach ($invoices as $idx => $inv) {
         </div>
     </div>
 
-    <!-- Popup Thanh toán (phủ đè) -->
     <div id="payModal" class="pay-modal" aria-hidden="true">
         <div class="pay-backdrop" onclick="closePayModal()"></div>
         <div class="pay-panel">
@@ -524,10 +489,7 @@ foreach ($invoices as $idx => $inv) {
             <p class="qr-desc" id="payDesc"></p>
         </div>
     </div>
-
-    <!-- ChatUx của bạn (giữ nguyên nếu cần) -->
     <script>
-        // Nếu bạn dùng ChatUx, giữ nguyên:
         const chatux = new ChatUx?.constructor ? new ChatUx() : null;
         if (chatux) {
             const opt = {
@@ -581,10 +543,8 @@ foreach ($invoices as $idx => $inv) {
     </script>
 
     <script>
-        // ====== DỮ LIỆU TỪ PHP -> JS ======
         const INVOICES = <?php echo json_encode($invoices, JSON_UNESCAPED_UNICODE); ?>;
 
-        // ====== UTIL ======
         function fmtVND(n) {
             return new Intl.NumberFormat('vi-VN').format(Math.round(+n || 0));
         }
@@ -598,9 +558,8 @@ foreach ($invoices as $idx => $inv) {
             return `${dd}/${mm}/${yy}`;
         }
 
-        // ====== PHÂN TRANG THUẦN JS ======
-        let pageIndex = 0; // 0-based
-        let pageSize = 5; // -1 = tất cả
+        let pageIndex = 0;
+        let pageSize = 5;
         let totalPages = 1;
 
         function calcTotalPages() {
@@ -642,8 +601,6 @@ foreach ($invoices as $idx => $inv) {
       `;
                 tbody.appendChild(tr);
             });
-
-            // cập nhật pager
             totalPages = calcTotalPages();
             const info = document.getElementById('pgInfo');
             info.textContent = `Trang ${totalPages === 0 ? 0 : pageIndex + 1}/${totalPages}`;
@@ -672,12 +629,9 @@ foreach ($invoices as $idx => $inv) {
             renderTable();
         }
 
-        // ====== MODAL HÓA ĐƠN ======
         function openDebtModal() {
             document.getElementById('debtModal').style.display = 'block';
-            // setup page size control value
             document.getElementById('pgSize').value = String(pageSize);
-            // render ngay khi mở
             renderTable();
         }
 
@@ -685,10 +639,9 @@ foreach ($invoices as $idx => $inv) {
             document.getElementById('debtModal').style.display = 'none';
         }
 
-        // ====== POPUP THANH TOÁN (PHỦ ĐÈ) ======
         function openPayModal(invoiceId, amount) {
-            const bankCode = 'VPB'; // TODO: đổi theo ngân hàng của bạn
-            const account = '0383671656'; // TODO: số tài khoản nhận
+            const bankCode = 'VPB';
+            const account = '0383671656';
             const addInfo = encodeURIComponent(`TT ${invoiceId}`);
             const qrUrl =
                 `https://img.vietqr.io/image/${bankCode}-${account}-print.png?amount=${amount}&addInfo=${addInfo}`;
@@ -698,7 +651,7 @@ foreach ($invoices as $idx => $inv) {
             document.getElementById('payDesc').textContent = `Số tiền: ${fmtVND(amount)} đ • Quét mã VietQR để thanh toán.`;
 
             const pm = document.getElementById('payModal');
-            pm.style.display = 'block'; // phủ đè lên debtModal (z-index cao hơn)
+            pm.style.display = 'block';
         }
 
         function closePayModal() {
@@ -706,7 +659,6 @@ foreach ($invoices as $idx => $inv) {
             pm.style.display = 'none';
         }
 
-        // ====== TIỆN ÍCH ESCAPE ======
         function escapeHtml(str) {
             return String(str)
                 .replaceAll('&', '&amp;')
@@ -719,15 +671,7 @@ foreach ($invoices as $idx => $inv) {
         function escapeAttr(str) {
             return escapeHtml(str).replaceAll('"', '&quot;');
         }
-
-        // ====== KHỞI TẠO NHẸ ======
-        document.addEventListener('DOMContentLoaded', () => {
-            // không render bảng ngay; chỉ render khi user bấm "Xem chi tiết"
-            // nhưng nếu bạn muốn tự mở modal khi vào trang thì:
-            // openDebtModal();
-        });
-
-        // Gán ra global để gọi từ HTML
+        document.addEventListener('DOMContentLoaded', () => { });
         window.openDebtModal = openDebtModal;
         window.closeDebtModal = closeDebtModal;
         window.gotoPrevPage = gotoPrevPage;
@@ -740,5 +684,4 @@ foreach ($invoices as $idx => $inv) {
 </body>
 
 </html>
-
 <?php include_once(__DIR__ . '/../public/footer.php'); ?>

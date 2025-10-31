@@ -1,5 +1,4 @@
 <?php
-// editXK.php
 require_once(__DIR__ . "/../core/database.php");
 if (session_status() === PHP_SESSION_NONE)
     session_start();
@@ -14,8 +13,6 @@ if (!$id) {
     http_response_code(400);
     die("Thiếu ID tờ khai!");
 }
-
-/* --------------------- Helpers --------------------- */
 function h($v)
 {
     return htmlspecialchars((string) $v, ENT_QUOTES, 'UTF-8');
@@ -33,26 +30,22 @@ function renderInput($name, $value, $opts = null)
         echo "</select>";
         return;
     }
-    // detect date yyyy-mm-dd
     if (is_string($value) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
         echo "<input type=\"date\" name=\"" . h($name) . "\" value=\"$safe\">";
         return;
     }
-    // detect number
     if ($value !== '' && is_numeric($value)) {
         echo "<input type=\"number\" step=\"any\" name=\"" . h($name) . "\" value=\"$safe\">";
         return;
     }
-    // default text
     echo "<input type=\"text\" name=\"" . h($name) . "\" value=\"$safe\">";
 }
 
 /**
- * Build câu UPDATE động, bind hết kiểu string cho gọn.
  * @param mysqli $conn
  * @param string $table
- * @param array $data  [col => val]
- * @param array $where [col => val] (AND)
+ * @param array $data  
+ * @param array $where 
  */
 function run_update(mysqli $conn, string $table, array $data, array $where): bool
 {
@@ -81,8 +74,6 @@ function run_update(mysqli $conn, string $table, array $data, array $where): boo
     $stmt->close();
     return true;
 }
-
-/* --------------------- Lấy dữ liệu ban đầu --------------------- */
 $stmt1 = $conn->prepare("SELECT * FROM to1xk WHERE id = ?");
 $stmt1->bind_param("i", $id);
 $stmt1->execute();
@@ -105,8 +96,6 @@ if (!$to1) {
     http_response_code(404);
     die("Không tìm thấy to1xk id=" . $id);
 }
-
-/* --------------------- Options select mẫu --------------------- */
 $opts = [
     'nhom_loai_hinh' => ['KDSX' => 'Kinh doanh, đầu tư', 'SXXK' => 'Sản xuất xuất khẩu', 'GC' => 'Gia công', 'CX' => 'Chế xuất'],
     'phuong_thuc_vc' => ['P1' => 'Đường không', 'P2' => 'Đường biển', 'P3' => 'Đường bộ'],
@@ -115,19 +104,12 @@ $opts = [
     'don_vi_tl' => ['GRM' => 'Gam', 'KGM' => 'Kilogam', 'TNE' => 'Tấn'],
     'tt_thanhtoan' => ['pending' => 'Chưa Thanh Toán', 'done' => 'Đã Thanh Toán'],
 ];
-
-/* --------------------- Xử lý POST lưu trực tiếp --------------------- */
 $errors = [];
 $success = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        // CSRF nhẹ (tuỳ chọn): bạn có thể bổ sung token nếu đã có hệ thống sẵn
-        // if (empty($_POST['_token']) || $_POST['_token'] !== ($_SESSION['_token_editxk'] ?? '')) throw new Exception('CSRF token không hợp lệ.');
-
         $conn->begin_transaction();
-
-        // --- Chuẩn bị dữ liệu UPDATE to1xk: dựa vào cột đang có trong $to1 (trừ id)
         $to1Cols = array_keys($to1);
         $to1Data = [];
         foreach ($to1Cols as $col) {
@@ -138,8 +120,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         if ($to1Data)
             run_update($conn, 'to1xk', $to1Data, ['id' => $id]);
-
-        // --- UPDATE to2xk nếu có bản ghi
         if ($to2) {
             $to2Cols = array_keys($to2);
             $to2Data = [];
@@ -152,9 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($to2Data)
                 run_update($conn, 'to2xk', $to2Data, ['to1xk' => $id]);
         }
-
-        // --- UPDATE từng dòng to3xk theo item_id[]
-        // Lấy danh sách cột từ một dòng mẫu, loại bỏ id, to1xk
         $itemCols = [];
         if (!empty($items)) {
             $itemCols = array_keys($items[0]);
@@ -172,7 +149,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $rowData = [];
             foreach ($itemCols as $c) {
-                // các input name cho to3 mình đặt dạng {$c}[]
                 if (isset($_POST[$c]) && isset($_POST[$c][$idx])) {
                     $rowData[$c] = $_POST[$c][$idx];
                 }
@@ -184,7 +160,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $conn->commit();
         $success = "Đã lưu thay đổi thành công.";
-        // Refresh lại dữ liệu sau khi lưu để hiển thị đúng giá trị mới
         header("Location: editXK.php?id=" . $id . "&saved=1");
         exit;
     } catch (Throwable $e) {
@@ -198,9 +173,7 @@ if (isset($_GET['saved'])) {
     $success = "Đã lưu thay đổi thành công.";
 }
 
-/* --------------------- Lấy lại dữ liệu sau khi lưu (khi không redirect) --------------------- */
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $errors) {
-    // reload vì có thể có thay đổi
     $stmt1 = $conn->prepare("SELECT * FROM to1xk WHERE id = ?");
     $stmt1->bind_param("i", $id);
     $stmt1->execute();
@@ -372,7 +345,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $errors) {
         <?php endif; ?>
 
         <form method="POST" action="editXK.php?id=<?= h($id) ?>">
-            <!-- Nếu có hệ thống CSRF token, thêm vào đây -->
             <!-- <input type="hidden" name="_token" value="<?= h($_SESSION['_token_editxk'] = bin2hex(random_bytes(16))) ?>">
             -->
 
@@ -426,7 +398,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $errors) {
                                 $first = $items[0];
                                 foreach ($first as $k => $v) {
                                     if (in_array($k, ['to1xk']))
-                                        continue; // vẫn hiển thị cột 'id' để tiện tham chiếu
+                                        continue;
                                     echo "<th>" . h($k) . "</th>";
                                 }
                             } else {
@@ -444,7 +416,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $errors) {
                                             continue; ?>
                                         <td>
                                             <?php if ($k === 'id'): ?>
-                                                <!-- Hiển thị id item + input hidden để update -->
                                                 <strong>#<?= h($v) ?></strong> <input type="hidden" name="item_id[]"
                                                     value="<?= h($v) ?>">
                                             <?php else: ?>
@@ -457,10 +428,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $errors) {
                         <?php endif; ?>
                     </tbody>
                 </table>
-                <p class="muted" style="margin-top:8px">
-                    Ghi chú: hiện form chỉ cập nhật các dòng đang có. Nếu cần thêm/xóa dòng hàng, mình có thể bổ sung
-                    nút JS thêm/xóa.
-                </p>
             </div>
 
             <div class="actions">

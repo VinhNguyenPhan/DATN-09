@@ -1,5 +1,4 @@
 <?php
-// xem_tk_nk.php
 declare(strict_types=1);
 
 require_once(__DIR__ . "/../core/database.php");
@@ -60,203 +59,199 @@ function nf($n, $d = 2)
 
     <link rel="stylesheet" href="style.css?v=1.0.4">
     <style>
-    :root {
-        --label-w: 220px;
-        --gap: 10px;
-        --bg: #f8fafc;
-        --card-bg: #fff;
-        --card-b: #e5e7eb;
-        --text: #0b1220;
-        --muted: #475569;
-    }
+        :root {
+            --label-w: 220px;
+            --gap: 10px;
+            --bg: #f8fafc;
+            --card-bg: #fff;
+            --card-b: #e5e7eb;
+            --text: #0b1220;
+            --muted: #475569;
+        }
 
-    * {
-        box-sizing: border-box;
-    }
-
-    body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        max-width: 1100px;
-        margin: 20px auto;
-        padding: 0 16px;
-    }
-
-    h2 {
-        margin: 16px 0 12px;
-        color: #0b63a6;
-        font-weight: 700;
-    }
-
-    fieldset {
-        background: var(--card-bg);
-        border: 1px solid var(--card-b);
-        border-radius: 10px;
-        padding: 14px;
-        margin: 14px 0;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
-    }
-
-    legend {
-        padding: 0 6px;
-        font-weight: 700;
-        color: #0f172a;
-    }
-
-    .form-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--gap);
-        align-items: center;
-        margin: 8px 0;
-    }
-
-    .form-group label {
-        min-width: var(--label-w);
-        color: var(--muted);
-        font-size: 13px;
-    }
-
-    input[type=text],
-    input[type=date],
-    input[type=number],
-    select,
-    textarea {
-        flex: 1;
-        min-width: 220px;
-        padding: 8px;
-        border: 1px solid #d1d7e0;
-        border-radius: 6px;
-        background: #fff;
-    }
-
-    input[disabled],
-    select[disabled],
-    textarea[disabled] {
-        background-color: #f8f8f8;
-        color: #000;
-        border: 1px solid #ccc;
-        cursor: not-allowed;
-    }
-
-    /* ===== Bảng hàng hóa ===== */
-    .goods-wrap {
-        background: var(--card-bg);
-        border: 1px solid var(--card-b);
-        border-radius: 10px;
-        padding: 10px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
-        overflow-x: auto;
-    }
-
-    table.goods {
-        width: 100%;
-        border-collapse: collapse;
-        table-layout: fixed;
-        font-size: 14px;
-    }
-
-    table.goods th,
-    table.goods td {
-        border: 1px solid #e6edf3;
-        padding: 8px;
-        vertical-align: middle;
-        background: #fff;
-    }
-
-    table.goods th {
-        background: #0b63a6;
-        color: #fff;
-        font-weight: 600;
-        position: sticky;
-        top: 0;
-        z-index: 1;
-    }
-
-    .ta-right {
-        text-align: right;
-    }
-
-    .cell {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-
-    .wrap {
-        white-space: normal;
-        word-break: break-word;
-        overflow: visible;
-    }
-
-    table.goods tbody tr:nth-child(even) {
-        background: #fafbfc;
-    }
-
-    table.goods tbody tr:hover {
-        background: #f2f7ff;
-    }
-
-    /* Nút */
-    .button-group {
-        margin-top: 20px;
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .button-group .btn,
-    .button-group button {
-        background: #0b63a6;
-        color: #fff;
-        border: none;
-        padding: 10px 14px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-    }
-
-    .button-group .btn:hover,
-    .button-group button:hover {
-        opacity: .9;
-    }
-
-    .button-group .red {
-        background: #ef4444;
-    }
-
-    /* === PRINT STYLES === */
-    @media print {
-        .button-group {
-            display: none !important;
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 16px;
+        }
+
+        h2 {
+            margin: 16px 0 12px;
+            color: #0b63a6;
+            font-weight: 700;
+        }
+
+        fieldset {
+            background: var(--card-bg);
+            border: 1px solid var(--card-b);
+            border-radius: 10px;
+            padding: 14px;
+            margin: 14px 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+        }
+
+        legend {
+            padding: 0 6px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--gap);
+            align-items: center;
+            margin: 8px 0;
+        }
+
+        .form-group label {
+            min-width: var(--label-w);
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        input[type=text],
+        input[type=date],
+        input[type=number],
+        select,
+        textarea {
+            flex: 1;
+            min-width: 220px;
+            padding: 8px;
+            border: 1px solid #d1d7e0;
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        input[disabled],
+        select[disabled],
+        textarea[disabled] {
+            background-color: #f8f8f8;
+            color: #000;
+            border: 1px solid #ccc;
+            cursor: not-allowed;
+        }
+
+        .goods-wrap {
+            background: var(--card-bg);
+            border: 1px solid var(--card-b);
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+            overflow-x: auto;
+        }
+
+        table.goods {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 14px;
+        }
+
+        table.goods th,
+        table.goods td {
+            border: 1px solid #e6edf3;
+            padding: 8px;
+            vertical-align: middle;
+            background: #fff;
         }
 
         table.goods th {
-            position: relative;
+            background: #0b63a6;
+            color: #fff;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
 
-        /* bỏ sticky khi in */
-        @page {
-            size: A4;
-            margin: 12mm 10mm;
+        .ta-right {
+            text-align: right;
         }
 
-        .page-break {
-            page-break-before: always;
+        .cell {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
-    }
+
+        .wrap {
+            white-space: normal;
+            word-break: break-word;
+            overflow: visible;
+        }
+
+        table.goods tbody tr:nth-child(even) {
+            background: #fafbfc;
+        }
+
+        table.goods tbody tr:hover {
+            background: #f2f7ff;
+        }
+
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button-group .btn,
+        .button-group button {
+            background: #0b63a6;
+            color: #fff;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .button-group .btn:hover,
+        .button-group button:hover {
+            opacity: .9;
+        }
+
+        .button-group .red {
+            background: #ef4444;
+        }
+
+        @media print {
+            .button-group {
+                display: none !important;
+            }
+
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            table.goods th {
+                position: relative;
+            }
+
+            @page {
+                size: A4;
+                margin: 12mm 10mm;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+        }
     </style>
 </head>
 
@@ -472,7 +467,7 @@ function nf($n, $d = 2)
                 <label>Điều kiện giá hóa đơn:</label>
                 <select disabled>
                     <?php foreach (['EXW', 'FCA', 'CPT', 'CIP', 'DAP', 'DPU', 'DDP', 'FAS', 'FOB', 'CFR', 'CIF'] as $opt): ?>
-                    <option <?= (($data['DKGHD'] ?? '') === $opt) ? 'selected' : ''; ?>><?= $opt ?></option>
+                        <option <?= (($data['DKGHD'] ?? '') === $opt) ? 'selected' : ''; ?>><?= $opt ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -482,7 +477,7 @@ function nf($n, $d = 2)
                 <label>Mã đồng tiền hóa đơn:</label>
                 <select disabled>
                     <?php foreach (['USD', 'CNY', 'VND', 'JPY', 'KRW'] as $c): ?>
-                    <option <?= (($data['MDTHD'] ?? '') === $c) ? 'selected' : ''; ?>><?= $c ?></option>
+                        <option <?= (($data['MDTHD'] ?? '') === $c) ? 'selected' : ''; ?>><?= $c ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -692,37 +687,37 @@ function nf($n, $d = 2)
                 <tbody>
                     <?php if (!empty($hanghoa)):
                         foreach ($hanghoa as $i => $r): ?>
-                    <tr>
-                        <td class="ta-right"><?= $i + 1 ?></td>
-                        <td>
-                            <div class="cell"><?= h($r['HSC'] ?? '') ?></div>
-                        </td>
-                        <td>
-                            <div class="wrap"><?= h($r['TH'] ?? '') ?></div>
-                        </td>
-                        <td>
-                            <div class="cell"><?= h($r['DVT'] ?? $r['dvt'] ?? '') ?></div>
-                        </td>
-                        <td class="ta-right">
-                            <div class="cell"><?= nf($r['SL'] ?? null, 2) ?></div>
-                        </td>
-                        <td class="ta-right">
-                            <div class="cell"><?= nf($r['GIA'] ?? null, 2) ?></div>
-                        </td>
-                        <td class="ta-right">
-                            <div class="cell"><?= nf($r['VALUE'] ?? null, 2) ?></div>
-                        </td>
-                        <td class="ta-right">
-                            <div class="cell"><?= nf($r['TS'] ?? null, 2) ?></div>
-                        </td>
-                        <td class="ta-right">
-                            <div class="cell"><?= nf($r['TT'] ?? null, 2) ?></div>
-                        </td>
-                    </tr>
-                    <?php endforeach; else: ?>
-                    <tr>
-                        <td colspan="9" style="text-align:center;">Không có dữ liệu hàng hóa</td>
-                    </tr>
+                            <tr>
+                                <td class="ta-right"><?= $i + 1 ?></td>
+                                <td>
+                                    <div class="cell"><?= h($r['HSC'] ?? '') ?></div>
+                                </td>
+                                <td>
+                                    <div class="wrap"><?= h($r['TH'] ?? '') ?></div>
+                                </td>
+                                <td>
+                                    <div class="cell"><?= h($r['DVT'] ?? $r['dvt'] ?? '') ?></div>
+                                </td>
+                                <td class="ta-right">
+                                    <div class="cell"><?= nf($r['SL'] ?? null, 2) ?></div>
+                                </td>
+                                <td class="ta-right">
+                                    <div class="cell"><?= nf($r['GIA'] ?? null, 2) ?></div>
+                                </td>
+                                <td class="ta-right">
+                                    <div class="cell"><?= nf($r['VALUE'] ?? null, 2) ?></div>
+                                </td>
+                                <td class="ta-right">
+                                    <div class="cell"><?= nf($r['TS'] ?? null, 2) ?></div>
+                                </td>
+                                <td class="ta-right">
+                                    <div class="cell"><?= nf($r['TT'] ?? null, 2) ?></div>
+                                </td>
+                            </tr>
+                        <?php endforeach; else: ?>
+                        <tr>
+                            <td colspan="9" style="text-align:center;">Không có dữ liệu hàng hóa</td>
+                        </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
