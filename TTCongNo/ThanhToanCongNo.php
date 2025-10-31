@@ -1,330 +1,470 @@
-<?php 
-    include_once(__DIR__.'/../public/header.php');
-    require_role(['customer','admin','accounting']);
-    if (empty($_SESSION['user_id'])) {
-        $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
-        header("Location: $redirect");
-        exit;
-    }
+<?php
+// ====== BOOTSTRAP ======
+declare(strict_types=1);
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-    function formatCurrencyVND($amount){
-        $amount = (float)$amount;
-        return number_format($amount, 0, ',', '.');
-    }
+include_once(__DIR__ . '/../public/header.php'); // giả định file này start session & tạo $conn (MySQLi)
+if (session_status() === PHP_SESSION_NONE)
+    session_start();
 
-    function calculateLateFee($baseAmount, $dueDate, $ratePerDayPercent = 0.05){
-        $baseAmount = (float)$baseAmount;
-        $due = strtotime($dueDate);
-        $today = strtotime(date('Y-m-d'));
-        if($due === false) return 0;
-        $daysLate = max(0, (int) floor(($today - $due) / 86400));
-        if($daysLate <= 0) return 0;
-        $rate = ($ratePerDayPercent / 100.0);
-        return $baseAmount * $rate * $daysLate;
-    }
+require_role(['customer', 'admin', 'accounting']);
+if (empty($_SESSION['user_id'])) {
+    $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
+    header("Location: $redirect");
+    exit;
+}
 
-    function fetchInvoicesFromDb($conn, $userId){
-        $rows = [];
-        try{
-            if(!$userId) return $rows;
-            $sql = "SELECT id, issued_date, goods_amount, freight_fee, due_date, status FROM invoices WHERE user_id = ? ORDER BY issued_date DESC";
-            $stmt = $conn->prepare($sql);
-            if(!$stmt) return $rows;
-            $stmt->bind_param('i', $userId);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            while($r = $res->fetch_assoc()){
-                $rows[] = [
-                    'id' => (string)$r['id'],
-                    'issued_date' => $r['issued_date'] ?: '',
-                    'goods_amount' => (float)$r['goods_amount'],
-                    'freight_fee' => (float)$r['freight_fee'],
-                    'due_date' => $r['due_date'] ?: '',
-                    'status' => $r['status'] ?: 'unpaid',
-                ];
-            }
-        }catch(Throwable $e){}
-        return $rows;
-    }
+// ====== HELPERS ======
+function formatCurrencyVND($amount): string
+{
+    $amount = (float) $amount;
+    return number_format($amount, 0, ',', '.'); // 1.234.567
+}
 
-    $invoices = fetchInvoicesFromDb($conn, (int)($_SESSION['user_id'] ?? 0));
-    if(empty($invoices)){
-        $invoices = [
-            ['id'=>'HD001','issued_date'=>'2025-10-01','goods_amount'=>4800000,'freight_fee'=>200000,'due_date'=>'2025-10-10','status'=>'unpaid'],
-            ['id'=>'HD002','issued_date'=>'2025-09-15','goods_amount'=>3000000,'freight_fee'=>200000,'due_date'=>'2025-09-20','status'=>'paid']
-        ];
-    }
+/**
+ * Tính phí trễ hạn theo lãi ngày (mặc định 0.05%/ngày).
+ * $dueDate nhận 'Y-m-d' hoặc chuỗi ngày hợp lệ.
+ */
+function calculateLateFee($baseAmount, $dueDate, float $ratePerDayPercent = 0.05): float
+{
+    $baseAmount = (float) $baseAmount;
+    $due = strtotime($dueDate);
+    $today = strtotime(date('Y-m-d'));
+    if ($due === false)
+        return 0.0;
 
-    foreach($invoices as $idx => $inv){
-        $base = (float)$inv['goods_amount'] + (float)$inv['freight_fee'];
-        $lateFee = calculateLateFee($base, $inv['due_date']);
-        $total = $base + $lateFee;
-        $invoices[$idx]['base_amount'] = $base;
-        $invoices[$idx]['late_fee'] = $lateFee;
-        $invoices[$idx]['total_amount'] = $total;
-    }
-?>
+    $daysLate = max(0, (int) floor(($today - $due) / 86400));
+    if ($daysLate <= 0)
+        return 0.0;
 
-<script>
-const chatux = new ChatUx();
+    $rate = $ratePerDayPercent / 100.0;
+    return $baseAmount * $rate * $daysLate;
+}
 
-const opt = {
-    api: {
-        endpoint: 'http://localhost/chat/chat-server.php',
-        method: 'GET',
-        dataType: 'jsonp',
-        escapeUserInput: true
-    },
-    window: {
-        title: 'My chat', //window title 
-        size: {
-            width: 350, //window width in px
-            height: 500, //window height in px
-            minWidth: 300, //window minimum-width in px
-            minHeight: 300, //window minimum-height in px
-            titleHeight: 50 //title bar height in px
-        },
-        appearance: {
-            //border - border style of the window
-            border: {
-                shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)',
-                width: 0,
-                radius: 6
-            },
-            //titleBar - title style of the window
-            titleBar: {
-                fontSize: 14,
-                color: 'white',
-                background: '#4784d4',
-                leftMargin: 40,
-                height: 40,
-                buttonWidth: 36,
-                buttonHeight: 16,
-                buttonColor: 'white',
-                buttons: [
-                    //Icon named 'hideButton' to close chat window
-                    {
-                        fa: 'fas fa-times', //specify font awesome icon
-                        name: 'hideButton',
-                        visible: true
-                    }
-                ],
-                buttonsOnLeft: [
-                    //Icon named 'info' to jump to 'infourl' when clicked
-                    {
-                        fa: 'fas fa-comment-alt', //specify font awesome icon
-                        name: 'info',
-                        visible: true
-                    }
-                ],
-            },
+/**
+ * Lấy danh sách hóa đơn/đơn hàng theo user.
+ * (Bạn thay WHERE cho đúng schema của bạn nếu cần.)
+ */
+function fetchInvoicesFromDb($conn, $userId): array
+{
+    $rows = [];
+    try {
+        if (!$userId)
+            return $rows;
+
+        $sqlXK = "SELECT to1xk.SVD, to1xk.created_at, to1xk.TTGHD as amount, to1xk.tt_thanhtoan FROM to1XK ORDER BY to1xk.id DESC";
+        $sqlNK = "SELECT to1nk.SVD, to1nk.created_at, to2nk.TTGHD as amount, to1nk.tt_thanhtoan FROM to1NK JOIN to2nk ON to2nk.to1nk = to1nk.id ORDER BY to1nk.id DESC;";
+
+        $resXK = $conn->query($sqlXK);
+        $resNK = $conn->query($sqlNK);
+
+        $orders = [];
+        if ($resXK) {
+            $xkData = $resXK->fetch_all(MYSQLI_ASSOC);
+            foreach ($xkData as &$row)
+                $row['loai'] = 'Xuất khẩu';
+            $orders = array_merge($orders, $xkData);
         }
-    },
-};
+        if ($resNK) {
+            $nkData = $resNK->fetch_all(MYSQLI_ASSOC);
+            foreach ($nkData as &$row)
+                $row['loai'] = 'Nhập khẩu';
+            $orders = array_merge($orders, $nkData);
+        }
 
-chatux.init(opt);
-chatux.start(true);
-</script>
+        // sort theo created_at (vì không có ngay_tao)
+        usort($orders, fn($a, $b) => strtotime($b['created_at'] ?? '0') <=> strtotime($a['created_at'] ?? '0'));
 
+        $tz = new DateTimeZone('Asia/Ho_Chi_Minh');
+        $defaultDue = (new DateTime('now', $tz))->modify('+7 days')->format('Y-m-d');
+
+        foreach ($orders as $r) {
+            $rows[] = [
+                'id' => (string) ($r['SVD'] ?? ''),
+                'issued_date' => !empty($r['created_at']) ? date('Y-m-d', strtotime($r['created_at'])) : date('Y-m-d'),
+                'goods_amount' => (float) ($r['amount'] ?? 0),
+                'freight_fee' => 0.0,
+                'due_date' => !empty($r['due_date']) ? date('Y-m-d', strtotime($r['due_date'])) : $defaultDue,
+                'status' => $r['tt_thanhtoan'] ?? 'pending',
+            ];
+        }
+    } catch (Throwable $e) {
+        // error_log($e->getMessage());
+    }
+    return $rows;
+}
+
+// ====== LẤY DỮ LIỆU & TÍNH TOÁN ======
+$userId = (int) ($_SESSION['user_id'] ?? 0);
+$invoices = fetchInvoicesFromDb($conn, $userId);
+
+// Fallback demo nếu không có dữ liệu:
+if (empty($invoices)) {
+    $invoices = [
+        ['id' => 'HD001', 'issued_date' => '2025-10-01', 'goods_amount' => 4800000, 'freight_fee' => 200000, 'due_date' => '2025-10-10', 'status' => 'pending'],
+        ['id' => 'HD002', 'issued_date' => '2025-09-15', 'goods_amount' => 3000000, 'freight_fee' => 200000, 'due_date' => '2025-09-20', 'status' => 'done'],
+    ];
+}
+
+// Tính phí trễ hạn & tổng tiền
+foreach ($invoices as $idx => $inv) {
+    $goods = (float) ($inv['goods_amount'] ?? 0);
+    $ship = (float) ($inv['freight_fee'] ?? 0);
+    $base = $goods + $ship;
+
+    $due = $inv['due_date'] ?? date('Y-m-d');
+    $late = calculateLateFee($base, $due);
+    $total = $base + $late;
+
+    $invoices[$idx]['base_amount'] = $base;
+    $invoices[$idx]['late_fee'] = $late;
+    $invoices[$idx]['total_amount'] = $total;
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <title>Theo dõi công nợ & Thanh toán online</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <style>
-    body {
-        font-family: "Inter", sans-serif;
-        background: #f1f5f9;
-        margin: 0;
-        padding: 0;
-    }
+        .page-header {
+            text-align: center;
+            margin: 30px 0;
+            animation: fadeIn .6s ease;
+        }
 
-    .container {
-        display: flex;
-        justify-content: center;
-        padding: 40px 20px;
-    }
+        .page-header h1 {
+            font-size: 30px;
+            font-weight: 800;
+            color: #0D47A1;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: inline-block;
+            position: relative;
+        }
 
-    .card {
-        background: #fff;
-        border-radius: 20px;
-        padding: 40px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        text-align: center;
-        max-width: 600px;
-        width: 100%;
-        transition: transform 0.3s ease;
-    }
+        .page-header h1::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: #0D47A1;
+            margin: 10px auto 0;
+            border-radius: 3px;
+        }
 
-    .card:hover {
-        transform: scale(1.03);
-    }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
 
-    .card .icon {
-        font-size: 50px;
-        margin-bottom: 20px;
-    }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .card h3 {
-        font-size: 24px;
-        margin-bottom: 12px;
-        color: #1f3c88;
-    }
+        body {
+            font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 0;
+        }
 
-    .card p {
-        font-size: 16px;
-        color: #555;
-        margin-bottom: 20px;
-    }
-
-    .card .btn {
-        background: #1f6fb2;
-        color: #fff;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 12px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background 0.3s, transform 0.2s;
-    }
-
-    .card .btn:hover {
-        background: #155b8a;
-        transform: scale(1.05);
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-    }
-
-    .modal-content {
-        background: #fff;
-        margin: 5% auto;
-        padding: 30px;
-        border-radius: 16px;
-        width: 90%;
-        max-width: 900px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    }
-
-    .close {
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-        color: #666;
-    }
-
-    .close:hover {
-        color: #000;
-    }
-
-    .debt-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        font-size: 16px;
-    }
-
-    .debt-table th,
-    .debt-table td {
-        border: 1px solid #ddd;
-        padding: 12px;
-        text-align: center;
-    }
-
-    .debt-table th {
-        background: #1f6fb2;
-        color: #fff;
-    }
-
-    .pay-btn {
-        background: #10b981;
-        color: white;
-        border: none;
-        padding: 10px 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: background 0.3s, transform 0.2s;
-    }
-
-    .pay-btn:hover {
-        background: #0d946b;
-        transform: scale(1.05);
-    }
-
-    .pay-btn.disabled {
-        background: gray;
-        cursor: not-allowed;
-    }
-
-    #qrSection {
-        display: none;
-        text-align: center;
-        margin-top: 25px;
-        padding-top: 15px;
-        border-top: 1px solid #ddd;
-    }
-
-    #qrSection h3 {
-        color: #1f3c88;
-        margin-bottom: 12px;
-    }
-
-    #qrImage {
-        width: 220px;
-        height: auto;
-        margin-top: 12px;
-        border: 4px solid #1f6fb2;
-        border-radius: 14px;
-    }
-
-    #qrDesc {
-        color: #333;
-        margin-top: 10px;
-        font-size: 15px;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
         .container {
-            padding: 20px 10px;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
         }
 
         .card {
-            padding: 30px 20px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            transition: transform .3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .card .icon {
+            font-size: 50px;
+            margin-bottom: 20px;
         }
 
         .card h3 {
-            font-size: 22px;
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: #1f3c88;
         }
 
         .card p {
-            font-size: 15px;
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .card .btn {
+            background: #1f6fb2;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background .3s, transform .2s;
+        }
+
+        .card .btn:hover {
+            background: #155b8a;
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #fff;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 1000px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 16px;
+            top: 10px;
+            font-size: 28px;
+            font-weight: 700;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .debt-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 16px;
+            table-layout: auto;
+        }
+
+        .debt-table th,
+        .debt-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .debt-table th {
+            background: #1f6fb2;
+            color: #fff;
         }
 
         .pay-btn {
-            font-size: 13px;
-            padding: 8px 12px;
+            background: #10b981;
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background .3s, transform .2s;
+            white-space: nowrap;
         }
 
-        #qrImage {
-            width: 180px;
+        .pay-btn:hover {
+            background: #0d946b;
+            transform: scale(1.05);
         }
-    }
+
+        .pay-btn.disabled {
+            background: gray;
+            cursor: not-allowed;
+        }
+
+        /* Phân trang custom */
+        .pager {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .pager .left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pager button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            background: #e5e7eb;
+            cursor: pointer;
+        }
+
+        .pager button:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .pager .info {
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .pager select {
+            padding: 6px 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+        }
+
+        /* Popup thanh toán (phủ đè) */
+        .pay-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+        }
+
+        .pay-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, .6);
+        }
+
+        .pay-panel {
+            position: relative;
+            z-index: 2001;
+            max-width: 520px;
+            width: 92%;
+            margin: 6% auto;
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            text-align: center;
+            animation: pop .2s ease;
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(.96);
+                opacity: 0
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        .pay-close {
+            position: absolute;
+            right: 12px;
+            top: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .pay-close:hover {
+            color: #000;
+        }
+
+        .pay-title {
+            margin: 0 0 8px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f3c88;
+        }
+
+        .pay-sub {
+            margin: 0 0 16px;
+            color: #374151;
+        }
+
+        .qr-img {
+            width: 280px;
+            height: auto;
+            border: 4px solid #1f6fb2;
+            border-radius: 14px;
+            margin: 12px auto;
+            display: block;
+        }
+
+        .qr-desc {
+            margin-top: 8px;
+            color: #333;
+            font-size: 15px;
+        }
+
+        @media (max-width:768px) {
+            .container {
+                padding: 20px 10px;
+            }
+
+            .card {
+                padding: 30px 20px;
+            }
+
+            .card h3 {
+                font-size: 22px;
+            }
+
+            .card p {
+                font-size: 15px;
+            }
+
+            .pay-btn {
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+
+            .qr-img {
+                width: 220px;
+            }
+        }
+
+        main {
+            display: block;
+        }
     </style>
 </head>
 
 <body>
+
+    <div class="page-header">
+        <h1>Công nợ & Thanh toán</h1>
+    </div>
 
     <div class="container">
         <div class="card">
@@ -335,12 +475,13 @@ chatux.start(true);
         </div>
     </div>
 
-    <div id="debtModal" class="modal">
+    <!-- Modal Hóa đơn -->
+    <div id="debtModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="debtModalTitle">
         <div class="modal-content">
-            <span class="close" onclick="closeDebtModal()">&times;</span>
-            <h2>Công nợ & Thanh toán online</h2>
+            <span class="close" onclick="closeDebtModal()" aria-label="Đóng">&times;</span>
+            <h2 id="debtModalTitle">Công nợ & Thanh toán online</h2>
 
-            <table class="debt-table">
+            <table id="debt-table" class="debt-table">
                 <thead>
                     <tr>
                         <th>Mã hóa đơn</th>
@@ -351,66 +492,253 @@ chatux.start(true);
                         <th>Thao tác</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php foreach($invoices as $inv): 
-                    $displayDate = date('d/m/Y', strtotime($inv['issued_date']));
-                    $displayDue = date('d/m/Y', strtotime($inv['due_date']));
-                    $displayAmount = formatCurrencyVND($inv['total_amount']);
-                    $isPaid = $inv['status'] === 'paid';
-                ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($inv['id']); ?></td>
-                        <td><?php echo $displayDate; ?></td>
-                        <td><?php echo $displayAmount; ?> đ</td>
-                        <td><?php echo $isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'; ?></td>
-                        <td><?php echo $displayDue; ?></td>
-                        <td>
-                            <?php if($isPaid): ?>
-                            <button class="pay-btn disabled">Đã thanh toán</button>
-                            <?php else: ?>
-                            <button class="pay-btn"
-                                onclick="showQR('<?php echo htmlspecialchars($inv['id']); ?>', <?php echo (int) round($inv['total_amount']); ?>)">Thanh
-                                toán</button>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
+                <tbody id="debt-tbody">
+                    <!-- sẽ render bằng JS -->
                 </tbody>
             </table>
 
-            <div id="qrSection">
-                <h3>Quét mã QR để thanh toán</h3>
-                <img id="qrImage" src="" alt="QR Code Thanh Toán">
-                <p id="qrDesc"></p>
+            <div class="pager">
+                <div class="left">
+                    <button id="pgPrev" onclick="gotoPrevPage()">&laquo; Trước</button>
+                    <span class="info" id="pgInfo">Trang 1/1</span>
+                    <button id="pgNext" onclick="gotoNextPage()">Sau &raquo;</button>
+                </div>
+                <div class="right">
+                    <label for="pgSize">Hiển thị:</label>
+                    <select id="pgSize" onchange="changePageSize(this.value)">
+                        <option value="5">5 dòng</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Popup Thanh toán (phủ đè) -->
+    <div id="payModal" class="pay-modal" aria-hidden="true">
+        <div class="pay-backdrop" onclick="closePayModal()"></div>
+        <div class="pay-panel">
+            <span class="pay-close" onclick="closePayModal()" aria-label="Đóng">&times;</span>
+            <h3 class="pay-title">Thanh toán hóa đơn</h3>
+            <p class="pay-sub" id="paySub">Vui lòng quét mã để thanh toán.</p>
+            <img id="payQR" class="qr-img" src="" alt="QR Code Thanh toán">
+            <p class="qr-desc" id="payDesc"></p>
+        </div>
+    </div>
+
+    <!-- ChatUx của bạn (giữ nguyên nếu cần) -->
     <script>
-    function openDebtModal() {
-        document.getElementById("debtModal").style.display = "block";
-    }
+        // Nếu bạn dùng ChatUx, giữ nguyên:
+        const chatux = new ChatUx?.constructor ? new ChatUx() : null;
+        if (chatux) {
+            const opt = {
+                api: {
+                    endpoint: 'http://localhost/chat/chat-server.php',
+                    method: 'GET',
+                    dataType: 'jsonp',
+                    escapeUserInput: true
+                },
+                window: {
+                    title: 'My chat',
+                    size: {
+                        width: 350,
+                        height: 500,
+                        minWidth: 300,
+                        minHeight: 300,
+                        titleHeight: 50
+                    },
+                    appearance: {
+                        border: {
+                            shadow: '2px 2px 10px rgba(0,0,0,.5)',
+                            width: 0,
+                            radius: 6
+                        },
+                        titleBar: {
+                            fontSize: 14,
+                            color: 'white',
+                            background: '#4784d4',
+                            leftMargin: 40,
+                            height: 40,
+                            buttonWidth: 36,
+                            buttonHeight: 16,
+                            buttonColor: 'white',
+                            buttons: [{
+                                fa: 'fas fa-times',
+                                name: 'hideButton',
+                                visible: true
+                            }],
+                            buttonsOnLeft: [{
+                                fa: 'fas fa-comment-alt',
+                                name: 'info',
+                                visible: true
+                            }]
+                        },
+                    }
+                },
+            };
+            chatux.init(opt);
+            chatux.start(true);
+        }
+    </script>
 
-    function closeDebtModal() {
-        document.getElementById("debtModal").style.display = "none";
-        document.getElementById("qrSection").style.display = "none";
-    }
+    <script>
+        // ====== DỮ LIỆU TỪ PHP -> JS ======
+        const INVOICES = <?php echo json_encode($invoices, JSON_UNESCAPED_UNICODE); ?>;
 
-    function showQR(invoiceId, amount) {
-        const qrSection = document.getElementById("qrSection");
-        const qrImage = document.getElementById("qrImage");
-        const qrDesc = document.getElementById("qrDesc");
+        // ====== UTIL ======
+        function fmtVND(n) {
+            return new Intl.NumberFormat('vi-VN').format(Math.round(+n || 0));
+        }
 
-        const yourQR = "https://img.vietqr.io/image/VPB-0383671656-print.png";
-        qrImage.src = yourQR;
-        const amountFormatted = new Intl.NumberFormat('vi-VN').format(amount);
-        qrDesc.textContent = `Hóa đơn: ${invoiceId} | Số tiền: ${amountFormatted} đ | Vui lòng quét mã để thanh toán.`;
+        function toDMY(iso) {
+            if (!iso) return '';
+            const d = new Date(iso);
+            const dd = String(d.getDate()).padStart(2, '0');
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const yy = d.getFullYear();
+            return `${dd}/${mm}/${yy}`;
+        }
 
-        qrSection.style.display = "block";
-    }
+        // ====== PHÂN TRANG THUẦN JS ======
+        let pageIndex = 0; // 0-based
+        let pageSize = 5; // -1 = tất cả
+        let totalPages = 1;
+
+        function calcTotalPages() {
+            if (pageSize === -1) return 1;
+            return Math.max(1, Math.ceil(INVOICES.length / pageSize));
+        }
+
+        function sliceData() {
+            if (pageSize === -1) return INVOICES;
+            const start = pageIndex * pageSize;
+            return INVOICES.slice(start, start + pageSize);
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('debt-tbody');
+            tbody.innerHTML = '';
+            const rows = sliceData();
+
+            rows.forEach(inv => {
+                const id = String(inv.id || '');
+                const date = toDMY(inv.issued_date);
+                const due = toDMY(inv.due_date);
+                const total = fmtVND(inv.total_amount || 0);
+                const isDone = (inv.status === 'done');
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+        <td>${escapeHtml(id)}</td>
+        <td>${date}</td>
+        <td>${total} đ</td>
+        <td>${isDone ? 'Đã thanh toán' : 'Chưa thanh toán'}</td>
+        <td>${due}</td>
+        <td>
+          ${isDone
+                        ? '<button class="pay-btn disabled" disabled>Đã thanh toán</button>'
+                        : `<button class="pay-btn" onclick="openPayModal('${escapeAttr(id)}', ${Math.round(inv.total_amount || 0)})">Thanh toán</button>`
+                    }
+        </td>
+      `;
+                tbody.appendChild(tr);
+            });
+
+            // cập nhật pager
+            totalPages = calcTotalPages();
+            const info = document.getElementById('pgInfo');
+            info.textContent = `Trang ${totalPages === 0 ? 0 : pageIndex + 1}/${totalPages}`;
+
+            document.getElementById('pgPrev').disabled = (pageIndex <= 0);
+            document.getElementById('pgNext').disabled = (pageIndex >= totalPages - 1);
+        }
+
+        function gotoPrevPage() {
+            if (pageIndex > 0) {
+                pageIndex--;
+                renderTable();
+            }
+        }
+
+        function gotoNextPage() {
+            if (pageIndex < totalPages - 1) {
+                pageIndex++;
+                renderTable();
+            }
+        }
+
+        function changePageSize(val) {
+            pageSize = parseInt(val, 10);
+            pageIndex = 0;
+            renderTable();
+        }
+
+        // ====== MODAL HÓA ĐƠN ======
+        function openDebtModal() {
+            document.getElementById('debtModal').style.display = 'block';
+            // setup page size control value
+            document.getElementById('pgSize').value = String(pageSize);
+            // render ngay khi mở
+            renderTable();
+        }
+
+        function closeDebtModal() {
+            document.getElementById('debtModal').style.display = 'none';
+        }
+
+        // ====== POPUP THANH TOÁN (PHỦ ĐÈ) ======
+        function openPayModal(invoiceId, amount) {
+            const bankCode = 'VPB'; // TODO: đổi theo ngân hàng của bạn
+            const account = '0383671656'; // TODO: số tài khoản nhận
+            const addInfo = encodeURIComponent(`TT ${invoiceId}`);
+            const qrUrl =
+                `https://img.vietqr.io/image/${bankCode}-${account}-print.png?amount=${amount}&addInfo=${addInfo}`;
+
+            document.getElementById('payQR').src = qrUrl;
+            document.getElementById('paySub').textContent = `Hóa đơn: ${invoiceId}`;
+            document.getElementById('payDesc').textContent = `Số tiền: ${fmtVND(amount)} đ • Quét mã VietQR để thanh toán.`;
+
+            const pm = document.getElementById('payModal');
+            pm.style.display = 'block'; // phủ đè lên debtModal (z-index cao hơn)
+        }
+
+        function closePayModal() {
+            const pm = document.getElementById('payModal');
+            pm.style.display = 'none';
+        }
+
+        // ====== TIỆN ÍCH ESCAPE ======
+        function escapeHtml(str) {
+            return String(str)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+        function escapeAttr(str) {
+            return escapeHtml(str).replaceAll('"', '&quot;');
+        }
+
+        // ====== KHỞI TẠO NHẸ ======
+        document.addEventListener('DOMContentLoaded', () => {
+            // không render bảng ngay; chỉ render khi user bấm "Xem chi tiết"
+            // nhưng nếu bạn muốn tự mở modal khi vào trang thì:
+            // openDebtModal();
+        });
+
+        // Gán ra global để gọi từ HTML
+        window.openDebtModal = openDebtModal;
+        window.closeDebtModal = closeDebtModal;
+        window.gotoPrevPage = gotoPrevPage;
+        window.gotoNextPage = gotoNextPage;
+        window.changePageSize = changePageSize;
+        window.openPayModal = openPayModal;
+        window.closePayModal = closePayModal;
     </script>
 
 </body>
 
 </html>
-<?php include_once(__DIR__.'/../public/footer.php'); ?>
+
+<?php include_once(__DIR__ . '/../public/footer.php'); ?>

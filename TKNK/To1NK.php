@@ -30,14 +30,22 @@
 <body>
     <div class="container">
         <h2>Tờ khai nhập khẩu - Thông tin chung 1</h2>
+        <fieldset>
+            <legend>Loại Xuất Khẩu:</legend>
+            <div class="radio-group">
+                <label><input type="radio" name="khuvuc" value="trong_nuoc" checked>Trong nước</label>
+                <label><input type="radio" name="khuvuc" value="ngoai_nuoc">Ngoài nước</label>
+            </div>
+        </fieldset>
         <form method="POST" action="To2NK.php">
             <fieldset>
-<<<<<<< HEAD
                 <legend>Nhóm loại hình:</legend>
                 <div class="radio-group">
-                    <label><input type="radio" value="Kinh doanh, đầu tư" name="nhom_loai_hinh" checked> Kinh doanh, đầu
+                    <label><input type="radio" value="Kinh doanh, đầu tư" name="nhom_loai_hinh" checked> Kinh doanh,
+                        đầu
                         tư</label>
-                    <label><input type="radio" value="Sản xuất xuất khẩu" value="" name="nhom_loai_hinh"> Sản xuất xuất
+                    <label><input type="radio" value="Sản xuất xuất khẩu" value="" name="nhom_loai_hinh"> Sản xuất
+                        xuất
                         khẩu</label>
                     <label><input type="radio" value="Gia công" name="nhom_loai_hinh"> Gia công</label>
                     <label><input type="radio" value="Chế xuất" name="nhom_loai_hinh"> Chế xuất</label>
@@ -86,12 +94,6 @@
                         <option value="01">01: Bộ phận hàng hóa nhập khẩu hàng mậu dịch Kho SCSC.</option>
                     </select>
                 </div>
-=======
-                <legend>Thông tin chung</legend>
-                <div class="form-group">
-                    <label style="width: 240px">Nhóm loại hình:</label>
-
->>>>>>> eb839a154b3daf194cc14baffd6416ba95608e6e
             </fieldset>
             <fieldset>
                 <legend>Thông tin người nhập khẩu:</legend>
@@ -194,10 +196,7 @@
                 <div class="form-group">
                     <label>Mã địa điểm lưu kho:</label>
                     <input type="text" name="MDDLK" placeholder="Mã địa điểm lưu kho">
-                    <select name="dia_diem_luu_kho">
-                        <option value="" checked></option>
-                        <option value="OSA">OSAKA</option>
-                        <option value="HAN">HANOI</option>
+                    <select name="dia_diem_luu_kho" id="location-select">
                     </select>
                 </div>
                 <div class="form-group">
@@ -216,19 +215,13 @@
                 <div class="form-group">
                     <label>Địa điểm dỡ hàng:</label>
                     <input type="text" name="DDDH" placeholder="Địa điểm dỡ hàng">
-                    <select name="ma_dd_dohang">
-                        <option value="" checked></option>
-                        <option value="OSA">OSAKA</option>
-                        <option value="HAN">HANOI</option>
+                    <select name="ma_dd_dohang" id="location-select2">
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Địa điểm xếp hàng:</label>
                     <input type="text" name="DDXH" placeholder="Địa điểm xếp hàng">
-                    <select name="ma_dd_xephang">
-                        <option value="" checked></option>
-                        <option value="OSA">OSAKA</option>
-                        <option value="HAN">HANOI</option>
+                    <select name="ma_dd_xephang" id="location-select3">
                     </select>
                 </div>
                 <div class="form-group">
@@ -259,6 +252,279 @@
             }
             </script>
         </form>
+        <script>
+        const locations = {
+            trong_nuoc: [{
+                    code: "",
+                    name: ""
+                },
+                {
+                    code: "03CCS01",
+                    name: "HOÀNG DIỆU"
+                },
+                {
+                    code: "03CCS03",
+                    name: "TÂN CẢNG"
+                },
+                {
+                    code: "03CCS18",
+                    name: "HECHUN"
+                },
+                {
+                    code: "03CC0ZZ",
+                    name: "ĐĐ LƯU KHO KVI"
+                },
+                {
+                    code: "03CES01",
+                    name: "HẢI AN"
+                },
+                {
+                    code: "03CES02",
+                    name: "CHÙA VẼ"
+                },
+                {
+                    code: "03CES03",
+                    name: "KHO VIETFRACHT"
+                },
+                {
+                    code: "03CES04",
+                    name: "KHO NAM PHÁT (HAI MINH)"
+                },
+                {
+                    code: "03CES05",
+                    name: "KHO SAO ĐỎ"
+                },
+                {
+                    code: "03CES06",
+                    name: "KHO INLACO"
+                },
+                {
+                    code: "03CES07",
+                    name: "KHO TÂN TIÊN PHONG"
+                },
+                {
+                    code: "03CES11",
+                    name: "NAM ĐÌNH VŨ"
+                },
+                {
+                    code: "03CES14",
+                    name: "MPC PORT (MIPEC)"
+                },
+                {
+                    code: "03TGS01",
+                    name: "CẢNG NAM HẢI"
+                },
+                {
+                    code: "03TGS02",
+                    name: "CẢNG ĐOẠN XÁ"
+                },
+                {
+                    code: "03TGS03",
+                    name: "CẢNG TRANSVINA"
+                },
+                {
+                    code: "03TGS04",
+                    name: "CẢNG GREEN PORT"
+                },
+                {
+                    code: "03TGC01",
+                    name: "KHO VINABRIDGE"
+                },
+                {
+                    code: "03TGC02",
+                    name: "KHO VICONSHIP"
+                },
+                {
+                    code: "03TGC03",
+                    name: "KHO GERMADEPT ĐÔNG HẢI"
+                },
+                {
+                    code: "03TGC04",
+                    name: "KHO VIJACO"
+                },
+                {
+                    code: "03TGC05",
+                    name: "KHO LOGISTICS XANH"
+                },
+                {
+                    code: "03TGC06",
+                    name: "KHO CFS GLC"
+                },
+                {
+                    code: "03EES01",
+                    name: "CẢNG ĐÌNH VŨ"
+                },
+                {
+                    code: "03EES02",
+                    name: "TÂN CẢNG 189"
+                },
+                {
+                    code: "20CFS09",
+                    name: "CẢNG CÁI LÂN"
+                },
+                {
+                    code: "03CCS03",
+                    name: "CẢNG CÁI MÉP"
+                },
+                {
+                    code: "34CES01",
+                    name: "CẢNG TIÊN SA"
+                },
+                {
+                    code: "03EES09",
+                    name: "TÂN CẢNG 128"
+                },
+                {
+                    code: "03TGS02",
+                    name: "Tanamexco"
+                }
+            ],
+            ngoai_nuoc: [{
+                    code: "",
+                    name: ""
+                },
+                {
+                    code: "JPMOJ",
+                    name: "Moji"
+                },
+                {
+                    code: "JPFUK",
+                    name: "Fukuoka"
+                },
+                {
+                    code: "JPNGO",
+                    name: "Nagoya"
+                },
+                {
+                    code: "CNSHA",
+                    name: "Shanghai"
+                },
+                {
+                    code: "CNSZX",
+                    name: "Shenzhen"
+                },
+                {
+                    code: "CNCAN",
+                    name: "Guangzhou"
+                },
+                {
+                    code: "CNCZZ",
+                    name: "Cangzhou"
+                },
+                {
+                    code: "KRPUS",
+                    name: "Busan"
+                },
+                {
+                    code: "KRINC",
+                    name: "Incheon"
+                },
+                {
+                    code: "SGSIN",
+                    name: "Singapore (Port)"
+                },
+                {
+                    code: "NLAMS",
+                    name: "Rotterdam"
+                },
+                {
+                    code: "USNYC",
+                    name: "New Jersey port area"
+                },
+                {
+                    code: "BRSSZ",
+                    name: "Santos"
+                },
+                {
+                    code: "DEHAM",
+                    name: "Hamburg"
+                },
+                {
+                    code: "ESVLC",
+                    name: "Valencia"
+                },
+                {
+                    code: "CAVAN",
+                    name: "Vancouver"
+                },
+                {
+                    code: "MAMAZ",
+                    name: "Manzanillo"
+                },
+                {
+                    code: "AUMEL",
+                    name: "Melbourne / Sydney"
+                },
+                {
+                    code: "INJNP",
+                    name: "Jawaharlal Nehru (JNPT)"
+                },
+                {
+                    code: "TRIST",
+                    name: "Istanbul"
+                },
+                {
+                    code: "THSRI",
+                    name: "Sriracha Harbour"
+                },
+                {
+                    code: "THSGZ",
+                    name: "Songkhla Port"
+                },
+                {
+                    code: "IDTPP",
+                    name: "Tanjung Priok (Jakarta)"
+                },
+                {
+                    code: "IDDUM",
+                    name: "Dumai Port"
+                },
+                {
+                    code: "MYPKG",
+                    name: "Port Klang"
+                },
+                {
+                    code: "PHMNL",
+                    name: "Port of Manila"
+                },
+                {
+                    code: "MYPEN",
+                    name: "Penang Port"
+                }
+            ]
+        };
+
+        function updateLocationSelect(type) {
+            const select = document.getElementById("location-select");
+            const select2 = document.getElementById("location-select2");
+            const select3 = document.getElementById("location-select3");
+
+            select.innerHTML = "";
+            select2.innerHTML = "";
+            select3.innerHTML = "";
+
+            locations[type].forEach(loc => {
+                const option1 = document.createElement("option");
+                option1.value = loc.code;
+                option1.textContent = loc.name;
+
+                const option2 = option1.cloneNode(true);
+                const option3 = option1.cloneNode(true);
+
+                select.appendChild(option1);
+                select2.appendChild(option2);
+                select3.appendChild(option3);
+            });
+        }
+
+        document.querySelectorAll('input[name="khuvuc"]').forEach(radio => {
+            radio.addEventListener("change", e => {
+                updateLocationSelect(e.target.value);
+            });
+        });
+
+        updateLocationSelect("trong_nuoc");
+        </script>
 </body>
 
 </html>

@@ -240,7 +240,7 @@ window.onload = function() {
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <!-- Giao diện -->
-<h1>Tra cứu đơn hàng</h1>
+<h1>Tra cứu tờ khai</h1>
 <form method="GET" action="">
     <div class="form-row">
         <select name="lua_chon" required>

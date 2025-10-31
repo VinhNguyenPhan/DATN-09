@@ -181,7 +181,7 @@ h2.page-title {
 <div class="page-container">
     <!-- ✅ Tiêu đề trang -->
     <div class="page-title">
-        <h1>Tra cứu đơn hàng</h1>
+        <h1>Tra cứu tờ khai</h1>
     </div>
 
     <!-- Controls -->

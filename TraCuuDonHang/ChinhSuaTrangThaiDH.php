@@ -191,7 +191,7 @@ select:focus {
 
 <div class="page-container">
     <div class="card">
-        <h1>Chỉnh sửa trạng thái đơn hàng</h1>
+        <h1>Chỉnh sửa trạng thái tờ khai</h1>
 
         <?php if ($message): ?><div class="msg success"><?= htmlspecialchars($message) ?></div><?php endif; ?>
         <?php if ($error): ?><div class="msg error"><?= htmlspecialchars($error) ?></div><?php endif; ?>

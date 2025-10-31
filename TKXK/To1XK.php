@@ -1,13 +1,13 @@
-<?php 
-    require_once(__DIR__."/../core/database.php");
-    require_once(__DIR__ . '/../core/phanQuyen.php');
-    require_role(['employee','customer','admin']);
-    // thêm mới bảo vệ đăng nhập
-     if (empty($_SESSION['user_id'])) {
-     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
-     header("Location: $redirect");
-     exit;
- }
+<?php
+require_once(__DIR__ . "/../core/database.php");
+require_once(__DIR__ . '/../core/phanQuyen.php');
+require_role(['employee', 'customer', 'admin']);
+// thêm mới bảo vệ đăng nhập
+if (empty($_SESSION['user_id'])) {
+    $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
+    header("Location: $redirect");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -438,85 +438,283 @@
                 <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
             </div>
             <script>
-            function timToKhai() {
-                alert("Thực hiện tìm tờ khai...");
-            }
+                function timToKhai() {
+                    alert("Thực hiện tìm tờ khai...");
+                }
             </script>
         </form>
     </div>
 
     <script>
-    const locations = {
-        trong_nuoc: [{
-                code: "HAN",
-                name: "HANOI"
+        const locations = {
+            trong_nuoc: [{
+                code: "",
+                name: ""
             },
             {
-                code: "SGN",
-                name: "HO CHI MINH"
+                code: "03CCS01",
+                name: "HOÀNG DIỆU"
             },
             {
-                code: "DAN",
-                name: "Đà Nẵng"
+                code: "03CCS03",
+                name: "TÂN CẢNG"
             },
             {
-                code: "HAP",
-                name: "Hải Phòng"
+                code: "03CCS18",
+                name: "HECHUN"
             },
             {
-                code: "QUN",
-                name: "Quảng Ninh"
+                code: "03CC0ZZ",
+                name: "ĐĐ LƯU KHO KVI"
+            },
+            {
+                code: "03CES01",
+                name: "HẢI AN"
+            },
+            {
+                code: "03CES02",
+                name: "CHÙA VẼ"
+            },
+            {
+                code: "03CES03",
+                name: "KHO VIETFRACHT"
+            },
+            {
+                code: "03CES04",
+                name: "KHO NAM PHÁT (HAI MINH)"
+            },
+            {
+                code: "03CES05",
+                name: "KHO SAO ĐỎ"
+            },
+            {
+                code: "03CES06",
+                name: "KHO INLACO"
+            },
+            {
+                code: "03CES07",
+                name: "KHO TÂN TIÊN PHONG"
+            },
+            {
+                code: "03CES11",
+                name: "NAM ĐÌNH VŨ"
+            },
+            {
+                code: "03CES14",
+                name: "MPC PORT (MIPEC)"
+            },
+            {
+                code: "03TGS01",
+                name: "CẢNG NAM HẢI"
+            },
+            {
+                code: "03TGS02",
+                name: "CẢNG ĐOẠN XÁ"
+            },
+            {
+                code: "03TGS03",
+                name: "CẢNG TRANSVINA"
+            },
+            {
+                code: "03TGS04",
+                name: "CẢNG GREEN PORT"
+            },
+            {
+                code: "03TGC01",
+                name: "KHO VINABRIDGE"
+            },
+            {
+                code: "03TGC02",
+                name: "KHO VICONSHIP"
+            },
+            {
+                code: "03TGC03",
+                name: "KHO GERMADEPT ĐÔNG HẢI"
+            },
+            {
+                code: "03TGC04",
+                name: "KHO VIJACO"
+            },
+            {
+                code: "03TGC05",
+                name: "KHO LOGISTICS XANH"
+            },
+            {
+                code: "03TGC06",
+                name: "KHO CFS GLC"
+            },
+            {
+                code: "03EES01",
+                name: "CẢNG ĐÌNH VŨ"
+            },
+            {
+                code: "03EES02",
+                name: "TÂN CẢNG 189"
+            },
+            {
+                code: "20CFS09",
+                name: "CẢNG CÁI LÂN"
+            },
+            {
+                code: "03CCS03",
+                name: "CẢNG CÁI MÉP"
+            },
+            {
+                code: "34CES01",
+                name: "CẢNG TIÊN SA"
+            },
+            {
+                code: "03EES09",
+                name: "TÂN CẢNG 128"
+            },
+            {
+                code: "03TGS02",
+                name: "Tanamexco"
             }
-        ],
-        ngoai_nuoc: [{
-                code: "OSA",
-                name: "OSAKA"
+            ],
+            ngoai_nuoc: [{
+                code: "",
+                name: ""
             },
             {
-                code: "TKY",
-                name: "TOKYO"
+                code: "JPMOJ",
+                name: "Moji"
             },
             {
-                code: "SEO",
-                name: "SEOUL"
-            } {
-                code: "BEI",
-                name: "Bắc Kinh"
+                code: "JPFUK",
+                name: "Fukuoka"
+            },
+            {
+                code: "JPNGO",
+                name: "Nagoya"
+            },
+            {
+                code: "CNSHA",
+                name: "Shanghai"
+            },
+            {
+                code: "CNSZX",
+                name: "Shenzhen"
+            },
+            {
+                code: "CNCAN",
+                name: "Guangzhou"
+            },
+            {
+                code: "CNCZZ",
+                name: "Cangzhou"
+            },
+            {
+                code: "KRPUS",
+                name: "Busan"
+            },
+            {
+                code: "KRINC",
+                name: "Incheon"
+            },
+            {
+                code: "SGSIN",
+                name: "Singapore (Port)"
+            },
+            {
+                code: "NLAMS",
+                name: "Rotterdam"
+            },
+            {
+                code: "USNYC",
+                name: "New Jersey port area"
+            },
+            {
+                code: "BRSSZ",
+                name: "Santos"
+            },
+            {
+                code: "DEHAM",
+                name: "Hamburg"
+            },
+            {
+                code: "ESVLC",
+                name: "Valencia"
+            },
+            {
+                code: "CAVAN",
+                name: "Vancouver"
+            },
+            {
+                code: "MAMAZ",
+                name: "Manzanillo"
+            },
+            {
+                code: "AUMEL",
+                name: "Melbourne / Sydney"
+            },
+            {
+                code: "INJNP",
+                name: "Jawaharlal Nehru (JNPT)"
+            },
+            {
+                code: "TRIST",
+                name: "Istanbul"
+            },
+            {
+                code: "THSRI",
+                name: "Sriracha Harbour"
+            },
+            {
+                code: "THSGZ",
+                name: "Songkhla Port"
+            },
+            {
+                code: "IDTPP",
+                name: "Tanjung Priok (Jakarta)"
+            },
+            {
+                code: "IDDUM",
+                name: "Dumai Port"
+            },
+            {
+                code: "MYPKG",
+                name: "Port Klang"
+            },
+            {
+                code: "PHMNL",
+                name: "Port of Manila"
+            },
+            {
+                code: "MYPEN",
+                name: "Penang Port"
             }
-        ]
-    };
+            ]
+        };
 
-    function updateLocationSelect(type) {
-        const select = document.getElementById("location-select");
-        const select2 = document.getElementById("location-select2");
-        const select3 = document.getElementById("location-select3");
+        function updateLocationSelect(type) {
+            const selects = [
+                document.getElementById("location-select"),
+                document.getElementById("location-select2"),
+                document.getElementById("location-select3")
+            ];
+            selects.forEach(select => {
+                select.innerHTML = "";
+                locations[type].forEach(loc => {
+                    const option = document.createElement("option");
+                    option.value = loc.code;
+                    option.textContent = `${loc.code} - ${loc.name}`;
+                    select.appendChild(option);
+                });
+            });
+        }
 
-        select.innerHTML = "";
-        select2.innerHTML = "";
-        select3.innerHTML = "";
-
-        locations[type].forEach(loc => {
-            const option1 = document.createElement("option");
-            option1.value = loc.code;
-            option1.textContent = loc.name;
-
-            const option2 = option1.cloneNode(true);
-            const option3 = option1.cloneNode(true);
-
-            select.appendChild(option1);
-            select2.appendChild(option2);
-            select3.appendChild(option3);
+        // Gọi khi radio khu vực thay đổi
+        document.querySelectorAll('input[name="khuvuc"]').forEach(radio => {
+            radio.addEventListener("change", (e) => {
+                updateLocationSelect(e.target.value);
+            });
         });
-    }
 
-    document.querySelectorAll('input[name="khuvuc"]').forEach(radio => {
-        radio.addEventListener("change", e => {
-            updateLocationSelect(e.target.value);
-        });
-    });
-
-    updateLocationSelect("trong_nuoc");
+        // Khởi tạo mặc định
+        updateLocationSelect(document.querySelector('input[name="khuvuc"]:checked').value);
     </script>
+
 </body>
 
 </html>

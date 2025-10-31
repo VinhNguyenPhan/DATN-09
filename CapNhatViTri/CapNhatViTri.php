@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . '/../public/header.php');
-require_role(['admin']);
+require_role(['admin','shipper']);
 
 if (empty($_SESSION['user_id'])) {
     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
@@ -187,7 +187,7 @@ select:focus {
 
 <div class="page-container">
     <div class="card">
-        <h1>Chỉnh sửa trạng thái đơn hàng</h1>
+        <h1>Cập nhật vị trí tờ khai</h1>
 
         <?php if ($message): ?><div class="msg success"><?= htmlspecialchars($message) ?></div><?php endif; ?>
         <?php if ($error): ?><div class="msg error"><?= htmlspecialchars($error) ?></div><?php endif; ?>
