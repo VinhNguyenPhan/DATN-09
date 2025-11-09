@@ -5,7 +5,6 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 include_once(__DIR__ . '/../public/header.php');
 if (session_status() === PHP_SESSION_NONE)
     session_start();
-
 require_role(['customer', 'admin', 'accounting']);
 if (empty($_SESSION['user_id'])) {
     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
@@ -40,8 +39,8 @@ function fetchInvoicesFromDb($conn, $userId): array
         if (!$userId)
             return $rows;
 
-        $sqlXK = "SELECT to1xk.SVD, to1xk.created_at, to1xk.TTGHD as amount, to1xk.tt_thanhtoan FROM to1XK ORDER BY to1xk.id DESC";
-        $sqlNK = "SELECT to1nk.SVD, to1nk.created_at, to2nk.TTGHD as amount, to1nk.tt_thanhtoan FROM to1NK JOIN to2nk ON to2nk.to1nk = to1nk.id ORDER BY to1nk.id DESC;";
+        $sqlXK = "SELECT to1xk.id, to1xk.SVD, to1xk.created_at, to1xk.TTGHD as amount, to1xk.tt_thanhtoan FROM to1XK WHERE to1XK.ThongKeTK = 'declaration' ORDER BY to1xk.id DESC";
+        $sqlNK = "SELECT to1nk.id, to1nk.SVD, to1nk.created_at, to2nk.TTGHD as amount, to1nk.tt_thanhtoan FROM to1NK JOIN to2nk ON to2nk.to1nk = to1nk.id to1nk.ThongKeTK = 'declaration' ORDER BY to1nk.id DESC;";
 
         $resXK = $conn->query($sqlXK);
         $resNK = $conn->query($sqlNK);
@@ -50,13 +49,13 @@ function fetchInvoicesFromDb($conn, $userId): array
         if ($resXK) {
             $xkData = $resXK->fetch_all(MYSQLI_ASSOC);
             foreach ($xkData as &$row)
-                $row['loai'] = 'Xuất khẩu';
+                $row['loai'] = 'to1xk';
             $orders = array_merge($orders, $xkData);
         }
         if ($resNK) {
             $nkData = $resNK->fetch_all(MYSQLI_ASSOC);
             foreach ($nkData as &$row)
-                $row['loai'] = 'Nhập khẩu';
+                $row['loai'] = 'to1nk';
             $orders = array_merge($orders, $nkData);
         }
         usort($orders, fn($a, $b) => strtotime($b['created_at'] ?? '0') <=> strtotime($a['created_at'] ?? '0'));
@@ -66,7 +65,9 @@ function fetchInvoicesFromDb($conn, $userId): array
 
         foreach ($orders as $r) {
             $rows[] = [
-                'id' => (string) ($r['SVD'] ?? ''),
+                'id' => (string) ($r['id'] ?? ''),
+                'SVD' => (string) ($r['SVD'] ?? ''),
+                'loai' => (string) ($r['loai'] ?? ''),
                 'issued_date' => !empty($r['created_at']) ? date('Y-m-d', strtotime($r['created_at'])) : date('Y-m-d'),
                 'goods_amount' => (float) ($r['amount'] ?? 0),
                 'freight_fee' => 0.0,
@@ -81,12 +82,7 @@ function fetchInvoicesFromDb($conn, $userId): array
 
 $userId = (int) ($_SESSION['user_id'] ?? 0);
 $invoices = fetchInvoicesFromDb($conn, $userId);
-if (empty($invoices)) {
-    $invoices = [
-        ['id' => 'HD001', 'issued_date' => '2025-10-01', 'goods_amount' => 4800000, 'freight_fee' => 200000, 'due_date' => '2025-10-10', 'status' => 'pending'],
-        ['id' => 'HD002', 'issued_date' => '2025-09-15', 'goods_amount' => 3000000, 'freight_fee' => 200000, 'due_date' => '2025-09-20', 'status' => 'done'],
-    ];
-}
+
 foreach ($invoices as $idx => $inv) {
     $goods = (float) ($inv['goods_amount'] ?? 0);
     $ship = (float) ($inv['freight_fee'] ?? 0);
@@ -277,6 +273,29 @@ foreach ($invoices as $idx => $inv) {
             cursor: not-allowed;
         }
 
+        /* CSS cho nút Đã Chuyển Khoản */
+        .btn-paid-notify {
+            background: #dc2626;
+            /* Màu đỏ */
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+            /* Khoảng cách với QR */
+            transition: background .3s, transform .2s;
+            display: block;
+            /* Chiếm hết chiều ngang */
+            width: 100%;
+        }
+
+        .btn-paid-notify:hover {
+            background: #991b1b;
+            transform: scale(1.02);
+        }
+
         .pager {
             display: flex;
             align-items: center;
@@ -395,6 +414,13 @@ foreach ($invoices as $idx => $inv) {
             font-size: 15px;
         }
 
+        .pay-actions {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Media Queries */
         @media (max-width:768px) {
             .container {
                 padding: 20px 10px;
@@ -419,6 +445,11 @@ foreach ($invoices as $idx => $inv) {
 
             .qr-img {
                 width: 220px;
+            }
+
+            .btn-paid-notify {
+                font-size: 16px;
+                padding: 12px;
             }
         }
 
@@ -453,10 +484,10 @@ foreach ($invoices as $idx => $inv) {
                     <tr>
                         <th>Số vận đơn</th>
                         <th>Ngày khai báo</th>
-                        <th>Số tiền</th>
-                        <th>Trạng thái</th>
+                        <th>Số tiền (VNĐ)</th>
+                        <th>Tình trạng TT</th>
                         <th>Hạn thanh toán</th>
-                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody id="debt-tbody">
@@ -473,6 +504,8 @@ foreach ($invoices as $idx => $inv) {
                     <label for="pgSize">Hiển thị:</label>
                     <select id="pgSize" onchange="changePageSize(this.value)">
                         <option value="5">5 dòng</option>
+                        <option value="10">10 dòng</option>
+                        <option value="-1">Tất cả</option>
                     </select>
                 </div>
             </div>
@@ -487,8 +520,15 @@ foreach ($invoices as $idx => $inv) {
             <p class="pay-sub" id="paySub">Vui lòng quét mã để thanh toán.</p>
             <img id="payQR" class="qr-img" src="" alt="QR Code Thanh toán">
             <p class="qr-desc" id="payDesc"></p>
+
+            <div class="pay-actions">
+                <button class="btn-paid-notify" id="btnPaidNotify" onclick="markAsPaid('')">
+                    <span class="icon"></span> Đã Thanh toán xong
+                </button>
+            </div>
         </div>
     </div>
+
     <script>
         const chatux = new ChatUx?.constructor ? new ChatUx() : null;
         if (chatux) {
@@ -578,27 +618,40 @@ foreach ($invoices as $idx => $inv) {
             tbody.innerHTML = '';
             const rows = sliceData();
 
+            if (INVOICES.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6">Không có dữ liệu công nợ.</td></tr>';
+            }
+
             rows.forEach(inv => {
                 const id = String(inv.id || '');
+                const SVD = String(inv.SVD || '');
                 const date = toDMY(inv.issued_date);
                 const due = toDMY(inv.due_date);
                 const total = fmtVND(inv.total_amount || 0);
+                // Trạng thái hiển thị cho người dùng
+                let statusText = 'Chưa thanh toán';
+                if (inv.status === 'done') {
+                    statusText = 'Đã thanh toán';
+                } else if (inv.late_fee > 0) {
+                    statusText = 'Quá hạn (' + fmtVND(inv.late_fee) + ' đ phí phạt)';
+                }
+
                 const isDone = (inv.status === 'done');
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-        <td>${escapeHtml(id)}</td>
-        <td>${date}</td>
-        <td>${total} đ</td>
-        <td>${isDone ? 'Đã thanh toán' : 'Chưa thanh toán'}</td>
-        <td>${due}</td>
-        <td>
-          ${isDone
+                    <td>${escapeHtml(SVD)}</td>
+                    <td>${date}</td>
+                    <td>${total} đ</td>
+                    <td>${statusText}</td>
+                    <td>${due}</td>
+                    <td>
+                    ${isDone
                         ? '<button class="pay-btn disabled" disabled>Đã thanh toán</button>'
                         : `<button class="pay-btn" onclick="openPayModal('${escapeAttr(id)}', ${Math.round(inv.total_amount || 0)})">Thanh toán</button>`
                     }
-        </td>
-      `;
+                    </td>
+                `;
                 tbody.appendChild(tr);
             });
             totalPages = calcTotalPages();
@@ -639,7 +692,12 @@ foreach ($invoices as $idx => $inv) {
             document.getElementById('debtModal').style.display = 'none';
         }
 
+        // Biến toàn cục để lưu ID hóa đơn đang được thanh toán
+        let currentInvoiceId = '';
+
         function openPayModal(invoiceId, amount) {
+            currentInvoiceId = invoiceId; // Lưu ID hóa đơn
+
             const bankCode = 'VPB';
             const account = '0383671656';
             const addInfo = encodeURIComponent(`TT ${invoiceId}`);
@@ -650,6 +708,9 @@ foreach ($invoices as $idx => $inv) {
             document.getElementById('paySub').textContent = `Hóa đơn: ${invoiceId}`;
             document.getElementById('payDesc').textContent = `Số tiền: ${fmtVND(amount)} đ • Quét mã VietQR để thanh toán.`;
 
+            // Cập nhật onclick cho nút "Đã Chuyển Khoản"
+            document.getElementById('btnPaidNotify').setAttribute('onclick', `markAsPaid('${escapeAttr(invoiceId)}')`);
+
             const pm = document.getElementById('payModal');
             pm.style.display = 'block';
         }
@@ -657,6 +718,77 @@ foreach ($invoices as $idx => $inv) {
         function closePayModal() {
             const pm = document.getElementById('payModal');
             pm.style.display = 'none';
+            currentInvoiceId = ''; // Xóa ID hóa đơn khi đóng modal
+        }
+
+        /**
+         * Hàm gửi thông báo đã thanh toán bằng QR/Chuyển khoản đến Admin
+         * @param {string} invoiceId - Số vận đơn/ID hóa đơn
+         */
+        function markAsPaid(invoiceId) {
+            if (!invoiceId) {
+                alert('Lỗi: Không tìm thấy ID hóa đơn.');
+                return;
+            }
+
+            // Tìm hóa đơn trong danh sách INVOICES để lấy thông tin chi tiết (nếu cần)
+            const invoice = INVOICES.find(inv => inv.id === invoiceId);
+
+            // Nếu bạn đang dùng SVD làm ID, hãy dùng nó để hiển thị trong confirm
+            const SVD = invoice?.SVD || '';
+            const loai = invoice?.loai || '';
+
+            const confirmed = confirm(
+                `Bạn có chắc chắn muốn báo đã chuyển khoản cho hóa đơn này không? Admin sẽ kiểm tra và cập nhật trạng thái.`
+            );
+
+            if (confirmed) {
+                // Lấy User ID đã được nhúng từ PHP
+                const userId = <?php echo $userId; ?>;
+
+                // Vô hiệu hóa nút báo cáo tạm thời để tránh spam
+                const btn = document.getElementById('btnPaidNotify');
+                btn.disabled = true;
+                btn.textContent = 'Đang gửi...';
+
+                // Gửi yêu cầu AJAX (Fetch API) đến server
+                fetch('payment_notify.php', { // <--- ĐƯỜNG DẪN DÙNG TRONG PHP BACKEND BÊN DƯỚI
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: invoiceId,
+                        SVD: SVD,
+                        loai: loai,
+                        action: 'notify_transfer' // Thao tác cụ thể
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Lỗi Server hoặc mạng lưới.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            alert(`✅ Đã gửi thông báo thanh toán thành công cho hóa đơn! Vui lòng chờ Admin xác nhận.`);
+                            closePayModal();
+                        } else {
+                            alert(`❌ Gửi thông báo thất bại: ${data.message}`);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi gửi thông báo:', error);
+                        alert('⚠️ Lỗi kết nối hoặc xử lý. Vui lòng kiểm tra console hoặc thử lại.');
+                    })
+                    .finally(() => {
+                        if (btn) {
+                            btn.disabled = false;
+                            btn.textContent = '✅ Đã Chuyển Khoản (Báo Admin)';
+                        }
+                    });
+            }
         }
 
         function escapeHtml(str) {
@@ -679,6 +811,7 @@ foreach ($invoices as $idx => $inv) {
         window.changePageSize = changePageSize;
         window.openPayModal = openPayModal;
         window.closePayModal = closePayModal;
+        window.markAsPaid = markAsPaid; // Đưa hàm mới ra window scope
     </script>
 
 </body>

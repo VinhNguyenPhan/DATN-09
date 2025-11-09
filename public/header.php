@@ -467,7 +467,7 @@ require_once(__DIR__ . "/../core/database.php");
                 </li>
                 <?php if (!empty($_SESSION["user_id"])): ?>
                     <li class="dropdown" role="none" aria-haspopup="true">
-                        <a role="menuitem" href="#" aria-expanded="false">Chức năng/Khai báo ▾</a>
+                        <a role="menuitem" href="#" aria-expanded="false">Tờ khai ▾</a>
                         <ul class="dropdown-menu" role="menu" aria-label="Danh sách chức năng">
                             <?php
                             if (in_array($_SESSION['role'], $_role_KhaiBao)):
@@ -481,19 +481,41 @@ require_once(__DIR__ . "/../core/database.php");
                                 <li role="none"><a role="menuitem" href="/TraCuuDonHang/TraCuu.php">Danh sách tờ khai</a>
                                 </li>
                             <?php endif; ?>
+
+                            <?php
+                            if (in_array($_SESSION['role'], $_role_ThongKe)):
+                                ?>
+                                <li role="none"><a role="menuitem" href="/ThongKeDonHang/ThongKeToKhai.php">Thống kê
+                                        tờ khai</a></li>
+                            <?php endif; ?>
+
+                            <?php
+                            if (in_array($_SESSION['role'], $_role_ChinhSuaTrangThai)):
+                                ?>
+                                <li role="none"><a role="menuitem" href="/TraCuuDonHang/ChinhSuaTrangThaiTK.php">Cập nhật trạng
+                                        thái tờ khai</a></li>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+
+                <?php if (!empty($_SESSION["user_id"])): ?>
+                    <li class="dropdown" role="none" aria-haspopup="true">
+                        <a role="menuitem" href="#" aria-expanded="false">Vận chuyển hàng hóa ▾</a>
+                        <ul class="dropdown-menu" role="menu" aria-label="Danh sách chức năng đơn hàng">
                             <?php
                             if (in_array($_SESSION['role'], $_role_TraCuuViTri)):
                                 ?>
                                 <li role="none"><a role="menuitem" href="/ChucNangDonHang/ChucNangDonHang.php">Tra cứu
                                         vị trí
-                                        tờ khai</a></li>
+                                        đơn hàng</a></li>
                             <?php endif; ?>
 
                             <?php
                             if (in_array($_SESSION['role'], $_role_ThongKe)):
                                 ?>
                                 <li role="none"><a role="menuitem" href="/ThongKeDonHang/ThongKeDonHang.php">Thống kê
-                                        tờ khai</a></li>
+                                        đơn hàng</a></li>
                             <?php endif; ?>
 
                             <?php
@@ -506,16 +528,15 @@ require_once(__DIR__ . "/../core/database.php");
                             <?php
                             if (in_array($_SESSION['role'], $_role_ChinhSuaTrangThai)):
                                 ?>
-                                <li role="none"><a role="menuitem" href="/TraCuuDonHang/ChinhSuaTrangThaiDH.php">Chỉnh
-                                        sửa trạng
-                                        thái tờ khai</a></li>
+                                <li role="none"><a role="menuitem" href="/TraCuuDonHang/ChinhSuaTrangThaiDH.php">Cập nhật trạng
+                                        thái đơn hàng</a></li>
                             <?php endif; ?>
 
                             <?php
                             if (in_array($_SESSION['role'], $_role_ChinhSuaViTri)):
                                 ?>
-                                <li role="none"><a role="menuitem" href="/CapNhatViTri/CapNhatViTri.php">Cập nhật vị trí tờ
-                                        khai</a></li>
+                                <li role="none"><a role="menuitem" href="/CapNhatViTri/CapNhatViTri.php">Cập nhật vị trí đơn
+                                        hàng</a></li>
                             <?php endif; ?>
                             <?php
                             if (in_array($_SESSION['role'], $_role_CongNo)):
@@ -528,8 +549,8 @@ require_once(__DIR__ . "/../core/database.php");
                 <?php endif; ?>
 
                 <li role="none"><a href="../TinTuc/TinTuc.php" role="menuitem" href="#">Tin tức</a></li>
-                <li role="none"><a role="menuitem" href="../LienHe/ThongTinLienHe.php" target="_self">Liên
-                        hệ</a></li>
+                <!-- <li role="none"><a role="menuitem" href="../LienHe/ThongTinLienHe.php" target="_self">Liên
+                        hệ</a></li> -->
             </ul>
         </nav>
 

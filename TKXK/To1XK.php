@@ -222,13 +222,15 @@ if (empty($_SESSION['user_id'])) {
                 </div>
                 <div class="form-group" style="margin-top: 10px;">
                     <label>Mã địa điểm lưu kho hàng chờ thông quan dự kiến:</label>
-                    <input type="text" name="MDDLKCTQDK" placeholder="Mã địa điểm lưu kho">
+                    <input type="text" id="MDDLK_code" name="MDDLKCTQDK" placeholder="Mã địa điểm lưu kho"
+                        list="codes-by-region">
                     <select name="MDDLKCTQ" id="location-select">
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Địa điểm nhận hàng cuối cùng:</label>
-                    <input type="text" name="DDNHCC" id="DDNHCC" placeholder="Địa điểm nhận hàng cuối cùng">
+                    <input type="text" name="DDNHCC" id="DDNHCC" placeholder="Địa điểm nhận hàng cuối cùng"
+                        list="codes-by-region">
                     <select name="DDNH" id="location-select2">
                     </select>
                 </div>
@@ -240,7 +242,8 @@ if (empty($_SESSION['user_id'])) {
                 </div>
                 <div class="form-group">
                     <label>Phương tiện vận chuyển:</label>
-                    <input type="text" id="col_9999" name="col_9999" placeholder="Nếu là tàu biển ghi 9999">
+                    <input type="text" id="col_9999" name="col_9999" placeholder="Nếu là tàu biển ghi 9999"
+                        list="codes-by-region">
                     <input type="text" id="PTVC" name="PTVC" placeholder="Phương tiện vận chuyển">
                 </div>
                 <div class="form-group">
@@ -431,21 +434,19 @@ if (empty($_SESSION['user_id'])) {
             <div class="button-group">
                 <button type="submit" name="action" value="next"
                     onclick="window.location.href='../TKXK/to2XK.php'">Trang sau</button>
-                <button type="button" name="action" value="save">Lưu</button>
-                <button type="button" onclick="timToKhai()">Tìm tờ khai</button>
                 <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
             </div>
             <script>
-                function timToKhai() {
-                    alert("Thực hiện tìm tờ khai...");
-                }
+            function timToKhai() {
+                alert("Thực hiện tìm tờ khai...");
+            }
             </script>
         </form>
     </div>
 
     <script>
-        const locations = {
-            trong_nuoc: [{
+    const locations = {
+        trong_nuoc: [{
                 code: "",
                 name: ""
             },
@@ -569,8 +570,8 @@ if (empty($_SESSION['user_id'])) {
                 code: "03TGS02",
                 name: "Tanamexco"
             }
-            ],
-            ngoai_nuoc: [{
+        ],
+        ngoai_nuoc: [{
                 code: "",
                 name: ""
             },
@@ -682,35 +683,369 @@ if (empty($_SESSION['user_id'])) {
                 code: "MYPEN",
                 name: "Penang Port"
             }
-            ]
-        };
+        ]
+    };
 
-        function updateLocationSelect(type) {
-            const selects = [
-                document.getElementById("location-select"),
-                document.getElementById("location-select2"),
-                document.getElementById("location-select3")
-            ];
-            selects.forEach(select => {
-                select.innerHTML = "";
-                locations[type].forEach(loc => {
-                    const option = document.createElement("option");
-                    option.value = loc.code;
-                    option.textContent = `${loc.code} - ${loc.name}`;
-                    select.appendChild(option);
+    /* =======================
+            2) HELPERS CHUNG
+            ======================= */
+    function getCurrentRegion() {
+        const checked = document.querySelector('input[name="khuvuc"]:checked');
+        return checked ? checked.value : 'trong_nuoc';
+    }
+
+    // Gom unique theo code, uppercase để khớp so sánh
+    function buildOptionsByRegion(region) {
+        const uniq = new Map();
+        (locations[region] || []).forEach(loc => {
+            const code = (loc.code || '').toUpperCase();
+            if (!uniq.has(code)) uniq.set(code, loc.name || '');
+        });
+        return Array.from(uniq.entries()).map(([code, name]) => ({
+            code,
+            name
+        }));
+    }
+
+
+    /* =======================
+      3) POPULATE SELECT THEO KHU VỰC
+      ======================= */
+    function populateSelectFromRegion(selectId, region) {
+        const select = document.getElementById(selectId);
+        if (!select) return;
+        const keep = select.value;
+        select.innerHTML = '';
+
+        // option rỗng
+        const empty = document.createElement('option');
+        empty.value = '';
+        empty.textContent = '';
+        select.appendChild(empty);
+
+        buildOptionsByRegion(region).forEach(({
+            code,
+            name
+        }) => {
+            const op = document.createElement('option');
+            op.value = code;
+            op.textContent = name || code;
+            select.appendChild(op);
+        });
+
+        if (keep && Array.from(select.options).some(o => o.value === keep)) {
+            select.value = keep;
+        } else {
+            select.value = '';
+        }
+    }
+
+    /* =======================
+       4) ĐỒNG BỘ INPUT ↔ SELECT
+       ======================= */
+    function syncInputToSelect(inputId, selectId) {
+        const input = document.getElementById(inputId);
+        const select = document.getElementById(selectId);
+        if (!input || !select) return;
+        const val = (input.value || '').trim().toUpperCase();
+        select.value = val && Array.from(select.options).some(o => (o.value || '').toUpperCase() === val) ? val :
+            '';
+    }
+
+    function syncSelectToInput(selectId, inputId) {
+        const input = document.getElementById(inputId);
+        const select = document.getElementById(selectId);
+        if (!input || !select) return;
+        input.value = select.value || '';
+    }
+
+    /* =======================
+       5) BIND CẶP INPUT/SELECT
+          - regionOverride: 'trong_nuoc' | 'ngoai_nuoc' | null
+       ======================= */
+    function bindInputSelectPair({
+        inputId,
+        selectId,
+        regionSensitive = true,
+        regionOverride = null
+    }) {
+        const input = document.getElementById(inputId);
+        const select = document.getElementById(selectId);
+        if (!input || !select) return;
+
+        const resolveRegion = () => regionOverride || getCurrentRegion();
+
+        // Render lần đầu
+        populateSelectFromRegion(selectId, resolveRegion());
+
+        // Gõ mã → ép UPPERCASE + sync
+        input.addEventListener('input', () => {
+            input.value = input.value.toUpperCase();
+            syncInputToSelect(inputId, selectId);
+        });
+
+        // Chọn option → điền ngược mã
+        select.addEventListener('change', () => syncSelectToInput(selectId, inputId));
+
+        // Rời ô → snap theo mã
+        input.addEventListener('blur', () => syncInputToSelect(inputId, selectId));
+
+        // Khởi tạo đồng bộ
+        syncInputToSelect(inputId, selectId);
+
+        return {
+            refreshByRegion() {
+                // Nếu cặp này có override → không bị ảnh hưởng khi đổi khu vực
+                if (regionOverride) return;
+                if (!regionSensitive) return;
+                populateSelectFromRegion(selectId, resolveRegion());
+                syncInputToSelect(inputId, selectId);
+            }
+        };
+    }
+
+    /* =======================
+       6) DATALIST GỢI Ý CƠ BẢN (FALLBACK)
+       ======================= */
+    function populateDatalistFromRegion(datalistId, region) {
+        const dl = document.getElementById(datalistId);
+        if (!dl) return;
+        dl.innerHTML = '';
+
+        const empty = document.createElement('option');
+        empty.value = '';
+        empty.label = '';
+        dl.appendChild(empty);
+
+        buildOptionsByRegion(region).forEach(({
+            code,
+            name
+        }) => {
+            const op = document.createElement('option');
+            op.value = code;
+            op.label = name || code;
+            op.textContent = `${code} — ${name}`;
+            dl.appendChild(op);
+        });
+    }
+
+    /* =======================
+       7) AUTOCOMPLETE TÙY BIẾN (HIỆN KHI GÕ)
+       ======================= */
+    (function injectAutocompleteStyles() {
+        const css = `
+  .ac-wrap{position:relative}
+  .ac-list{
+    position:absolute; z-index:9999; top:100%; left:0; right:0;
+    max-height:220px; overflow:auto; border:1px solid #e5e7eb; background:#fff;
+    border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,.08)
+  }
+  .ac-item{padding:8px 10px; cursor:pointer; font-size:14px; line-height:1.3}
+  .ac-item:hover,.ac-item.active{background:#f3f4f6}
+  .ac-muted{color:#6b7280; font-size:12px; margin-left:6px}
+  .hidden{display:none}`;
+        const style = document.createElement('style');
+        style.textContent = css;
+        document.head.appendChild(style);
+    })();
+
+    function getCodeList(region) {
+        return buildOptionsByRegion(region)
+            .filter(it => it.code)
+            .sort((a, b) => a.code.localeCompare(b.code));
+    }
+
+    function attachAutocomplete({
+        inputId,
+        selectId,
+        regionOverride = null
+    }) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+
+        // Bọc input
+        if (!input.parentElement.classList.contains('ac-wrap')) {
+            const wrap = document.createElement('div');
+            wrap.className = 'ac-wrap';
+            input.parentElement.insertBefore(wrap, input);
+            wrap.appendChild(input);
+        }
+        const wrap = input.parentElement;
+
+        // Tạo list
+        let list = wrap.querySelector('.ac-list');
+        if (!list) {
+            list = document.createElement('div');
+            list.className = 'ac-list hidden';
+            wrap.appendChild(list);
+        }
+
+        let items = [];
+        let idx = -1;
+
+        function resolveRegion() {
+            return regionOverride || getCurrentRegion();
+        }
+
+        function refreshItemsByRegion() {
+            items = getCodeList(resolveRegion());
+        }
+
+        function renderList(filter) {
+            const q = (filter || '').trim().toUpperCase();
+            list.innerHTML = '';
+            idx = -1;
+
+            if (!q) {
+                list.classList.add('hidden');
+                return;
+            }
+
+            const starts = items.filter(it => it.code.startsWith(q));
+            const contains = items.filter(it => !it.code.startsWith(q) && it.code.includes(q));
+            const merged = [...starts, ...contains].slice(0, 12);
+
+            if (merged.length === 0) {
+                list.classList.add('hidden');
+                return;
+            }
+
+            merged.forEach((it) => {
+                const row = document.createElement('div');
+                row.className = 'ac-item';
+                row.dataset.code = it.code;
+                row.innerHTML =
+                    `<strong>${it.code}</strong><span class="ac-muted">— ${it.name || it.code}</span>`;
+                row.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    pick(it.code);
                 });
+                list.appendChild(row);
+            });
+
+            list.classList.remove('hidden');
+        }
+
+        function highlight(delta) {
+            const children = Array.from(list.children);
+            if (children.length === 0) return;
+            idx = (idx + delta + children.length) % children.length;
+            children.forEach(c => c.classList.remove('active'));
+            children[idx].classList.add('active');
+            children[idx].scrollIntoView({
+                block: 'nearest'
             });
         }
 
-        document.querySelectorAll('input[name="khuvuc"]').forEach(radio => {
-            radio.addEventListener("change", (e) => {
-                updateLocationSelect(e.target.value);
-            });
+        function pick(code) {
+            input.value = code.toUpperCase();
+            list.classList.add('hidden');
+            if (selectId) syncInputToSelect(inputId, selectId);
+        }
+
+        // Events
+        input.addEventListener('input', () => {
+            input.value = input.value.toUpperCase();
+            renderList(input.value);
+        });
+        input.addEventListener('keydown', (e) => {
+            if (list.classList.contains('hidden')) return;
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                highlight(+1);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                highlight(-1);
+            } else if (e.key === 'Enter') {
+                if (idx >= 0) {
+                    e.preventDefault();
+                    const el = list.children[idx];
+                    if (el) pick(el.dataset.code);
+                } else {
+                    pick(input.value);
+                }
+            } else if (e.key === 'Escape') {
+                list.classList.add('hidden');
+            }
+        });
+        input.addEventListener('blur', () => {
+            setTimeout(() => list.classList.add('hidden'), 150);
+            if (selectId) syncInputToSelect(inputId, selectId);
         });
 
-        updateLocationSelect(document.querySelector('input[name="khuvuc"]:checked').value);
+        // Init
+        refreshItemsByRegion();
+
+        return {
+            refresh() {
+                refreshItemsByRegion();
+                if (document.activeElement === input && input.value) {
+                    renderList(input.value);
+                } else {
+                    list.classList.add('hidden');
+                }
+            }
+        };
+    }
+
+    /* =======================
+       8) KHỞI TẠO & SỰ KIỆN
+       ======================= */
+    // Bind 3 cặp
+    const handlers = [
+        bindInputSelectPair({
+            inputId: 'MDDLK_code',
+            selectId: 'location-select',
+            regionSensitive: true
+        }),
+        bindInputSelectPair({
+            inputId: 'DDNHCC',
+            selectId: 'location-select2',
+            regionSensitive: false,
+            regionOverride: 'trong_nuoc'
+        }),
+        bindInputSelectPair({
+            inputId: 'DDXK',
+            selectId: 'location-select3',
+            regionSensitive: true
+        })
+    ].filter(Boolean);
+
+    // Datalist fallback
+    populateDatalistFromRegion('codes-by-region', getCurrentRegion());
+
+    // Autocomplete tùy biến (hiện khi gõ)
+    const acHandlers = [
+        attachAutocomplete({
+            inputId: 'MDDLK_code',
+            selectId: 'location-select'
+        }),
+        attachAutocomplete({
+            inputId: 'DDNHCC',
+            selectId: 'location-select2',
+            regionOverride: 'trong_nuoc'
+        }),
+        attachAutocomplete({
+            inputId: 'DDXK',
+            selectId: 'location-select3'
+        })
+    ].filter(Boolean);
+
+    // Đổi radio khu vực → refresh datalist, autocomplete, và các select động
+    document.querySelectorAll('input[name="khuvuc"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            const region = getCurrentRegion();
+            // datalist
+            populateDatalistFromRegion('codes-by-region', region);
+            // autocomplete dropdown
+            acHandlers.forEach(h => h.refresh && h.refresh());
+            // select đã bind (bị ảnh hưởng bởi khu vực)
+            handlers.forEach(h => h.refreshByRegion && h.refreshByRegion());
+        });
+    });
     </script>
 
+    <datalist id="codes-by-region"></datalist>
 </body>
 
 </html>

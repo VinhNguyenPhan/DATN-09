@@ -227,11 +227,9 @@ $_SESSION['ToXK']['form1'] = $_POST;
 
             <div class="button-group">
                 <button type="submit" name="action" value="next"
-                    onclick="window.location.href='../TKXK/to1XK.php'">Trang trước</button>
+                    onclick="window.location.href='../TKXK/To1XK.php'">Trang trước</button>
                 <button type="submit" name="action" value="next"
-                    onclick="window.location.href='../TKXK/to3XK.php'">Trang sau</button>
-                <button type="button" name="action" value="save">Lưu</button>
-                <button type="button" onclick="timToKhai()">Tìm tờ khai</button>
+                    onclick="window.location.href='../TKXK/To3XK.php'">Trang sau</button>
                 <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
             </div>
             <script>

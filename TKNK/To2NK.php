@@ -371,10 +371,10 @@ $_SESSION['ToNK']['form1'] = $_POST;
                 </div>
             </fieldset>
             <div class="button-group">
-                <button type="submit" name="action" value="previous">Trang trước</button>
-                <button type="submit" name="action" value="next">Trang sau</button>
-                <button type="button" name="action" value="save">Lưu</button>
-                <button type="button" onclick="timToKhai()">Tìm tờ khai</button>
+                <button type="submit" name="action" onclick="window.location.href='../TKNK/to1nk.php'">Trang
+                    trước</button>
+                <button type="submit" name="action" onclick="window.location.href='../TKNK/to3nk.php'">Trang
+                    sau</button>
                 <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
             </div>
             <script>

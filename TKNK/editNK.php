@@ -124,7 +124,8 @@ $hanghoa = $stmt3->get_result()->fetch_all(MYSQLI_ASSOC);
             <label>Phương thức vận chuyển:</label>
             <select name="phuong_thuc_vc">
                 <option <?= $to1nk['phuong_thuc_vc'] == 'Đường biển' ? 'selected' : '' ?>>Đường biển</option>
-                <option <?= $to1nk['phuong_thuc_vc'] == 'Đường hàng không' ? 'selected' : '' ?>>Đường hàng không</option>
+                <option <?= $to1nk['phuong_thuc_vc'] == 'Đường hàng không' ? 'selected' : '' ?>>Đường hàng không
+                </option>
                 <option <?= $to1nk['phuong_thuc_vc'] == 'Đường bộ' ? 'selected' : '' ?>>Đường bộ</option>
             </select>
 

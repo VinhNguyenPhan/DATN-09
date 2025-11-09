@@ -138,7 +138,7 @@ if (!empty($_GET["tracking"])) {
     $id = (int) ($_GET["tracking"] ?? 0);
     $namefilter = ($_GET["filter"] ?? 'shipping');
 
-    $where = '';
+    $where = "AND {$loai}.ThongKeTK = 'declaration'";
     if (!empty($namefilter)) {
         $where .= " AND `ThongKe`='{$namefilter}'";
     }
@@ -154,7 +154,7 @@ if (!empty($_GET["tracking"])) {
         $trackingOutput = "
             <div class='result animate'>
                 <div class='status' style='color:red'>❌ <b>Không tìm thấy đơn hàng với mã:</b> $id</div>
-                <div>📦 Vui lòng kiểm tra lại mã vận đơn hoặc lựa chọn đúng loại tờ khai.</div>
+                <div>📦 Vui lòng kiểm tra lại mã vận đơn hoặc lựa chọn đúng loại Đơn hàng.</div>
             </div>
         ";
     } else {
@@ -231,12 +231,12 @@ if (!empty($_GET["tracking"])) {
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<h1>Tra cứu vị trí tờ khai</h1>
+<h1>Tra cứu vị trí đơn hàng</h1>
 <form method="GET" action="">
     <div class="form-row">
         <select name="lua_chon" required>
-            <option value="to1XK">Tờ khai xuất khẩu</option>
-            <option value="to1NK">Tờ khai nhập khẩu</option>
+            <option value="to1XK">Xuất khẩu</option>
+            <option value="to1NK">Nhập khẩu</option>
         </select>
 
         <input type="number" name="tracking" id="tracking" placeholder="Nhập số vận đơn..." required />

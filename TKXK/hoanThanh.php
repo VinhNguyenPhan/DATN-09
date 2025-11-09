@@ -66,6 +66,72 @@ $stmt3->close();
             border-radius: 6px;
             font-size: 13px;
         }
+
+        /* 1. Khối bao ngoài bảng */
+        .goods-wrap {
+            background: var(--card-bg);
+            border: 1px solid var(--card-b);
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+            overflow-x: auto;
+        }
+
+        /* 2. Table chính */
+        table.goods {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 14px;
+        }
+
+        /* 3. Ô tiêu đề và ô dữ liệu */
+        table.goods th,
+        table.goods td {
+            border: 1px solid #e6edf3;
+            padding: 8px;
+            vertical-align: middle;
+            background: #fff;
+        }
+
+        /* 4. Chỉ định riêng cho tiêu đề bảng */
+        table.goods th {
+            background: #0b63a6;
+            color: #fff;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        /* 5. Căn phải */
+        .ta-right {
+            text-align: right;
+        }
+
+        /* 6. Cột dạng ellipsis (hạn chiều rộng) */
+        .cell {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        /* 7. Cột dạng xuống dòng tự động */
+        .wrap {
+            white-space: normal;
+            word-break: break-word;
+            overflow: visible;
+        }
+
+        /* 8. Tô màu so le các dòng */
+        table.goods tbody tr:nth-child(even) {
+            background: #fafbfc;
+        }
+
+        /* 9. Hiệu ứng hover */
+        table.goods tbody tr:hover {
+            background: #f2f7ff;
+        }
     </style>
 </head>
 
@@ -519,49 +585,50 @@ $stmt3->close();
             </fieldset>
             <fieldset>
                 <h2>📦 Danh sách hàng hóa</h2>
-                <div class="form-group" style="margin-top:8px;">
-                    <div style="width:100%;">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Mã HS</th>
-                                    <th>Tên hàng</th>
-                                    <th>ĐVT</th>
-                                    <th>Số lượng</th>
-                                    <th>Đơn giá</th>
-                                    <th>Trị giá</th>
-                                    <th>Nước nhập khẩu</th>
-                                    <th>Ghi chú</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (!empty($hanghoa)): ?>
-                                    <?php foreach ($hanghoa as $row): ?>
-                                        <tr>
-                                            <td><?= htmlspecialchars($row['HSC'] ?? $row['HSC']) ?></td>
-                                            <td><?= htmlspecialchars($row['TH'] ?? $row['TH']) ?></td>
-                                            <td><?= htmlspecialchars($row['DVT'] ?? $row['DVT']) ?></td>
-                                            <td><?= htmlspecialchars($row['SL'] ?? $row['SL']) ?></td>
-                                            <td><?= htmlspecialchars($row['GIA'] ?? $row['GIA']) ?></td>
-                                            <td><?= htmlspecialchars($row['VALUE'] ?? $row['VALUE']) ?></td>
-                                            <td><?= htmlspecialchars($row['XX'] ?? $row['XX']) ?></td>
-                                            <td><?= htmlspecialchars($row['GC'] ?? $row['GC']) ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
+                <div class="goods-wrap">
+                    <table class="goods">
+                        <thead>
+                            <tr>
+                                <th>Mã HS</th>
+                                <th>Tên hàng</th>
+                                <th>ĐVT</th>
+                                <th>Số lượng</th>
+                                <th>Đơn giá</th>
+                                <th>Trị giá</th>
+                                <th>Nước nhập khẩu</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($hanghoa)): ?>
+                                <?php foreach ($hanghoa as $row): ?>
                                     <tr>
-                                        <td colspan="8" style="text-align:center;padding:12px;">Không có hàng hóa</td>
+                                        <td><?= htmlspecialchars($row['HSC'] ?? $row['HSC']) ?></td>
+                                        <td><?= htmlspecialchars($row['TH'] ?? $row['TH']) ?></td>
+                                        <td><?= htmlspecialchars($row['DVT'] ?? $row['DVT']) ?></td>
+                                        <td><?= htmlspecialchars($row['SL'] ?? $row['SL']) ?></td>
+                                        <td><?= htmlspecialchars($row['GIA'] ?? $row['GIA']) ?></td>
+                                        <td><?= htmlspecialchars($row['VALUE'] ?? $row['VALUE']) ?></td>
+                                        <td><?= htmlspecialchars($row['XX'] ?? $row['XX']) ?></td>
+                                        <td><?= htmlspecialchars($row['GC'] ?? $row['GC']) ?></td>
                                     </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="8" style="text-align:center;padding:12px;">Không có hàng hóa</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
-            </fieldset>
-            <div class="button-group">
-                <a href="../index.php" class="btn">⬅ Quay lại trang chủ</a>
-            </div>
         </div>
+        </fieldset>
+        <div class="button-group">
+            <button type="button" onclick="window.location.href='editXK.php?id=<?= $id ?>'">Sửa</button>
+            <button type="button" onclick="window.print()">🖨️ In</button>
+            <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
+        </div>
+    </div>
 </body>
 
 </html>

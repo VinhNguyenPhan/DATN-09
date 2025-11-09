@@ -9,77 +9,51 @@ if (empty($_SESSION['user_id'])) {
 }
 
 $counts = [
-    'shipped' => 0,
-    'shipping' => 0,
-    'done' => 0,
-    'cancel' => 0
-];
-$totalPrice = [
-    'shipped' => 0,
-    'shipping' => 0,
-    'done' => 0,
-    'cancel' => 0
+    'cancel' => 0,
+    'declarating' => 0,
+    'declaration' => 0
 ];
 
 foreach (['to1XK', 'to1NK'] as $table) {
-    $sql = '';
-    if ($table == 'to1XK') {
-        $sql = "SELECT ThongKe, COUNT(*) as total, SUM(TTGHD) as price
-            FROM to1xk
+    $sql = "SELECT ThongKeTK, COUNT(*) as total
+            FROM $table
             WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
-            GROUP BY ThongKe";
-    } else if ($table == "to1NK") {
-        $sql = "SELECT to1nk.ThongKe, COUNT(*) as total, SUM(to2nk.TTGHD) as price
-            FROM to1nk
-            JOIN to2nk ON to1nk.id = to2nk.to1nk
-            WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
-            GROUP BY ThongKe";
-    }
+            GROUP BY ThongKeTK";
     if ($res = $conn->query($sql)) {
         while ($row = $res->fetch_assoc()) {
-            $stt = strtolower(trim($row['ThongKe']));
-            if (str_contains($stt, 'shipped')) {
-                $totalPrice['shipped'] += $row['price'];
-                $counts['shipped'] += (int) $row['total'];
-            } elseif (str_contains($stt, 'shipping')) {
-                $totalPrice['shipping'] += $row['price'];
-                $counts['shipping'] += (int) $row['total'];
-            } elseif (str_contains($stt, 'done')) {
-                $totalPrice['done'] += $row['price'];
-                $counts['done'] += (int) $row['total'];
-            } elseif (str_contains($stt, 'cancel')) {
-                $totalPrice['cancel'] += $row['price'];
+            $stt = strtolower(trim($row['ThongKeTK']));
+            if (str_contains($stt, 'declaration'))
+                $counts['declaration'] += (int) $row['total'];
+            elseif (str_contains($stt, 'declarating'))
+                $counts['declarating'] += (int) $row['total'];
+            elseif (str_contains($stt, 'cancel'))
                 $counts['cancel'] += (int) $row['total'];
-            }
         }
     }
 }
 $monthStats = [
-    'shipped' => array_fill(1, 12, 0),
-    'shipping' => array_fill(1, 12, 0),
-    'done' => array_fill(1, 12, 0),
+    'declaration' => array_fill(1, 12, 0),
+    'declarating' => array_fill(1, 12, 0),
     'cancel' => array_fill(1, 12, 0),
 ];
 
 foreach (['to1XK', 'to1NK'] as $table) {
     $sql = "
-        SELECT MONTH(created_at) AS thang, ThongKe, COUNT(*) AS total
+        SELECT MONTH(created_at) AS thang, ThongKeTK, COUNT(*) AS total
         FROM $table
         WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
-        GROUP BY thang, ThongKe
+        GROUP BY thang, ThongKeTK
     ";
     if ($res = $conn->query($sql)) {
         while ($row = $res->fetch_assoc()) {
             $month = (int) $row['thang'];
             if ($month < 1 || $month > 12)
                 continue;
-            $stt = strtolower(trim($row['ThongKe']));
-            if (str_contains($stt, 'shipped'))
-                $monthStats['shipped'][$month] += (int) $row['total'];
-            elseif (str_contains($stt, 'shipping'))
-                $monthStats['shipping'][$month] += (int) $row['total'];
-            elseif (str_contains($stt, 'done'))
-                $monthStats['done'][$month] += (int) $row['total'];
+            $stt = strtolower(trim($row['ThongKeTK']));
+            if (str_contains($stt, 'declaration'))
+                $monthStats['declaration'][$month] += (int) $row['total'];
+            elseif (str_contains($stt, 'declarating'))
+                $monthStats['declarating'][$month] += (int) $row['total'];
             elseif (str_contains($stt, 'cancel'))
                 $monthStats['cancel'][$month] += (int) $row['total'];
         }
@@ -96,13 +70,11 @@ for ($i = 5; $i >= 0; $i--) {
 }
 
 $jsMonths = json_encode(array_map(fn($m) => "Tháng $m", $months), JSON_UNESCAPED_UNICODE);
-$jsShipped = json_encode(array_map(fn($m) => $monthStats['shipped'][$m] ?? 0, $months));
-$jsShipping = json_encode(array_map(fn($m) => $monthStats['shipping'][$m] ?? 0, $months));
-$jsDone = json_encode(array_map(fn($m) => $monthStats['done'][$m] ?? 0, $months));
+$jsDeclaration = json_encode(array_map(fn($m) => $monthStats['declaration'][$m] ?? 0, $months));
+$jsDeclarating = json_encode(array_map(fn($m) => $monthStats['declarating'][$m] ?? 0, $months));
 $jsCancel = json_encode(array_map(fn($m) => $monthStats['cancel'][$m] ?? 0, $months));
 
-$totalPrices = ($totalPrice['shipped'] + $totalPrice['shipping'] + $totalPrice['done'] + $totalPrice['cancel']);
-$totalOrders = ($counts['shipped'] + $counts['shipping'] + $counts['done'] + $counts['cancel']);
+$totalOrders = ($counts['declaration'] + $counts['declarating'] + $counts['cancel']);
 $lastUpdated = date('d/m/Y H:i');
 ?>
 <meta charset="UTF-8">
@@ -308,11 +280,9 @@ $lastUpdated = date('d/m/Y H:i');
 <div class="page">
     <div class="page-header">
         <div class="title-wrap">
-            <h1 class="title">Thống kê đơn hàng </h1>
-            <p class="subtitle">Cập nhật lần cuối: <?= htmlspecialchars($lastUpdated) ?> · Tổng đơn:
+            <h1 class="title">Thống kê tờ khai </h1>
+            <p class="subtitle">Cập nhật lần cuối: <?= htmlspecialchars($lastUpdated) ?> · Tổng tờ khai:
                 <strong><?= number_format($totalOrders, 0, ',', '.') ?></strong>
-                · Tổng Tiền:
-                <strong><?= number_format($totalPrices, 0, ',', '.') ?></strong>
             </p>
         </div>
     </div>
@@ -321,33 +291,16 @@ $lastUpdated = date('d/m/Y H:i');
             <h3 style="margin:0; font-size:22px ;">Tổng quan trạng thái</h3>
             <div class="status-grid">
                 <div class="card lay">
-                    <div class="label">ĐÃ LẤY HÀNG</div>
-                    <div class="value">
-                        <?= number_format($totalPrice['shipped']) ?> -
-                        <?= number_format($counts['shipped'], 0, ',', '.') ?> ĐH
-                    </div>
+                    <div class="label">ĐÃ KHAI BÁO</div>
+                    <div class="value"><?= number_format($counts['declaration'], 0, ',', '.') ?> TK</div>
                 </div>
                 <div class="card giao">
-                    <div class="label">ĐANG GIAO</div>
-                    <div class="value">
-                        <?= number_format($totalPrice['shipping']) ?> -
-                        <?= number_format($counts['shipping'], 0, ',', '.') ?> ĐH
-                    </div>
-                </div>
-                <div class="card thanhcong">
-                    <div class="label">HOÀN THÀNH</div>
-                    <div class="value">
-                        <?= number_format($totalPrice['done']) ?> - <?= number_format($counts['done'], 0, ',', '.') ?>
-                        ĐH
-                    </div>
+                    <div class="label">ĐANG KHAI BÁO</div>
+                    <div class="value"><?= number_format($counts['declarating'], 0, ',', '.') ?> TK</div>
                 </div>
                 <div class="card huy">
                     <div class="label">ĐÃ HỦY</div>
-                    <div class="value">
-                        <?= number_format($totalPrice['cancel']) ?> -
-                        <?= number_format($counts['cancel'], 0, ',', '.') ?>
-                        ĐH
-                    </div>
+                    <div class="value"><?= number_format($counts['cancel'], 0, ',', '.') ?> TK</div>
                 </div>
             </div>
 
@@ -378,19 +331,14 @@ $lastUpdated = date('d/m/Y H:i');
         data: {
             labels: labels,
             datasets: [{
-                label: 'Đã lấy',
-                data: <?= $jsShipped ?>,
+                label: 'Đã khai báo',
+                data: <?= $jsDeclaration ?>,
                 backgroundColor: '#16a085'
             },
             {
-                label: 'Đang giao',
-                data: <?= $jsShipping ?>,
+                label: 'Đang khai báo',
+                data: <?= $jsDeclarating ?>,
                 backgroundColor: '#e67e22'
-            },
-            {
-                label: 'Hoàn thành',
-                data: <?= $jsDone ?>,
-                backgroundColor: '#2980b9'
             },
             {
                 label: 'Đã hủy',
@@ -428,15 +376,14 @@ $lastUpdated = date('d/m/Y H:i');
     new Chart(document.getElementById('pieChart'), {
         type: 'doughnut',
         data: {
-            labels: ['Đã lấy', 'Đang giao', 'Hoàn thành', 'Đã hủy'],
+            labels: ['Đã khai báo', 'Đang khai báo', 'Đã hủy'],
             datasets: [{
                 data: [
-                    <?= (int) $counts['shipped'] ?>,
-                    <?= (int) $counts['shipping'] ?>,
-                    <?= (int) $counts['done'] ?>,
+                    <?= (int) $counts['declaration'] ?>,
+                    <?= (int) $counts['declarating'] ?>,
                     <?= (int) $counts['cancel'] ?>
                 ],
-                backgroundColor: ['#16a085', '#e67e22', '#2980b9', '#c0392b']
+                backgroundColor: ['#16a085', '#e67e22', '#c0392b']
             }]
         },
         options: {

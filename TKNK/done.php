@@ -52,14 +52,10 @@ function nf($n, $d = 2)
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
     <title>Tờ khai nhập khẩu - Xem thông tin</title>
-
-    <link rel="stylesheet" href="style.css?v=1.0.4">
+    <link rel="stylesheet" href="style.css?v1.0.3">
     <style>
-        :root {
+        /* :root {
             --label-w: 220px;
             --gap: 10px;
             --bg: #f8fafc;
@@ -133,6 +129,34 @@ function nf($n, $d = 2)
             border: 1px solid #d1d7e0;
             border-radius: 6px;
             background: #fff;
+        } */
+        input[disabled],
+        select[disabled],
+        textarea[disabled] {
+            background-color: #f8f8f8;
+            color: #000;
+            border: 1px solid #ccc;
+            cursor: not-allowed;
+        }
+
+        .container-grid label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .grid input {
+            width: 80%;
+            padding: 6px 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 13px;
         }
 
         input[disabled],
@@ -303,7 +327,7 @@ function nf($n, $d = 2)
                 <div class="form-group">
                     <label>Mã số thuế DN:</label>
                     <input type="text" disabled value="<?= h($to1nk['MSTDNNK'] ?? '') ?>">
-                    <label style="width:97px;">Mã bưu chính:</label>
+                    <label style="width: 97px;">Mã bưu chính:</label>
                     <input type="text" disabled value="<?= h($to1nk['MBCNK'] ?? '') ?>">
                 </div>
                 <div class="form-group"><label>Tên DN:</label><input type="text" disabled
@@ -326,7 +350,7 @@ function nf($n, $d = 2)
                 <legend>Thông tin người xuất khẩu</legend>
                 <div class="form-group">
                     <label>MST DN XK:</label><input type="text" disabled value="<?= h($to1nk['MSTDNXK'] ?? '') ?>">
-                    <label style="width:171px;">Mã bưu chính XK:</label><input type="text" disabled
+                    <label style="width:120px;">Mã bưu chính XK:</label><input type="text" disabled
                         value="<?= h($to1nk['MBCXK'] ?? '') ?>">
                 </div>
                 <div class="form-group"><label>Tên DN XK:</label><input type="text" disabled
@@ -656,74 +680,75 @@ function nf($n, $d = 2)
                     disabled>
             </div>
         </fieldset>
-
-        <h2>Tờ khai nhập khẩu - Danh sách hàng hóa</h2>
-        <div class="goods-wrap">
-            <table class="goods">
-                <colgroup>
-                    <col style="width:6%">
-                    <col style="width:12%">
-                    <col style="width:28%">
-                    <col style="width:8%">
-                    <col style="width:9%">
-                    <col style="width:12%">
-                    <col style="width:12%">
-                    <col style="width:6%">
-                    <col style="width:7%">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Mã hàng</th>
-                        <th>Tên hàng</th>
-                        <th>ĐVT</th>
-                        <th>Số lượng</th>
-                        <th>Đơn giá</th>
-                        <th>Trị giá</th>
-                        <th>Thuế suất (%)</th>
-                        <th>Tiền thuế</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($hanghoa)):
-                        foreach ($hanghoa as $i => $r): ?>
-                            <tr>
-                                <td class="ta-right"><?= $i + 1 ?></td>
-                                <td>
-                                    <div class="cell"><?= h($r['HSC'] ?? '') ?></div>
-                                </td>
-                                <td>
-                                    <div class="wrap"><?= h($r['TH'] ?? '') ?></div>
-                                </td>
-                                <td>
-                                    <div class="cell"><?= h($r['DVT'] ?? $r['dvt'] ?? '') ?></div>
-                                </td>
-                                <td class="ta-right">
-                                    <div class="cell"><?= nf($r['SL'] ?? null, 2) ?></div>
-                                </td>
-                                <td class="ta-right">
-                                    <div class="cell"><?= nf($r['GIA'] ?? null, 2) ?></div>
-                                </td>
-                                <td class="ta-right">
-                                    <div class="cell"><?= nf($r['VALUE'] ?? null, 2) ?></div>
-                                </td>
-                                <td class="ta-right">
-                                    <div class="cell"><?= nf($r['TS'] ?? null, 2) ?></div>
-                                </td>
-                                <td class="ta-right">
-                                    <div class="cell"><?= nf($r['TT'] ?? null, 2) ?></div>
-                                </td>
-                            </tr>
-                        <?php endforeach; else: ?>
+        <fieldset>
+            <h2>Tờ khai nhập khẩu - Danh sách hàng hóa</h2>
+            <div class="goods-wrap">
+                <table class="goods">
+                    <colgroup>
+                        <col style="width:6%">
+                        <col style="width:12%">
+                        <col style="width:28%">
+                        <col style="width:8%">
+                        <col style="width:9%">
+                        <col style="width:12%">
+                        <col style="width:12%">
+                        <col style="width:6%">
+                        <col style="width:7%">
+                    </colgroup>
+                    <thead>
                         <tr>
-                            <td colspan="9" style="text-align:center;">Không có dữ liệu hàng hóa</td>
+                            <th>STT</th>
+                            <th>Mã hàng</th>
+                            <th>Tên hàng</th>
+                            <th>ĐVT</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Trị giá</th>
+                            <th>Thuế suất (%)</th>
+                            <th>Tiền thuế</th>
                         </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($hanghoa)):
+                            foreach ($hanghoa as $i => $r): ?>
+                                <tr>
+                                    <td class="ta-right"><?= $i + 1 ?></td>
+                                    <td>
+                                        <div class="cell"><?= h($r['HSC'] ?? '') ?></div>
+                                    </td>
+                                    <td>
+                                        <div class="wrap"><?= h($r['TH'] ?? '') ?></div>
+                                    </td>
+                                    <td>
+                                        <div class="cell"><?= h($r['DVT'] ?? $r['dvt'] ?? '') ?></div>
+                                    </td>
+                                    <td class="ta-right">
+                                        <div class="cell"><?= nf($r['SL'] ?? null, 2) ?></div>
+                                    </td>
+                                    <td class="ta-right">
+                                        <div class="cell"><?= nf($r['GIA'] ?? null, 2) ?></div>
+                                    </td>
+                                    <td class="ta-right">
+                                        <div class="cell"><?= nf($r['VALUE'] ?? null, 2) ?></div>
+                                    </td>
+                                    <td class="ta-right">
+                                        <div class="cell"><?= nf($r['TS'] ?? null, 2) ?></div>
+                                    </td>
+                                    <td class="ta-right">
+                                        <div class="cell"><?= nf($r['TT'] ?? null, 2) ?></div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; else: ?>
+                            <tr>
+                                <td colspan="9" style="text-align:center;">Không có dữ liệu hàng hóa</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
         <div class="button-group">
+            <button type="button" onclick="window.location.href='editNK.php?id=<?= $id ?>'">Sửa</button>
             <button type="button" onclick="window.print()">🖨️ In</button>
             <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
         </div>

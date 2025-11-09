@@ -186,7 +186,7 @@ include_once(__DIR__ . '/../public/header.php');
 
 <div class="page-container">
     <div class="card">
-        <h1>Chỉnh sửa trạng thái tờ khai</h1>
+        <h1>Chỉnh sửa trạng thái đơn hàng</h1>
 
         <?php if ($message): ?>
             <div class="msg success"><?= htmlspecialchars($message) ?></div><?php endif; ?>
@@ -322,20 +322,16 @@ include_once(__DIR__ . '/../public/header.php');
                     buttonWidth: 36,
                     buttonHeight: 16,
                     buttonColor: 'white',
-                    buttons: [
-                        {
-                            fa: 'fas fa-times',
-                            name: 'hideButton',
-                            visible: true
-                        }
-                    ],
-                    buttonsOnLeft: [
-                        {
-                            fa: 'fas fa-comment-alt',
-                            name: 'info',
-                            visible: true
-                        }
-                    ],
+                    buttons: [{
+                        fa: 'fas fa-times',
+                        name: 'hideButton',
+                        visible: true
+                    }],
+                    buttonsOnLeft: [{
+                        fa: 'fas fa-comment-alt',
+                        name: 'info',
+                        visible: true
+                    }],
                 },
             }
         },

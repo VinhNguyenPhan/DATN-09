@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . '/../public/header.php');
-require_role(['admin', 'accounting']);
+require_role(['admin']);
 
 if (empty($_SESSION['user_id'])) {
     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
@@ -8,7 +8,9 @@ if (empty($_SESSION['user_id'])) {
     exit;
 }
 
-$allowedStatuses = ['done', 'shipping'];
+$allowedStatuses = ['cancel', 'declaration', 'declarating'];
+
+
 
 $message = '';
 $error = '';
@@ -26,11 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Vui lòng chọn mã vận đơn.';
     } else {
         $table = $type === 'xk' ? 'to1XK' : 'to1NK';
-        $stmt = $conn->prepare("UPDATE $table SET tt_thanhtoan = ? WHERE id = ? AND {$table}.ThongKeTK = 'declaration'");
+        $stmt = $conn->prepare("UPDATE $table SET ThongKeTK = ? WHERE id = ?");
         $stmt->bind_param('si', $status, $orderId);
 
         if ($stmt->execute()) {
-            $_SESSION['success_message'] = '✅ Cập nhật Hóa Đơn thành công.';
+            $_SESSION['success_message'] = '✅ Cập nhật trạng thái thành công.';
             $_SESSION['order_id_last'] = $orderId;
             $_SESSION['type_last'] = $type;
         } else {
@@ -50,7 +52,7 @@ if (!empty($_SESSION['order_id_last']) && !empty($_SESSION['type_last'])) {
     unset($_SESSION['order_id_last'], $_SESSION['type_last']);
 
     $table = $type === 'xk' ? 'to1XK' : 'to1NK';
-    $stmt = $conn->prepare("SELECT id, SVD, tt_thanhtoan, created_at FROM $table WHERE id = ? LIMIT 1");
+    $stmt = $conn->prepare("SELECT id, SVD, ThongKeTK, created_at FROM $table WHERE id = ? LIMIT 1");
     $stmt->bind_param('i', $orderId);
     $stmt->execute();
     $currentOrder = $stmt->get_result()->fetch_assoc();
@@ -184,7 +186,7 @@ include_once(__DIR__ . '/../public/header.php');
 
 <div class="page-container">
     <div class="card">
-        <h1>Chỉnh sửa trạng thái công nợ</h1>
+        <h1>Chỉnh sửa trạng thái tờ khai</h1>
 
         <?php if ($message): ?>
             <div class="msg success"><?= htmlspecialchars($message) ?></div><?php endif; ?>
@@ -206,8 +208,9 @@ include_once(__DIR__ . '/../public/header.php');
                 <select name="status" required>
                     <?php
                     $statusLabels = [
-                        'done' => 'Đã Thanh Toán',
-                        'shipping' => 'Chưa Thanh Toán',
+                        'declaration' => 'Đã khai báo',
+                        'cancel' => 'Đã hủy',
+                        'declarating' => 'Đang khai báo',
                     ];
                     foreach ($allowedStatuses as $st):
                         ?>
@@ -228,10 +231,11 @@ include_once(__DIR__ . '/../public/header.php');
                 <b>Mã vận đơn:</b> <?= htmlspecialchars($currentOrder['SVD']) ?> |
                 <?php
                 $statusLabels = [
-                    'done' => 'Đã Thanh Toán',
-                    'shipping' => 'Chưa Thanh Toán',
+                    'declaration' => 'Đã khai báo',
+                    'cancel' => 'Đã hủy',
+                    'declarating' => 'Đang khai báo',
                 ];
-                $displayStatus = $statusLabels[$currentOrder['tt_thanhtoan']] ?? $currentOrder['tt_thanhtoan'];
+                $displayStatus = $statusLabels[$currentOrder['ThongKeTK']] ?? $currentOrder['ThongKeTK'];
                 ?>
                 <b>Trạng thái:</b> <?= htmlspecialchars($displayStatus) ?> |
                 <b>Ngày tạo:</b> <?= htmlspecialchars($currentOrder['created_at']) ?>

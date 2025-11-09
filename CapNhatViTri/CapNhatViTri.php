@@ -51,7 +51,7 @@ if (!empty($_SESSION['order_id_last']) && !empty($_SESSION['type_last'])) {
     unset($_SESSION['order_id_last'], $_SESSION['type_last']);
 
     $table = $type === 'xk' ? 'to1XK' : 'to1NK';
-    $stmt = $conn->prepare("SELECT id, SVD, vi_tri, created_at FROM $table WHERE id = ? LIMIT 1");
+    $stmt = $conn->prepare("SELECT id, SVD, vi_tri, created_at FROM $table WHERE id = ? AND {$table}.ThongKeTK = 'declaration' LIMIT 1");
     $stmt->bind_param('i', $orderId);
     $stmt->execute();
     $currentOrder = $stmt->get_result()->fetch_assoc();
@@ -317,20 +317,16 @@ $datakho = $conn->query("SELECT * FROM `vi_tri`");
                     buttonWidth: 36,
                     buttonHeight: 16,
                     buttonColor: 'white',
-                    buttons: [
-                        {
-                            fa: 'fas fa-times',
-                            name: 'hideButton',
-                            visible: true
-                        }
-                    ],
-                    buttonsOnLeft: [
-                        {
-                            fa: 'fas fa-comment-alt',
-                            name: 'info',
-                            visible: true
-                        }
-                    ],
+                    buttons: [{
+                        fa: 'fas fa-times',
+                        name: 'hideButton',
+                        visible: true
+                    }],
+                    buttonsOnLeft: [{
+                        fa: 'fas fa-comment-alt',
+                        name: 'info',
+                        visible: true
+                    }],
                 },
             }
         },

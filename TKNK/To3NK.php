@@ -467,7 +467,6 @@ $_SESSION['ToNK']['form2'] = $_POST;
                 <button type="button" onclick="window.location.href='../TKNK/to2NK.php'">Trang
                     trước</button>
                 <button type="submit" name="action" value="save">Lưu</button>
-                <button type="button" onclick="timToKhai()">Tìm tờ khai</button>
                 <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
             </div>
             <script>

@@ -1,7 +1,7 @@
 <?php include_once(__DIR__ . '/../public/header.php'); ?>
 
 <?php
-require_role(['employee', 'customer', 'admin']);
+require_role(['employee', 'customer', 'admin', 'accounting']);
 if (empty($_SESSION['user_id'])) {
     $redirect = '/DangNhap-DangKyTK/DangNhapDangKyTK.php?next=' . urlencode($_SERVER['REQUEST_URI']);
     header("Location: $redirect");
@@ -169,7 +169,6 @@ usort($orders, fn($a, $b) => strtotime($b['ngay_tao'] ?? '0') <=> strtotime($a['
         }
     }
 </style>
-
 <div class="page-container">
     <div class="page-title">
         <h1>Danh sách tờ khai</h1>
@@ -201,9 +200,35 @@ usort($orders, fn($a, $b) => strtotime($b['ngay_tao'] ?? '0') <=> strtotime($a['
                         <td><?= $i++ ?></td>
                         <td><?= htmlspecialchars($od['SVD']) ?></td>
                         <td><?= htmlspecialchars($od['loai']) ?></td>
-                        <td><?= htmlspecialchars($od['trang_thai'] ?? 'Đang xử lý') ?></td>
+                        <?php
+                        $map = [
+                            'cancel' => ['Đã hủy', '#dc2626'],
+                            'declaration' => ['Đã khai báo', '#16a34a'],
+                            'declarating' => ['Đang khai báo', '#f59e0b'],
+                        ];
+
+                        $tk = $od['ThongKeTK'] ?? '';
+                        $text = $map[$tk][0] ?? 'Chưa cập nhật';
+                        $color = $map[$tk][1] ?? '#1f6fb2';
+                        ?>
+                        <td>
+                            <span style="color:<?= $color ?>; font-weight:600;">
+                                <?= $text ?>
+                            </span>
+                        </td>
+
                         <td><?= htmlspecialchars($od['created_at'] ?? '-') ?></td>
                         <td>
+                            <?php
+                            if (in_array($_SESSION['role'], $_role_ChinhSuaTrangThai)) { ?>
+                                <?php if ($od['loai'] === 'Xuất khẩu'): ?>
+                                    <a href="/TKXK/editXK.php?id=<?= $od['id'] ?>">Chỉnh Sửa</a>
+                                <?php else: ?>
+                                    <a href="/TKNK/editNK.php?id=<?= $od['id'] ?>" style="background:#155c92;">Chỉnh Sửa</a>
+                                <?php endif; ?>
+                                <?php
+                            }
+                            ?>
                             <?php if ($od['loai'] === 'Xuất khẩu'): ?>
                                 <a href="/TKXK/hoanThanh.php?id=<?= $od['id'] ?>">Xem</a>
                             <?php else: ?>
@@ -320,20 +345,16 @@ usort($orders, fn($a, $b) => strtotime($b['ngay_tao'] ?? '0') <=> strtotime($a['
                     buttonWidth: 36,
                     buttonHeight: 16,
                     buttonColor: 'white',
-                    buttons: [
-                        {
-                            fa: 'fas fa-times',
-                            name: 'hideButton',
-                            visible: true
-                        }
-                    ],
-                    buttonsOnLeft: [
-                        {
-                            fa: 'fas fa-comment-alt',
-                            name: 'info',
-                            visible: true
-                        }
-                    ],
+                    buttons: [{
+                        fa: 'fas fa-times',
+                        name: 'hideButton',
+                        visible: true
+                    }],
+                    buttonsOnLeft: [{
+                        fa: 'fas fa-comment-alt',
+                        name: 'info',
+                        visible: true
+                    }],
                 },
             }
         },
