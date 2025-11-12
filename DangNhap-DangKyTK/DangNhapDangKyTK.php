@@ -1,13 +1,16 @@
-<?php 
-require_once(__DIR__."/../core/database.php");
-if(!empty($_SESSION["user_id"])){
+<?php
+require_once(__DIR__ . "/../core/database.php");
+
+// Kiểm tra phiên đăng nhập
+if (!empty($_SESSION["user_id"])) {
     echo "<script>
         setTimeout(function(){
             window.location.href = '../index.php';
         }, 1);
     </script>";
-    
+    exit; // Dừng thực thi sau khi chuyển hướng
 }
+
 if (isset($_POST['submit'])) {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
@@ -15,20 +18,37 @@ if (isset($_POST['submit'])) {
     if (empty($username) || empty($password)) {
         $toast = ["type" => "error", "msg" => "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!"];
     } else {
-        $sql = "SELECT * FROM `users` WHERE username = ? AND password = ?";
+        $hashPassInput = md5($password);
+
+        // 2. Truy vấn người dùng dựa trên USERNAME một cách an toàn (Chống SQL Injection)
+        // Chúng ta CHỈ truy vấn bằng username
+        $sql = "SELECT * FROM `users` WHERE username = ?";
+
+        // Chuẩn bị truy vấn
         $stmt = $conn->prepare($sql);
-        $hashPass = md5($password);
-        $stmt->bind_param("ss", $username, $hashPass);
+
+        // Bind Parameter: 's' cho string ($username)
+        $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
 
-                if (!$user) {
+        // 3. Xác thực: So sánh MD5 hash đã tính toán với hash lưu trong DB
+        $isAuthenticated = false;
+        if ($user) {
+            // So sánh MD5 hash đã được Peppered
+            if ($user['password'] === $hashPassInput) {
+                $isAuthenticated = true;
+            }
+        }
+
+        if (!$isAuthenticated) {
             $toast = ["type" => "error", "msg" => "Tài khoản hoặc mật khẩu không đúng!"];
         } else {
+            // Đăng nhập thành công
             $_SESSION["user_id"] = $user["id"];
             $_SESSION["username"] = $user["username"];
-            $_SESSION["role"] = $user["role"]; 
+            $_SESSION["role"] = $user["role"];
             $toast = ["type" => "success", "msg" => "Đăng nhập thành công!"];
             echo "<script>
                 setTimeout(function(){
@@ -50,160 +70,187 @@ if (isset($_POST['submit'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <style>
-    * {
-        box-sizing: border-box;
-    }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
-    body {
-        font-family: Arial, sans-serif;
-        background: #f9fafb;
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-    .header {
-        display: flex;
-        align-items: center;
-        padding: 20px 40px;
-        background: transparent;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            /* Soft background */
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-    }
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px 40px;
+            background: transparent;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
 
-    .logo-box {
-        width: 55px;
-        height: 55px;
-        border-radius: 12px;
-        background-color: #1f6fb2;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        transition: transform 0.3s ease, background 0.3s ease;
-    }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
 
-    .logo-text {
-        font-family: "Inter", sans-serif;
-        font-weight: 800;
-        font-size: 20px;
-        color: #fff;
-        letter-spacing: 0.5px;
-    }
+        .logo-box {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background-color: #1f6fb2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(31, 111, 178, 0.3);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
 
-    .brand-text {
-        font-family: "Inter", sans-serif;
-        font-size: 18px;
-        font-weight: 700;
-        color: #1f3c88;
-        letter-spacing: 0.8px;
-    }
+        .logo-text {
+            font-family: "Inter", sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
 
-    .brand-info .sub {
-        font-size: 13px;
-        color: #6b7280;
-        font-weight: 400;
-    }
+        .brand-text {
+            font-family: "Inter", sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f3c88;
+            letter-spacing: 0.8px;
+        }
 
-    .brand:hover .logo-box {
-        transform: scale(1.05);
-        background-color: #2b86d6;
-    }
+        .brand-info .sub {
+            font-size: 13px;
+            color: #6b7280;
+            font-weight: 400;
+        }
 
-    .login-wrapper {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 80px;
-    }
+        .brand:hover .logo-box {
+            transform: scale(1.05);
+            background-color: #2b86d6;
+        }
 
-    .login-container {
-        background: #fff;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 400px;
-        text-align: center;
-    }
+        .login-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 80px;
+        }
 
-    .login-container h2 {
-        margin-bottom: 20px;
-        color: #2563eb;
-    }
+        .login-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
 
-    .login-container h3 {
-        color: #2563eb;
-    }
+        .login-container h2 {
+            margin-bottom: 5px;
+            color: #2563eb;
+            font-weight: 800;
+            font-size: 28px;
+        }
 
-    .form-group {
-        text-align: left;
-        margin-bottom: 15px;
-    }
+        .login-container h3 {
+            color: #6b7280;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
 
-    .form-group label {
-        font-size: 14px;
-        color: #374151;
-        display: block;
-        margin-bottom: 6px;
-    }
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
 
-    .form-group input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #d1d5db;
-        border-radius: 10px;
-        outline: none;
-        transition: 0.2s;
-    }
+        .form-group label {
+            font-size: 14px;
+            color: #374151;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
 
-    .form-group input:focus {
-        border-color: #2563eb;
-        box-shadow: 0 0 4px rgba(37, 99, 235, 0.4);
-    }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            outline: none;
+            transition: 0.3s;
+            font-size: 16px;
+        }
 
-    .login-btn {
-        width: 100%;
-        background: #2563eb;
-        color: #fff;
-        padding: 12px;
-        border: none;
-        border-radius: 12px;
-        font-size: 16px;
-        cursor: pointer;
-        margin-top: 10px;
-        transition: 0.3s;
-    }
+        .form-group input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 6px rgba(37, 99, 235, 0.5);
+        }
 
-    .login-btn:hover {
-        background: #1e40af;
-    }
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: #fff;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            transition: 0.3s;
+        }
 
-    .extra-links {
-        margin-top: 15px;
-        font-size: 14px;
-    }
+        .login-btn:hover {
+            background: linear-gradient(135deg, #1e40af, #2563eb);
+            transform: translateY(-2px);
+        }
 
-    .extra-links a {
-        color: #2563eb;
-        text-decoration: none;
-        margin: 0 8px;
-    }
+        .extra-links {
+            margin-top: 20px;
+            font-size: 14px;
+        }
 
-    .extra-links a:hover {
-        text-decoration: underline;
-    }
+        .extra-links a {
+            color: #2563eb;
+            text-decoration: none;
+            margin: 0 8px;
+            font-weight: 600;
+        }
+
+        .extra-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .login-container {
+                margin: 20px;
+                padding: 30px;
+            }
+
+            .header {
+                padding: 15px 20px;
+            }
+        }
     </style>
 </head>
 
@@ -227,12 +274,12 @@ if (isset($_POST['submit'])) {
             <form method="POST" action="">
                 <div class="form-group">
                     <label for="username">Tên đăng nhập</label>
-                    <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập">
+                    <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Mật khẩu</label>
-                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu">
+                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
                 </div>
 
                 <button type="submit" name="submit" value="true" class="login-btn">Đăng nhập</button>
@@ -244,16 +291,16 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 
-    <?php if (isset($toast)) : ?>
-    <script>
-    $(document).ready(function() {
-        toastr.options = {
-            "positionClass": "toast-top-center",
-            "timeOut": "2000"
-        };
-        toastr["<?= $toast['type'] ?>"]("<?= $toast['msg'] ?>");
-    });
-    </script>
+    <?php if (isset($toast)): ?>
+        <script>
+            $(document).ready(function () {
+                toastr.options = {
+                    "positionClass": "toast-top-center",
+                    "timeOut": "2000"
+                };
+                toastr["<?= $toast['type'] ?>"]("<?= $toast['msg'] ?>");
+            });
+        </script>
     <?php endif; ?>
 </body>
 
