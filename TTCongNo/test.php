@@ -40,7 +40,7 @@ function fetchInvoicesFromDb($conn, $userId): array
             return $rows;
 
         $sqlXK = "SELECT to1xk.id, to1xk.SVD, to1xk.created_at, to1xk.TTGHD as amount, to1xk.tt_thanhtoan FROM to1XK WHERE to1XK.ThongKeTK = 'declaration' ORDER BY to1xk.id DESC";
-        $sqlNK = "SELECT to1nk.id, to1nk.SVD, to1nk.created_at, to2nk.TTGHD as amount, to1nk.tt_thanhtoan FROM to1NK JOIN to2nk ON to2nk.to1nk = to1nk.id to1nk.ThongKeTK = 'declaration' ORDER BY to1nk.id DESC;";
+        $sqlNK = "SELECT to1nk.id, to1nk.SVD, to1nk.created_at, to2nk.TTGHD as amount, to1nk.tt_thanhtoan FROM to1NK JOIN to2nk ON to2nk.to1nk = to1nk.id WHERE to1nk.ThongKeTK = 'declaration' ORDER BY to1nk.id DESC;";
 
         $resXK = $conn->query($sqlXK);
         $resNK = $conn->query($sqlNK);
@@ -80,6 +80,7 @@ function fetchInvoicesFromDb($conn, $userId): array
     return $rows;
 }
 
+// Giả sử $conn đã được định nghĩa trong header.php
 $userId = (int) ($_SESSION['user_id'] ?? 0);
 $invoices = fetchInvoicesFromDb($conn, $userId);
 
@@ -138,7 +139,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
             position: relative;
         }
 
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -164,56 +164,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
             padding: 40px 20px;
         }
 
-        .card {
-            background: #fff;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
-            text-align: center;
-            max-width: 600px;
-            width: 100%;
-            transition: transform .3s ease;
-        }
-
-        .card:hover {
-            transform: scale(1.03);
-        }
-
-        .card .icon {
-            font-size: 50px;
-            margin-bottom: 20px;
-        }
-
-        .card h3 {
-            font-size: 24px;
-            margin-bottom: 12px;
-            color: #1f3c88;
-        }
-
-        .card p {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        .card .btn {
-            background: #1f6fb2;
-            color: #fff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background .3s, transform .2s;
-        }
-
-        .card .btn:hover {
-            background: #155b8a;
-            transform: scale(1.05);
-        }
+        /* Đã loại bỏ .card */
 
         .modal {
             display: none;
+            /* Giữ nguyên cho các modal khác */
             position: fixed;
             inset: 0;
             width: 100%;
@@ -222,14 +177,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
             z-index: 1000;
         }
 
-        .modal-content {
+        /* Chỉnh sửa style cho nội dung hiển thị trực tiếp */
+        .main-content {
             background: #fff;
-            margin: 5% auto;
+            margin: 0 auto;
+            /* Căn giữa */
             padding: 30px;
             border-radius: 16px;
             width: 90%;
-            max-width: 1000px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+            max-width: 1200px;
+            /* Tăng max-width để bảng rộng hơn */
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .15);
             position: relative;
         }
 
@@ -443,16 +401,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
                 padding: 20px 10px;
             }
 
-            .card {
+            .main-content {
                 padding: 30px 20px;
-            }
-
-            .card h3 {
-                font-size: 22px;
-            }
-
-            .card p {
-                font-size: 15px;
             }
 
             .pay-btn {
@@ -475,14 +425,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
         }
 
         /* ==========================
-   COMPLAIN MODAL (NEW)
-   ========================== */
+        COMPLAIN MODAL (NEW)
+        ========================== */
         .complain-modal {
             display: none;
             position: fixed;
             inset: 0;
             z-index: 2100;
-            /* cao hơn pay modal */
         }
 
         .complain-backdrop {
@@ -601,23 +550,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
 <body>
 
     <div class="page-header">
-        <h1>Thanh toán công nợ</h1>
+        <h1>Theo dõi & Thanh toán công nợ</h1>
     </div>
 
     <div class="container">
-        <div class="card">
-            <div class="icon">💳</div>
-            <h3>Theo dõi công nợ & Thanh toán online</h3>
-            <p>Xem công nợ còn lại, lịch sử thanh toán và thực hiện thanh toán trực tuyến an toàn.</p>
-            <button class="btn" onclick="openDebtModal()">Xem chi tiết</button>
-        </div>
-    </div>
-
-    <div id="debtModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="debtModalTitle">
-        <div class="modal-content">
-            <span class="close" onclick="closeDebtModal()" aria-label="Đóng">&times;</span>
-            <h2 id="debtModalTitle">Công nợ & Thanh toán online</h2>
-
+        <div class="main-content" id="debtContent">
             <table id="debt-table" class="debt-table">
                 <thead>
                     <tr>
@@ -642,8 +579,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
                 <div class="right">
                     <label for="pgSize">Hiển thị:</label>
                     <select id="pgSize" onchange="changePageSize(this.value)">
-                        <option value="4">4 dòng</option>
                         <option value="10">10 dòng</option>
+                        <option value="15">15 dòng</option>
                         <option value="-1">Tất cả</option>
                     </select>
                 </div>
@@ -687,71 +624,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
                 <option value="Khác">Khác</option>
             </select>
 
-            <button class="complain-submit" onclick="submitComplaint()">
+            <button class="complain-submit" id="btnComplaintSubmit" onclick="submitComplaint()">
                 Gửi khiếu nại
             </button>
         </div>
     </div>
 
-
-
     <script>
         let complaintInvoiceId = null;
         let selectedReason = "";
 
-        // Mở modal khiếu nại
+        // Mở modal khiếu nại (Giữ nguyên)
         function openComplaintModal(id) {
-            complaintInvoiceId = id; // ✅ GÁN ĐÚNG ID
+            complaintInvoiceId = id;
             document.getElementById("complainModal").style.display = "block";
         }
 
-        // Đóng modal
+        // Đóng modal khiếu nại (Giữ nguyên)
         function closeComplaintModal() {
             document.getElementById("complainModal").style.display = "none";
         }
 
-        function submitComplaint() {
-            const selectedReason = document.getElementById("complaintReason").value;
+        // Cập nhật hàm khieunai thành submitComplaint để phù hợp hơn với tên nút
+        async function submitComplaint() {
+            if (!complaintInvoiceId) return alert('Lỗi: Không tìm thấy ID hóa đơn.');
 
-            if (!selectedReason) {
-                alert("Vui lòng chọn lý do khiếu nại!");
-                return;
-            }
+            const reasonElement = document.getElementById("complaintReason");
+            const selectedReason = reasonElement.value;
+            if (!selectedReason) return alert('Vui lòng chọn lý do khiếu nại.');
 
-            const note = document.getElementById("complaintNote").value || "";
+            const invoice = INVOICES.find(inv => inv.id === complaintInvoiceId);
+            const SVD = invoice?.SVD || '';
+            const loai = invoice?.loai || '';
 
-            fetch("<?php echo $_SERVER['PHP_SELF']; ?>", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: "action=complaint" +
-                    "&id=" + encodeURIComponent(complaintInvoiceId) +
-                    "&reason=" + encodeURIComponent(selectedReason) +
-                    "&note=" + encodeURIComponent(note)
-            })
-                .then(r => r.text())
-                .then(res => {
-                    alert("✅ Đã gửi khiếu nại!");
-                    closeComplaintModal();
-                })
-                .catch(err => {
-                    alert("❌ Lỗi gửi khiếu nại!");
-                    console.error(err);
+            const confirmed = confirm(`Bạn có chắc chắn muốn gửi khiếu nại về sự cố này không?`);
+            if (!confirmed) return;
+
+            const btn = document.getElementById('btnComplaintSubmit');
+            btn.disabled = true;
+            btn.textContent = 'Đang gửi...';
+
+            try {
+                // Gửi request POST đến endpoint đã có trong PHP (đã thay đổi endpoint)
+                const response = await fetch(window.location.href, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        action: 'complaint', // Action đã định nghĩa trong PHP
+                        id: complaintInvoiceId,
+                        reason: selectedReason,
+                    })
                 });
+
+                const text = await response.text();
+
+                if (text === 'OK') {
+                    alert(`✅ Đã gửi khiếu nại thành công cho hóa đơn ${complaintInvoiceId}. Vui lòng chờ Admin xử lý.`);
+                    closeComplaintModal();
+                } else {
+                    alert(`❌ Gửi khiếu nại thất bại. Vui lòng thử lại.`);
+                }
+            } catch (error) {
+                console.error('Lỗi khi gửi khiếu nại:', error);
+                alert('⚠️ Lỗi kết nối hoặc xử lý. Vui lòng kiểm tra console hoặc thử lại.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Gửi khiếu nại';
+                reasonElement.value = ""; // Reset select box
+            }
         }
-        document.querySelectorAll(".reason-item").forEach(item => {
-            item.addEventListener("click", function () {
 
-                document.querySelectorAll(".reason-item")
-                    .forEach(i => i.classList.remove("active"));
-
-                this.classList.add("active");
-
-                selectedReason = this.getAttribute("data-value"); // ✅ CHUẨN
-            });
-        });
-
+        // Loại bỏ khieunai và thay bằng submitComplaint
+        window.khieunai = submitComplaint;
 
         const chatux = (typeof ChatUx !== "undefined") ? new ChatUx() : null;
         if (chatux) {
@@ -804,39 +750,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
             chatux.start(true);
         }
     </script>
-
     <script>
+        // --- Khai báo hằng số ---
         const USER_ROLE = "<?php echo $_SESSION['role'] ?? ''; ?>";
         const INVOICES = <?php echo json_encode($invoices, JSON_UNESCAPED_UNICODE); ?>;
+        const USER_ID = <?php echo $userId; ?>; // Dùng biến hằng số
 
-        function fmtVND(n) {
-            return new Intl.NumberFormat('vi-VN').format(Math.round(+n || 0));
-        }
+        // --- Utility Functions (Rút gọn) ---
+        const fmtVND = n => new Intl.NumberFormat('vi-VN').format(Math.round(+n || 0));
 
-        function toDMY(iso) {
+        const toDMY = iso => {
             if (!iso) return '';
             const d = new Date(iso);
             const dd = String(d.getDate()).padStart(2, '0');
             const mm = String(d.getMonth() + 1).padStart(2, '0');
-            const yy = d.getFullYear();
-            return `${dd}/${mm}/${yy}`;
-        }
+            return `${dd}/${mm}/${d.getFullYear()}`;
+        };
 
+        const escapeHtml = str => String(str).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+        const escapeAttr = str => escapeHtml(str).replaceAll('"', '&quot;');
+
+        // --- Phân trang ---
         let pageIndex = 0;
-        let pageSize = 5;
+        let pageSize = 10;
         let totalPages = 1;
 
-        function calcTotalPages() {
-            if (pageSize === -1) return 1;
-            return Math.max(1, Math.ceil(INVOICES.length / pageSize));
-        }
+        const calcTotalPages = () => (pageSize === -1) ? 1 : Math.max(1, Math.ceil(INVOICES.length / pageSize));
+        const sliceData = () => (pageSize === -1) ? INVOICES : INVOICES.slice(pageIndex * pageSize, (pageIndex + 1) *
+            pageSize);
 
-        function sliceData() {
-            if (pageSize === -1) return INVOICES;
-            const start = pageIndex * pageSize;
-            return INVOICES.slice(start, start + pageSize);
-        }
-
+        // --- Render Table ---
         function renderTable() {
             const tbody = document.getElementById('debt-tbody');
             tbody.innerHTML = '';
@@ -844,50 +788,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
 
             if (INVOICES.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="6">Không có dữ liệu công nợ.</td></tr>';
+                totalPages = 1;
+            } else {
+                rows.forEach(inv => {
+                    const id = String(inv.id || '');
+                    const SVD = String(inv.SVD || '');
+                    const date = toDMY(inv.issued_date);
+                    const due = toDMY(inv.due_date);
+                    const total = fmtVND(inv.total_amount || 0);
+                    const isDone = (inv.status === 'done');
+
+                    let statusText = 'Chưa thanh toán';
+                    if (isDone) {
+                        statusText = 'Đã thanh toán';
+                    } else if (inv.late_fee > 0) {
+                        statusText = `Quá hạn (${fmtVND(inv.late_fee)} đ phí phạt)`;
+                    }
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${escapeHtml(SVD)}</td>
+                        <td>${date}</td>
+                        <td>${total} đ</td>
+                        <td>${statusText}</td>
+                        <td>${due}</td>
+                        <td>
+                            ${USER_ROLE === 'customer'
+                            ? (
+                                isDone
+                                    ? '<button class="pay-btn disabled" disabled>Đã thanh toán</button>'
+                                    : `<button class="pay-btn" onclick="openPayModal('${escapeAttr(id)}', ${Math.round(inv.total_amount || 0)})">Thanh toán</button>`
+                            )
+                            : ''
+                        }
+                        ${USER_ROLE === 'customer'
+                            ? `<button class="complain-btn" onclick="openComplaintModal('${escapeAttr(id)}')">Khiếu nại</button>`
+                            : ''
+                        }
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                totalPages = calcTotalPages();
             }
 
-            rows.forEach(inv => {
-                const id = String(inv.id || '');
-                const SVD = String(inv.SVD || '');
-                const date = toDMY(inv.issued_date);
-                const due = toDMY(inv.due_date);
-                const total = fmtVND(inv.total_amount || 0);
-                // Trạng thái hiển thị cho người dùng
-                let statusText = 'Chưa thanh toán';
-                if (inv.status === 'done') {
-                    statusText = 'Đã thanh toán';
-                } else if (inv.late_fee > 0) {
-                    statusText = 'Quá hạn (' + fmtVND(inv.late_fee) + ' đ phí phạt)';
-                }
-
-                const isDone = (inv.status === 'done');
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${escapeHtml(SVD)}</td>
-                    <td>${date}</td>
-                    <td>${total} đ</td>
-                    <td>${statusText}</td>
-                    <td>${due}</td>
-                    <td>
-                    ${USER_ROLE === 'customer'
-                        ? (
-                            isDone
-                                ? '<button class="pay-btn disabled" disabled>Đã thanh toán</button>'
-                                : `<button class="pay-btn" onclick="openPayModal('${escapeAttr(id)}', ${Math.round(inv.total_amount || 0)})">Thanh toán</button>`
-                        )
-                        : ''
-                    }
-
-                        ${USER_ROLE === 'customer'
-                        ? `<br><button class="complain-btn" onclick="openComplaintModal('${escapeAttr(id)}')">Khiếu nại</button>`
-                        : ''
-                    }
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-            totalPages = calcTotalPages();
             const info = document.getElementById('pgInfo');
             info.textContent = `Trang ${totalPages === 0 ? 0 : pageIndex + 1}/${totalPages}`;
 
@@ -895,42 +839,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
             document.getElementById('pgNext').disabled = (pageIndex >= totalPages - 1);
         }
 
-        function gotoPrevPage() {
+        // --- Pagination Actions ---
+        const gotoPrevPage = () => {
             if (pageIndex > 0) {
                 pageIndex--;
                 renderTable();
             }
-        }
+        };
 
-        function gotoNextPage() {
+        const gotoNextPage = () => {
             if (pageIndex < totalPages - 1) {
                 pageIndex++;
                 renderTable();
             }
-        }
+        };
 
-        function changePageSize(val) {
+        const changePageSize = val => {
             pageSize = parseInt(val, 10);
             pageIndex = 0;
             renderTable();
-        }
+        };
 
-        function openDebtModal() {
-            document.getElementById('debtModal').style.display = 'block';
-            document.getElementById('pgSize').value = String(pageSize);
-            renderTable();
-        }
+        // --- Debt Modal ---
+        // Đã loại bỏ openDebtModal và closeDebtModal vì không còn là modal
+        const openDebtModal = () => {
+            /* Chức năng bị loại bỏ */
+        };
+        const closeDebtModal = () => {
+            /* Chức năng bị loại bỏ */
+        };
 
-        function closeDebtModal() {
-            document.getElementById('debtModal').style.display = 'none';
-        }
 
-        // Biến toàn cục để lưu ID hóa đơn đang được thanh toán
+        // --- Payment Modal ---
         let currentInvoiceId = '';
 
         function openPayModal(invoiceId, amount) {
-            currentInvoiceId = invoiceId; // Lưu ID hóa đơn
-
+            currentInvoiceId = invoiceId;
             const bankCode = 'VPB';
             const account = '0383671656';
             const addInfo = encodeURIComponent(`TT ${invoiceId}`);
@@ -940,103 +884,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
             document.getElementById('payQR').src = qrUrl;
             document.getElementById('paySub').textContent = `Hóa đơn: ${invoiceId}`;
             document.getElementById('payDesc').textContent = `Số tiền: ${fmtVND(amount)} đ • Quét mã VietQR để thanh toán.`;
-
-            // Cập nhật onclick cho nút "Đã Chuyển Khoản"
             document.getElementById('btnPaidNotify').setAttribute('onclick', `markAsPaid('${escapeAttr(invoiceId)}')`);
 
-            const pm = document.getElementById('payModal');
-            pm.style.display = 'block';
+            document.getElementById('payModal').style.display = 'block';
         }
+        const closePayModal = () => {
+            document.getElementById('payModal').style.display = 'none';
+            currentInvoiceId = '';
+        };
 
-        function closePayModal() {
-            const pm = document.getElementById('payModal');
-            pm.style.display = 'none';
-            currentInvoiceId = ''; // Xóa ID hóa đơn khi đóng modal
-        }
+        // --- Mark as Paid (Giữ nguyên) ---
+        async function markAsPaid(invoiceId) {
+            if (!invoiceId) return alert('Lỗi: Không tìm thấy ID hóa đơn.');
 
-        /**
-         * Hàm gửi thông báo đã thanh toán bằng QR/Chuyển khoản đến Admin
-         * @param {string} invoiceId - Số vận đơn/ID hóa đơn
-         */
-        function markAsPaid(invoiceId) {
-            if (!invoiceId) {
-                alert('Lỗi: Không tìm thấy ID hóa đơn.');
-                return;
-            }
-
-            // Tìm hóa đơn trong danh sách INVOICES để lấy thông tin chi tiết (nếu cần)
             const invoice = INVOICES.find(inv => inv.id === invoiceId);
-
-            // Nếu bạn đang dùng SVD làm ID, hãy dùng nó để hiển thị trong confirm
             const SVD = invoice?.SVD || '';
             const loai = invoice?.loai || '';
 
             const confirmed = confirm(
                 `Bạn có chắc chắn muốn báo đã chuyển khoản cho hóa đơn này không? Admin sẽ kiểm tra và cập nhật trạng thái.`
             );
+            if (!confirmed) return;
 
-            if (confirmed) {
-                // Lấy User ID đã được nhúng từ PHP
-                const userId = <?php echo $userId; ?>;
+            const btn = document.getElementById('btnPaidNotify');
+            btn.disabled = true;
+            btn.textContent = 'Đang gửi...';
 
-                // Vô hiệu hóa nút báo cáo tạm thời để tránh spam
-                const btn = document.getElementById('btnPaidNotify');
-                btn.disabled = true;
-                btn.textContent = 'Đang gửi...';
-
-                // Gửi yêu cầu AJAX (Fetch API) đến server
-                fetch('payment_notify.php', { // <--- ĐƯỜNG DẪN DÙNG TRONG PHP BACKEND BÊN DƯỚI
+            try {
+                const response = await fetch('payment_notify.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
                         id: invoiceId,
-                        SVD: SVD,
-                        loai: loai,
-                        action: 'notify_transfer' // Thao tác cụ thể
+                        SVD,
+                        loai,
+                        action: 'notify_transfer'
                     })
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Lỗi Server hoặc mạng lưới.');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.success) {
-                            alert(`✅ Đã gửi thông báo thanh toán thành công cho hóa đơn! Vui lòng chờ Admin xác nhận.`);
-                            closePayModal();
-                        } else {
-                            alert(`❌ Gửi thông báo thất bại: ${data.message}`);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Lỗi khi gửi thông báo:', error);
-                        alert('⚠️ Lỗi kết nối hoặc xử lý. Vui lòng kiểm tra console hoặc thử lại.');
-                    })
-                    .finally(() => {
-                        if (btn) {
-                            btn.disabled = false;
-                            btn.textContent = '✅ Đã Chuyển Khoản (Báo Admin)';
-                        }
-                    });
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert(`✅ Đã gửi thông báo thanh toán thành công cho hóa đơn! Vui lòng chờ Admin xác nhận.`);
+                    closePayModal();
+                } else {
+                    alert(`❌ Gửi thông báo thất bại: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Lỗi khi gửi thông báo:', error);
+                alert('⚠️ Lỗi kết nối hoặc xử lý. Vui lòng kiểm tra console hoặc thử lại.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '✅ Đã Chuyển Khoản (Báo Admin)';
             }
         }
 
-        function escapeHtml(str) {
-            return String(str)
-                .replaceAll('&', '&amp;')
-                .replaceAll('<', '&lt;')
-                .replaceAll('>', '&gt;')
-                .replaceAll('"', '&quot;')
-                .replaceAll("'", '&#039;');
-        }
+        // --- Complaint Page Redirect (Giữ nguyên) ---
+        const openComplaintPage = invoiceId => {
+            if (!invoiceId) return alert("Không tìm thấy ID hóa đơn!");
+            window.location.href = "khieunai.php?id=" + encodeURIComponent(invoiceId);
+        };
 
-        function escapeAttr(str) {
-            return escapeHtml(str).replaceAll('"', '&quot;');
-        }
-        document.addEventListener('DOMContentLoaded', () => { });
+        // --- Window Exposure & Initialization (Cập nhật) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTable(); // Gọi renderTable ngay khi DOMContentLoaded
+        });
+
+        // Cập nhật lại các hàm được expose ra window
         window.openDebtModal = openDebtModal;
         window.closeDebtModal = closeDebtModal;
         window.gotoPrevPage = gotoPrevPage;
@@ -1044,14 +960,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
         window.changePageSize = changePageSize;
         window.openPayModal = openPayModal;
         window.closePayModal = closePayModal;
-        window.markAsPaid = markAsPaid; // Đưa hàm mới ra window scope
-        function openComplaintPage(invoiceId) {
-            if (!invoiceId) return alert("Không tìm thấy ID hóa đơn!");
-            window.location.href = "khieunai.php?id=" + encodeURIComponent(invoiceId);
-        }
+        window.markAsPaid = markAsPaid;
+        window.openComplaintModal = openComplaintModal;
+        window.closeComplaintModal = closeComplaintModal;
         window.openComplaintPage = openComplaintPage;
     </script>
-
 </body>
 
 </html>
