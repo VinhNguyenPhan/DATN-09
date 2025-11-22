@@ -286,6 +286,63 @@ $lastUpdated = date('d/m/Y H:i');
             </p>
         </div>
     </div>
+
+    <div style="margin: 20px 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end;">
+        <select id="statusSelect" style="padding:8px 12px; border-radius:6px; border:1px solid #ccc;">
+            <option value="all">Tất cả</option>
+            <option value="declaration">Đã khai báo</option>
+            <option value="declarating">Đang khai báo</option>
+            <option value="cancel">Đã hủy</option>
+        </select>
+
+        <label>
+            Từ:
+            <input type="date" id="fromDate" style="padding:8px 12px; border-radius:6px; border:1px solid #ccc;">
+        </label>
+
+        <label>
+            Đến:
+            <input type="date" id="toDate" style="padding:8px 12px; border-radius:6px; border:1px solid #ccc;">
+        </label>
+
+        <button id="exportExcelBtn" style="
+        padding: 10px 18px;
+        background-color: #28a745;
+        color: #fff;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+    ">
+            📄 Xuất Excel
+        </button>
+    </div>
+
+
+    <script>
+        document.getElementById('exportExcelBtn').addEventListener('click', function () {
+            const status = document.getElementById('statusSelect').value;
+            const from = document.getElementById('fromDate').value;
+            const to = document.getElementById('toDate').value;
+            const url =
+                `export_tk_excel.php?status=${encodeURIComponent(status)}&from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+            window.location.href = url;
+        });
+
+        function exportExcel() {
+            const status = document.getElementById('statusSelect').value;
+            const fromDate = document.getElementById('fromDate').value;
+            const toDate = document.getElementById('toDate').value;
+
+            const params = new URLSearchParams({
+                status,
+                fromDate,
+                toDate
+            });
+            window.location.href = 'export_tk_excel.php?' + params.toString();
+        }
+    </script>
+
     <div class="dashboard">
         <div class="left-col">
             <h3 style="margin:0; font-size:22px ;">Tổng quan trạng thái</h3>

@@ -316,12 +316,59 @@ $lastUpdated = date('d/m/Y H:i');
             </p>
         </div>
     </div>
+
+    <div style="margin: 20px 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end;">
+        <select id="statusSelect" style="padding:8px 12px; border-radius:6px; border:1px solid #ccc;">
+            <option value="all">Tất cả</option>
+            <option value="declaration">Đã xác nhận</option>
+            <option value="declaration">Đang giao</option>
+            <option value="declarating">Hoàn thành</option>
+            <option value="cancel">Đã hủy</option>
+        </select>
+
+        <label>
+            Từ:
+            <input type="date" id="fromDate" style="padding:8px 12px; border-radius:6px; border:1px solid #ccc;">
+        </label>
+
+        <label>
+            Đến:
+            <input type="date" id="toDate" style="padding:8px 12px; border-radius:6px; border:1px solid #ccc;">
+        </label>
+
+        <button id="exportExcelBtn" style="
+        padding: 10px 18px;
+        background-color: #28a745;
+        color: #fff;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+    ">
+            📄 Xuất Excel
+        </button>
+    </div>
+
+
+    <script>
+        document.getElementById('exportExcelBtn').addEventListener('click', function () {
+            const status = document.getElementById('statusSelect').value;
+            const from = document.getElementById('fromDate').value;
+            const to = document.getElementById('toDate').value;
+
+            // Chuyển hướng đến file export_tk_excel.php kèm theo query params
+            const url =
+                `export_tk_excel.php?status=${encodeURIComponent(status)}&from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+            window.location.href = url;
+        });
+    </script>
+
     <div class="dashboard">
         <div class="left-col">
             <h3 style="margin:0; font-size:22px ;">Tổng quan trạng thái</h3>
             <div class="status-grid">
                 <div class="card lay">
-                    <div class="label">ĐÃ LẤY HÀNG</div>
+                    <div class="label">ĐÃ XÁC NHẬN</div>
                     <div class="value">
                         <?= number_format($totalPrice['shipped']) ?> -
                         <?= number_format($counts['shipped'], 0, ',', '.') ?> ĐH
@@ -378,7 +425,7 @@ $lastUpdated = date('d/m/Y H:i');
         data: {
             labels: labels,
             datasets: [{
-                label: 'Đã lấy',
+                label: 'Đã xác nhận',
                 data: <?= $jsShipped ?>,
                 backgroundColor: '#16a085'
             },
@@ -428,7 +475,7 @@ $lastUpdated = date('d/m/Y H:i');
     new Chart(document.getElementById('pieChart'), {
         type: 'doughnut',
         data: {
-            labels: ['Đã lấy', 'Đang giao', 'Hoàn thành', 'Đã hủy'],
+            labels: ['Đã xác nhận', 'Đang giao', 'Hoàn thành', 'Đã hủy'],
             datasets: [{
                 data: [
                     <?= (int) $counts['shipped'] ?>,
