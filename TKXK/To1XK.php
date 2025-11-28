@@ -14,7 +14,7 @@ if (empty($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <title>Tờ khai xuất khẩu</title>
-    <link rel="stylesheet" href="style.css?v1.0.1">
+    <link rel="stylesheet" href="style.css?v1.0.2">
 </head>
 
 <body>
@@ -123,22 +123,26 @@ if (empty($_SESSION['user_id'])) {
             <fieldset>
                 <legend>Thông tin người xuất khẩu:</legend>
                 <div class="form-group">
-                    <label>Mã số thuế doanh nghiệp:</label>
-                    <input type="text" name="MSTDNXK" id="MSTDNXK" placeholder="Mã số thuế doanh nghiệp">
-                    <label style="width: 97px;">Mã bưu chính:</label>
-                    <input type=" text" name="MBCDNXK" id="MBCDNXK" placeholder="Mã bưu chính">
+                    <label class="required">Mã số thuế doanh nghiệp xuất khẩu:</label>
+                    <input type="text" name="MSTDNXK" placeholder="Mã số thuế doanh nghiệp xuất khẩu" required>
+
+                    <label style="width: 110px;">Mã bưu chính:</label>
+                    <input type="text" name="MBCDNXK" placeholder="Mã bưu chính">
+                </div>
+
+
+                <div class="form-group">
+                    <label class="required">Tên doanh nghiệp:</label>
+                    <input type="text" name="TDNXK" id="TDNXK" placeholder="Tên doanh nghiệp xuất khẩu" required>
                 </div>
                 <div class="form-group">
-                    <label>Tên doanh nghiệp:</label>
-                    <input type="text" name="TDNXK" id="TDNXK" placeholder="Tên doanh nghiệp xuất khẩu">
+                    <label class="required">Địa chỉ doanh nghiệp:</label>
+                    <input type="text" name="DCDNXK" id="DCDNXK" placeholder="Địa chỉ doanh nghiệp xuất khẩu" required>
                 </div>
                 <div class="form-group">
-                    <label>Địa chỉ doanh nghiệp:</label>
-                    <input type="text" name="DCDNXK" id="DCDNXK" placeholder="Địa chỉ doanh nghiệp xuất khẩu">
-                </div>
-                <div class="form-group">
-                    <label>Số điện thoại doanh nghiệp:</label>
-                    <input type="text" name="SDTDNXK" id="SDTDNXK" placeholder="Số điện thoại doanh nghiệp xuất khẩu">
+                    <label class="required">Số điện thoại doanh nghiệp:</label>
+                    <input type="text" name="SDTDNXK" id="SDTDNXK" placeholder="Số điện thoại doanh nghiệp xuất khẩu"
+                        required>
                 </div>
                 <legend>Thông tin người ủy thác xuất khẩu:</legend>
                 <div class="form-group">
@@ -159,22 +163,24 @@ if (empty($_SESSION['user_id'])) {
                 <legend>Thông tin người nhập khẩu:</legend>
 
                 <div class="form-group">
-                    <label>Mã số thuế doanh nghiệp nhập khẩu:</label>
-                    <input type="text" name="MSTDNNK" id="MSTDNNK" placeholder="Mã số thuế doanh nghiệp nhập khẩu">
-                    <label style="width: 171px;">Mã bưu chính nhập khẩu:</label>
+                    <label class="required">Mã số thuế doanh nghiệp nhập khẩu:</label>
+                    <input type="text" name="MSTDNNK" id="MSTDNNK" placeholder="Mã số thuế doanh nghiệp nhập khẩu"
+                        required>
+                    <label style="width: 185px;">Mã bưu chính nhập khẩu:</label>
                     <input type="text" name="MBCDNNK" id="MBCDNNK" placeholder="Mã bưu chính nhập khẩu">
                 </div>
                 <div class="form-group">
-                    <label>Tên doanh nghiệp nhập khẩu:</label>
-                    <input type="text" name="TDNNK" id="TDNNK" placeholder="Tên doanh nghiệp nhập khẩu">
+                    <label class="required">Tên doanh nghiệp nhập khẩu:</label>
+                    <input type="text" name="TDNNK" id="TDNNK" placeholder="Tên doanh nghiệp nhập khẩu" required>
                 </div>
                 <div class="form-group">
-                    <label>Địa chỉ doanh nghiệp nhập khẩu:</label>
-                    <input type="text" name="DCDNNK" id="DCDNNK" placeholder="Địa chỉ doanh nghiệp nhập khẩu">
+                    <label class="required">Địa chỉ doanh nghiệp nhập khẩu:</label>
+                    <input type="text" name="DCDNNK" id="DCDNNK" placeholder="Địa chỉ doanh nghiệp nhập khẩu" required>
                 </div>
                 <div class="form-group">
-                    <label>Số điện thoại doanh nghiệp nhập khẩu:</label>
-                    <input type="text" name="SDTDNNK" id="SDTDNNK" placeholder="Số điện thoại doanh nghiệp nhập khẩu">
+                    <label class="required">Số điện thoại doanh nghiệp nhập khẩu:</label>
+                    <input type="text" name="SDTDNNK" id="SDTDNNK" placeholder="Số điện thoại doanh nghiệp nhập khẩu"
+                        required>
                 </div>
                 <legend>Thông tin người ủy thác nhập khẩu:</legend>
                 <div class="form-group">
@@ -195,13 +201,14 @@ if (empty($_SESSION['user_id'])) {
             <fieldset>
                 <legend>Thông tin vận đơn:</legend>
                 <div class="form-group">
-                    <label>Số vận đơn:</label>
-                    <input type="text" name="SVD" id="SVD" placeholder="Số vận đơn">
+                    <label class="required">Số vận đơn:</label>
+                    <input type="text" name="SVD" id="SVD" placeholder="Số vận đơn" required>
                 </div>
                 <div class="form-group">
-                    <label>Số lượng kiện:</label>
-                    <input type="text" name="SLK" id="SLK" placeholder="Số lượng kiện">
-                    <select name="DVK">
+                    <label class="required">Số lượng kiện:</label>
+                    <input type="text" name="SLK" id="SLK" placeholder="Số lượng kiện" required>
+                    <select name="DVK" required>
+                        <option value="" selected></option>
                         <option value="SET">SET: Bộ</option>
                         <option value="DZN">DZN: Tá</option>
                         <option value="PCE">PCE: Cái/Chiếc</option>
@@ -211,9 +218,10 @@ if (empty($_SESSION['user_id'])) {
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Tổng trọng lượng hàng:</label>
-                    <input type="text" name="TTLH" id="TTLH" placeholder="Tổng trọng lượng hàng">
-                    <select name="DVT">
+                    <label class="required">Tổng trọng lượng hàng:</label>
+                    <input type="text" name="TTLH" id="TTLH" placeholder="Tổng trọng lượng hàng" required>
+                    <select name="DVT" required>
+                        <option value="" selected></option>
                         <option value="GRM">GRM: Gam</option>
                         <option value="KGM">KGM: Kilogam</option>
                         <option value="TNE">TNE: Tấn</option>
@@ -221,34 +229,34 @@ if (empty($_SESSION['user_id'])) {
                     </select>
                 </div>
                 <div class="form-group" style="margin-top: 10px;">
-                    <label>Mã địa điểm lưu kho hàng chờ thông quan dự kiến:</label>
+                    <label class="required">Mã địa điểm lưu kho hàng chờ thông quan dự kiến:</label>
                     <input type="text" id="MDDLK_code" name="MDDLKCTQDK" placeholder="Mã địa điểm lưu kho"
-                        list="codes-by-region">
+                        list="codes-by-region" required>
                     <select name="MDDLKCTQ" id="location-select">
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Địa điểm nhận hàng cuối cùng:</label>
+                    <label class="required">Địa điểm nhận hàng cuối cùng:</label>
                     <input type="text" name="DDNHCC" id="DDNHCC" placeholder="Địa điểm nhận hàng cuối cùng"
-                        list="codes-by-region">
+                        list="codes-by-region" required>
                     <select name="DDNH" id="location-select2">
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Địa điểm xếp hàng:</label>
-                    <input type="text" name="DDXH" id="DDXK" placeholder="Địa điểm xếp hàng">
+                    <label class="required">Địa điểm xếp hàng:</label>
+                    <input type="text" name="DDXH" id="DDXK" placeholder="Địa điểm xếp hàng" required>
                     <select name="DDXH1" id="location-select3">
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Phương tiện vận chuyển:</label>
+                    <label class="required">Phương tiện vận chuyển:</label>
                     <input type="text" id="col_9999" name="col_9999" placeholder="Nếu là tàu biển ghi 9999"
                         list="codes-by-region">
-                    <input type="text" id="PTVC" name="PTVC" placeholder="Phương tiện vận chuyển">
+                    <input type="text" id="PTVC" name="PTVC" placeholder="Phương tiện vận chuyển" required>
                 </div>
                 <div class="form-group">
-                    <label>Ngày hàng đi dự kiến:</label>
-                    <input type="date" name="NHDDK" id="NHDDK">
+                    <label class="required">Ngày hàng đi dự kiến:</label>
+                    <input type="date" name="NHDDK" id="NHDDK" required>
                 </div>
                 <div class="form-group">
                     <label>Ký hiệu và số hiệu:</label>
@@ -260,6 +268,7 @@ if (empty($_SESSION['user_id'])) {
                 <div class="form-group">
                     <label>Phân loại hình thức hóa đơn:</label>
                     <select name="PLHTHD">
+                        <option value="" selected></option>
                         <option value="PLHTHDA">A: Giá hóa đơn cho hàng hóa phải trả tiền</option>
                         <option value="PLHTHDB">B: Giá hóa đơn cho hàng hóa không phải trả tiền</option>
                         <option value="PLHTHDC">C: Giá hóa đơn cho hàng hóa bao gồm phải trả tiền và không phải trả tiền
@@ -274,10 +283,11 @@ if (empty($_SESSION['user_id'])) {
                     <input type="text" name="SHD" id="SHD" placeholder="Số hóa đơn">
                 </div>
                 <div class="form-group">
-                    <label>Ngày phát hành:</label>
-                    <input type="date" name="NPH" id="NPH">
-                    <label style="padding-left: 19px">Phương thức thanh toán:</label>
-                    <select name="PTTT">
+                    <label class="required">Ngày phát hành:</label>
+                    <input type="date" name="NPH" id="NPH" required>
+                    <label style="padding-left: 19px" class="required">Phương thức thanh toán:</label>
+                    <select name="PTTT" required>
+                        <option value="" selected></option>
                         <option value="TT">T/T</option>
                         <option value="TTR">TTR</option>
                         <option value="COD">COD</option>
@@ -287,13 +297,15 @@ if (empty($_SESSION['user_id'])) {
                 <div class="form-group">
                     <label>Mã phân loại hóa đơn: </label>
                     <select name="MPLHD">
+                        <option value="" selected></option>
                         <option value="MPLHDA">A: Hóa đơn thương mại</option>
                         <option value="MPLHDB">B: Chứng từ thay thế hóa đơn thương mại hoặc không có hóa đơn thương mại:
                         </option>
                         <option value="MPLHDD">D: Hóa đơn điện tử được khai báo qua nghiệp vụ khai hóa đơn IVA</option>
                     </select>
-                    <label style="padding-left: 19px">Điều kiện giá hóa đơn: </label>
-                    <select name="DKGHD">
+                    <label style="padding-left: 19px" class="required">Điều kiện giá hóa đơn: </label>
+                    <select name="DKGHD" required>
+                        <option value="" selected></option>
                         <option value="EXW">EXW</option>
                         <option value="FCA">FCA</option>
                         <option value="CPT">CPT</option>
@@ -310,8 +322,9 @@ if (empty($_SESSION['user_id'])) {
                 <div class="form-group">
                     <label>Tổng trị giá hóa đơn:</label>
                     <input type="text" name="TTGHD" id="TTGHD" placeholder="Tổng trị giá hóa đơn">
-                    <label style="padding-left: 19px">Mã đồng tiền trị giá hóa đơn :</label>
-                    <select name="MDTTGHD">
+                    <label style="padding-left: 19px" class="required">Mã đồng tiền trị giá hóa đơn :</label>
+                    <select name="MDTTGHD" required>
+                        <option value="" selected></option>
                         <option value="USD">USD</option>
                         <option value="CNY">CNY</option>
                         <option value="VND">VND</option>
@@ -320,10 +333,11 @@ if (empty($_SESSION['user_id'])) {
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Trị giá hóa đơn:</label>
-                    <input type="text" name="TGHD" id="TGHD" placeholder="Trị giá hóa đơn">
-                    <label style="padding-left: 19px">Mã đồng tiền trị giá tính thuế :</label>
-                    <select name="MDTTGTT">
+                    <label class="required">Trị giá hóa đơn:</label>
+                    <input type="text" name="TGHD" id="TGHD" placeholder="Trị giá hóa đơn" required>
+                    <label style="padding-left: 19px" class="required">Mã đồng tiền trị giá tính thuế :</label>
+                    <select name="MDTTGTT" required>
+                        <option value="" selected></option>
                         <option value="USD1">USD</option>
                         <option value="CNY1">CNY</option>
                         <option value="VND1">VND</option>
@@ -338,6 +352,7 @@ if (empty($_SESSION['user_id'])) {
                     <label>Mã lý do đề nghị BP:</label>
                     <input type="text" name="MLDDNBP" placeholder="Mã lý do đề nghị BP">
                     <select name="MLDDNBP1">
+                        <option value="" selected></option>
                         <option value="MLDDNBPA">A:chờ xác định mã số hàng hóa</option>
                         <option value="MLDDNBPB">B:chờ xác định trị giá tính thuế</option>
                         <option value="MLDDNBPC">C:trường hợp khác</option>
@@ -347,6 +362,7 @@ if (empty($_SESSION['user_id'])) {
                     <label>Mã ngân hàng trả thuế thay:</label>
                     <input type="text" name="STK" placeholder="Số tài khoản">
                     <select name="MNHTTT">
+                        <option value="" selected></option>
                         <option value="BIDV2">BIDV</option>
                         <option value="TECHCOMBANK2">TECHCOMBANK</option>
                         <option value="VPBANK2">VPBANK</option>
@@ -363,6 +379,7 @@ if (empty($_SESSION['user_id'])) {
                 <div class="form-group">
                     <label>Mã xác định thời hạn nộp thuế : </label>
                     <select name="MXDTHNT">
+                        <option value="" selected></option>
                         <option value="MXDTHNTA">A:Trường hợp được áp dụng thời hạn nộp thuế do sử dụng bảo lãnh riêng.
                         </option>
                         <option value="MXDTHNTB">B:Trường hợp được áp dụng thời hạn nộp thuế do sử dụng bảo lãnh chung
@@ -376,6 +393,7 @@ if (empty($_SESSION['user_id'])) {
                     <label>Mã ngân hàng bảo lãnh:</label>
                     <input type="text" name="STK2" placeholder="Số tài khoản">
                     <select name="MNHBL">
+                        <option value="" selected></option>
                         <option value="BIDV1">BIDV</option>
                         <option value="TECHCOMBANK1">TECHCOMBANK</option>
                         <option value="VPBANK1">VPBANK</option>
@@ -425,6 +443,7 @@ if (empty($_SESSION['user_id'])) {
                 <div class="form-group">
                     <label>Địa điểm đích vận chuyển bảo thuế: </label>
                     <select name="DDDVCBT">
+                        <option value="" selected></option>
                         <option value="03S03">03S03</option>
                     </select>
                     <label style="width: 218px;padding-left: 146px;">Ngày đến: </label>
@@ -437,16 +456,16 @@ if (empty($_SESSION['user_id'])) {
                 <button type="button" class="red" onclick="window.location.href='../index.php'">Đóng</button>
             </div>
             <script>
-            function timToKhai() {
-                alert("Thực hiện tìm tờ khai...");
-            }
+                function timToKhai() {
+                    alert("Thực hiện tìm tờ khai...");
+                }
             </script>
         </form>
     </div>
 
     <script>
-    const locations = {
-        trong_nuoc: [{
+        const locations = {
+            trong_nuoc: [{
                 code: "",
                 name: ""
             },
@@ -570,8 +589,8 @@ if (empty($_SESSION['user_id'])) {
                 code: "03TGS02",
                 name: "Tanamexco"
             }
-        ],
-        ngoai_nuoc: [{
+            ],
+            ngoai_nuoc: [{
                 code: "",
                 name: ""
             },
@@ -683,157 +702,140 @@ if (empty($_SESSION['user_id'])) {
                 code: "MYPEN",
                 name: "Penang Port"
             }
-        ]
-    };
-
-    /* =======================
-            2) HELPERS CHUNG
-            ======================= */
-    function getCurrentRegion() {
-        const checked = document.querySelector('input[name="khuvuc"]:checked');
-        return checked ? checked.value : 'trong_nuoc';
-    }
-
-    // Gom unique theo code, uppercase để khớp so sánh
-    function buildOptionsByRegion(region) {
-        const uniq = new Map();
-        (locations[region] || []).forEach(loc => {
-            const code = (loc.code || '').toUpperCase();
-            if (!uniq.has(code)) uniq.set(code, loc.name || '');
-        });
-        return Array.from(uniq.entries()).map(([code, name]) => ({
-            code,
-            name
-        }));
-    }
-
-
-    /* =======================
-      3) POPULATE SELECT THEO KHU VỰC
-      ======================= */
-    function populateSelectFromRegion(selectId, region) {
-        const select = document.getElementById(selectId);
-        if (!select) return;
-        const keep = select.value;
-        select.innerHTML = '';
-
-        // option rỗng
-        const empty = document.createElement('option');
-        empty.value = '';
-        empty.textContent = '';
-        select.appendChild(empty);
-
-        buildOptionsByRegion(region).forEach(({
-            code,
-            name
-        }) => {
-            const op = document.createElement('option');
-            op.value = code;
-            op.textContent = name || code;
-            select.appendChild(op);
-        });
-
-        if (keep && Array.from(select.options).some(o => o.value === keep)) {
-            select.value = keep;
-        } else {
-            select.value = '';
-        }
-    }
-
-    /* =======================
-       4) ĐỒNG BỘ INPUT ↔ SELECT
-       ======================= */
-    function syncInputToSelect(inputId, selectId) {
-        const input = document.getElementById(inputId);
-        const select = document.getElementById(selectId);
-        if (!input || !select) return;
-        const val = (input.value || '').trim().toUpperCase();
-        select.value = val && Array.from(select.options).some(o => (o.value || '').toUpperCase() === val) ? val :
-            '';
-    }
-
-    function syncSelectToInput(selectId, inputId) {
-        const input = document.getElementById(inputId);
-        const select = document.getElementById(selectId);
-        if (!input || !select) return;
-        input.value = select.value || '';
-    }
-
-    /* =======================
-       5) BIND CẶP INPUT/SELECT
-          - regionOverride: 'trong_nuoc' | 'ngoai_nuoc' | null
-       ======================= */
-    function bindInputSelectPair({
-        inputId,
-        selectId,
-        regionSensitive = true,
-        regionOverride = null
-    }) {
-        const input = document.getElementById(inputId);
-        const select = document.getElementById(selectId);
-        if (!input || !select) return;
-
-        const resolveRegion = () => regionOverride || getCurrentRegion();
-
-        // Render lần đầu
-        populateSelectFromRegion(selectId, resolveRegion());
-
-        // Gõ mã → ép UPPERCASE + sync
-        input.addEventListener('input', () => {
-            input.value = input.value.toUpperCase();
-            syncInputToSelect(inputId, selectId);
-        });
-
-        // Chọn option → điền ngược mã
-        select.addEventListener('change', () => syncSelectToInput(selectId, inputId));
-
-        // Rời ô → snap theo mã
-        input.addEventListener('blur', () => syncInputToSelect(inputId, selectId));
-
-        // Khởi tạo đồng bộ
-        syncInputToSelect(inputId, selectId);
-
-        return {
-            refreshByRegion() {
-                // Nếu cặp này có override → không bị ảnh hưởng khi đổi khu vực
-                if (regionOverride) return;
-                if (!regionSensitive) return;
-                populateSelectFromRegion(selectId, resolveRegion());
-                syncInputToSelect(inputId, selectId);
-            }
+            ]
         };
-    }
 
-    /* =======================
-       6) DATALIST GỢI Ý CƠ BẢN (FALLBACK)
-       ======================= */
-    function populateDatalistFromRegion(datalistId, region) {
-        const dl = document.getElementById(datalistId);
-        if (!dl) return;
-        dl.innerHTML = '';
+        /* =======================
+                2) HELPERS CHUNG
+                ======================= */
+        function getCurrentRegion() {
+            const checked = document.querySelector('input[name="khuvuc"]:checked');
+            return checked ? checked.value : 'trong_nuoc';
+        }
 
-        const empty = document.createElement('option');
-        empty.value = '';
-        empty.label = '';
-        dl.appendChild(empty);
+        // Gom unique theo code, uppercase để khớp so sánh
+        function buildOptionsByRegion(region) {
+            const uniq = new Map();
+            (locations[region] || []).forEach(loc => {
+                const code = (loc.code || '').toUpperCase();
+                if (!uniq.has(code)) uniq.set(code, loc.name || '');
+            });
+            return Array.from(uniq.entries()).map(([code, name]) => ({
+                code,
+                name
+            }));
+        }
 
-        buildOptionsByRegion(region).forEach(({
-            code,
-            name
-        }) => {
-            const op = document.createElement('option');
-            op.value = code;
-            op.label = name || code;
-            op.textContent = `${code} — ${name}`;
-            dl.appendChild(op);
-        });
-    }
+        function populateSelectFromRegion(selectId, region) {
+            const select = document.getElementById(selectId);
+            if (!select) return;
+            const keep = select.value;
+            select.innerHTML = '';
 
-    /* =======================
-       7) AUTOCOMPLETE TÙY BIẾN (HIỆN KHI GÕ)
-       ======================= */
-    (function injectAutocompleteStyles() {
-        const css = `
+            // option rỗng
+            const empty = document.createElement('option');
+            empty.value = '';
+            empty.textContent = '';
+            select.appendChild(empty);
+
+            buildOptionsByRegion(region).forEach(({
+                code,
+                name
+            }) => {
+                const op = document.createElement('option');
+                op.value = code;
+                op.textContent = name || code;
+                select.appendChild(op);
+            });
+
+            if (keep && Array.from(select.options).some(o => o.value === keep)) {
+                select.value = keep;
+            } else {
+                select.value = '';
+            }
+        }
+
+        function syncInputToSelect(inputId, selectId) {
+            const input = document.getElementById(inputId);
+            const select = document.getElementById(selectId);
+            if (!input || !select) return;
+            const val = (input.value || '').trim().toUpperCase();
+            select.value = val && Array.from(select.options).some(o => (o.value || '').toUpperCase() === val) ? val :
+                '';
+        }
+
+        function syncSelectToInput(selectId, inputId) {
+            const input = document.getElementById(inputId);
+            const select = document.getElementById(selectId);
+            if (!input || !select) return;
+            input.value = select.value || '';
+        }
+
+        function bindInputSelectPair({
+            inputId,
+            selectId,
+            regionSensitive = true,
+            regionOverride = null
+        }) {
+            const input = document.getElementById(inputId);
+            const select = document.getElementById(selectId);
+            if (!input || !select) return;
+
+            const resolveRegion = () => regionOverride || getCurrentRegion();
+
+            populateSelectFromRegion(selectId, resolveRegion());
+
+            input.addEventListener('input', () => {
+                input.value = input.value.toUpperCase();
+                syncInputToSelect(inputId, selectId);
+            });
+
+            select.addEventListener('change', () => syncSelectToInput(selectId, inputId));
+
+            input.addEventListener('blur', () => syncInputToSelect(inputId, selectId));
+
+            syncInputToSelect(inputId, selectId);
+
+            return {
+                refreshByRegion() {
+                    if (regionOverride) return;
+                    if (!regionSensitive) return;
+                    populateSelectFromRegion(selectId, resolveRegion());
+                    syncInputToSelect(inputId, selectId);
+                }
+            };
+        }
+
+        /* =======================
+           6) DATALIST GỢI Ý CƠ BẢN (FALLBACK)
+           ======================= */
+        function populateDatalistFromRegion(datalistId, region) {
+            const dl = document.getElementById(datalistId);
+            if (!dl) return;
+            dl.innerHTML = '';
+
+            const empty = document.createElement('option');
+            empty.value = '';
+            empty.label = '';
+            dl.appendChild(empty);
+
+            buildOptionsByRegion(region).forEach(({
+                code,
+                name
+            }) => {
+                const op = document.createElement('option');
+                op.value = code;
+                op.label = name || code;
+                op.textContent = `${code} — ${name}`;
+                dl.appendChild(op);
+            });
+        }
+
+        /* =======================
+           7) AUTOCOMPLETE TÙY BIẾN (HIỆN KHI GÕ)
+           ======================= */
+        (function injectAutocompleteStyles() {
+            const css = `
   .ac-wrap{position:relative}
   .ac-list{
     position:absolute; z-index:9999; top:100%; left:0; right:0;
@@ -844,208 +846,225 @@ if (empty($_SESSION['user_id'])) {
   .ac-item:hover,.ac-item.active{background:#f3f4f6}
   .ac-muted{color:#6b7280; font-size:12px; margin-left:6px}
   .hidden{display:none}`;
-        const style = document.createElement('style');
-        style.textContent = css;
-        document.head.appendChild(style);
-    })();
+            const style = document.createElement('style');
+            style.textContent = css;
+            document.head.appendChild(style);
+        })();
 
-    function getCodeList(region) {
-        return buildOptionsByRegion(region)
-            .filter(it => it.code)
-            .sort((a, b) => a.code.localeCompare(b.code));
-    }
-
-    function attachAutocomplete({
-        inputId,
-        selectId,
-        regionOverride = null
-    }) {
-        const input = document.getElementById(inputId);
-        if (!input) return;
-
-        // Bọc input
-        if (!input.parentElement.classList.contains('ac-wrap')) {
-            const wrap = document.createElement('div');
-            wrap.className = 'ac-wrap';
-            input.parentElement.insertBefore(wrap, input);
-            wrap.appendChild(input);
-        }
-        const wrap = input.parentElement;
-
-        // Tạo list
-        let list = wrap.querySelector('.ac-list');
-        if (!list) {
-            list = document.createElement('div');
-            list.className = 'ac-list hidden';
-            wrap.appendChild(list);
+        function getCodeList(region) {
+            return buildOptionsByRegion(region)
+                .filter(it => it.code)
+                .sort((a, b) => a.code.localeCompare(b.code));
         }
 
-        let items = [];
-        let idx = -1;
+        function attachAutocomplete({
+            inputId,
+            selectId,
+            regionOverride = null
+        }) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
 
-        function resolveRegion() {
-            return regionOverride || getCurrentRegion();
-        }
+            // Bọc input
+            if (!input.parentElement.classList.contains('ac-wrap')) {
+                const wrap = document.createElement('div');
+                wrap.className = 'ac-wrap';
+                input.parentElement.insertBefore(wrap, input);
+                wrap.appendChild(input);
+            }
+            const wrap = input.parentElement;
 
-        function refreshItemsByRegion() {
-            items = getCodeList(resolveRegion());
-        }
-
-        function renderList(filter) {
-            const q = (filter || '').trim().toUpperCase();
-            list.innerHTML = '';
-            idx = -1;
-
-            if (!q) {
-                list.classList.add('hidden');
-                return;
+            // Tạo list
+            let list = wrap.querySelector('.ac-list');
+            if (!list) {
+                list = document.createElement('div');
+                list.className = 'ac-list hidden';
+                wrap.appendChild(list);
             }
 
-            const starts = items.filter(it => it.code.startsWith(q));
-            const contains = items.filter(it => !it.code.startsWith(q) && it.code.includes(q));
-            const merged = [...starts, ...contains].slice(0, 12);
+            let items = [];
+            let idx = -1;
 
-            if (merged.length === 0) {
-                list.classList.add('hidden');
-                return;
+            function resolveRegion() {
+                return regionOverride || getCurrentRegion();
             }
 
-            merged.forEach((it) => {
-                const row = document.createElement('div');
-                row.className = 'ac-item';
-                row.dataset.code = it.code;
-                row.innerHTML =
-                    `<strong>${it.code}</strong><span class="ac-muted">— ${it.name || it.code}</span>`;
-                row.addEventListener('mousedown', (e) => {
-                    e.preventDefault();
-                    pick(it.code);
-                });
-                list.appendChild(row);
-            });
+            function refreshItemsByRegion() {
+                items = getCodeList(resolveRegion());
+            }
 
-            list.classList.remove('hidden');
-        }
+            function renderList(filter) {
+                const q = (filter || '').trim().toUpperCase();
+                list.innerHTML = '';
+                idx = -1;
 
-        function highlight(delta) {
-            const children = Array.from(list.children);
-            if (children.length === 0) return;
-            idx = (idx + delta + children.length) % children.length;
-            children.forEach(c => c.classList.remove('active'));
-            children[idx].classList.add('active');
-            children[idx].scrollIntoView({
-                block: 'nearest'
-            });
-        }
-
-        function pick(code) {
-            input.value = code.toUpperCase();
-            list.classList.add('hidden');
-            if (selectId) syncInputToSelect(inputId, selectId);
-        }
-
-        // Events
-        input.addEventListener('input', () => {
-            input.value = input.value.toUpperCase();
-            renderList(input.value);
-        });
-        input.addEventListener('keydown', (e) => {
-            if (list.classList.contains('hidden')) return;
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                highlight(+1);
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                highlight(-1);
-            } else if (e.key === 'Enter') {
-                if (idx >= 0) {
-                    e.preventDefault();
-                    const el = list.children[idx];
-                    if (el) pick(el.dataset.code);
-                } else {
-                    pick(input.value);
+                if (!q) {
+                    list.classList.add('hidden');
+                    return;
                 }
-            } else if (e.key === 'Escape') {
-                list.classList.add('hidden');
+
+                const starts = items.filter(it => it.code.startsWith(q));
+                const contains = items.filter(it => !it.code.startsWith(q) && it.code.includes(q));
+                const merged = [...starts, ...contains].slice(0, 12);
+
+                if (merged.length === 0) {
+                    list.classList.add('hidden');
+                    return;
+                }
+
+                merged.forEach((it) => {
+                    const row = document.createElement('div');
+                    row.className = 'ac-item';
+                    row.dataset.code = it.code;
+                    row.innerHTML =
+                        `<strong>${it.code}</strong><span class="ac-muted">— ${it.name || it.code}</span>`;
+                    row.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
+                        pick(it.code);
+                    });
+                    list.appendChild(row);
+                });
+
+                list.classList.remove('hidden');
             }
-        });
-        input.addEventListener('blur', () => {
-            setTimeout(() => list.classList.add('hidden'), 150);
-            if (selectId) syncInputToSelect(inputId, selectId);
-        });
 
-        // Init
-        refreshItemsByRegion();
+            function highlight(delta) {
+                const children = Array.from(list.children);
+                if (children.length === 0) return;
+                idx = (idx + delta + children.length) % children.length;
+                children.forEach(c => c.classList.remove('active'));
+                children[idx].classList.add('active');
+                children[idx].scrollIntoView({
+                    block: 'nearest'
+                });
+            }
 
-        return {
-            refresh() {
-                refreshItemsByRegion();
-                if (document.activeElement === input && input.value) {
-                    renderList(input.value);
-                } else {
+            function pick(code) {
+                input.value = code.toUpperCase();
+                list.classList.add('hidden');
+                if (selectId) syncInputToSelect(inputId, selectId);
+            }
+
+            // Events
+            input.addEventListener('input', () => {
+                input.value = input.value.toUpperCase();
+                renderList(input.value);
+            });
+            input.addEventListener('keydown', (e) => {
+                if (list.classList.contains('hidden')) return;
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    highlight(+1);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    highlight(-1);
+                } else if (e.key === 'Enter') {
+                    if (idx >= 0) {
+                        e.preventDefault();
+                        const el = list.children[idx];
+                        if (el) pick(el.dataset.code);
+                    } else {
+                        pick(input.value);
+                    }
+                } else if (e.key === 'Escape') {
                     list.classList.add('hidden');
                 }
-            }
-        };
-    }
+            });
+            input.addEventListener('blur', () => {
+                setTimeout(() => list.classList.add('hidden'), 150);
+                if (selectId) syncInputToSelect(inputId, selectId);
+            });
 
-    /* =======================
-       8) KHỞI TẠO & SỰ KIỆN
-       ======================= */
-    // Bind 3 cặp
-    const handlers = [
-        bindInputSelectPair({
-            inputId: 'MDDLK_code',
-            selectId: 'location-select',
-            regionSensitive: true
-        }),
-        bindInputSelectPair({
-            inputId: 'DDNHCC',
-            selectId: 'location-select2',
-            regionSensitive: false,
-            regionOverride: 'trong_nuoc'
-        }),
-        bindInputSelectPair({
-            inputId: 'DDXK',
-            selectId: 'location-select3',
-            regionSensitive: true
-        })
-    ].filter(Boolean);
+            // Init
+            refreshItemsByRegion();
 
-    // Datalist fallback
-    populateDatalistFromRegion('codes-by-region', getCurrentRegion());
+            return {
+                refresh() {
+                    refreshItemsByRegion();
+                    if (document.activeElement === input && input.value) {
+                        renderList(input.value);
+                    } else {
+                        list.classList.add('hidden');
+                    }
+                }
+            };
+        }
 
-    // Autocomplete tùy biến (hiện khi gõ)
-    const acHandlers = [
-        attachAutocomplete({
-            inputId: 'MDDLK_code',
-            selectId: 'location-select'
-        }),
-        attachAutocomplete({
-            inputId: 'DDNHCC',
-            selectId: 'location-select2',
-            regionOverride: 'trong_nuoc'
-        }),
-        attachAutocomplete({
-            inputId: 'DDXK',
-            selectId: 'location-select3'
-        })
-    ].filter(Boolean);
+        /* =======================
+           8) KHỞI TẠO & SỰ KIỆN
+           ======================= */
+        // Bind 3 cặp
+        const handlers = [
+            bindInputSelectPair({
+                inputId: 'MDDLK_code',
+                selectId: 'location-select',
+                regionSensitive: true
+            }),
+            bindInputSelectPair({
+                inputId: 'DDNHCC',
+                selectId: 'location-select2',
+                regionSensitive: false,
+                regionOverride: 'trong_nuoc'
+            }),
+            bindInputSelectPair({
+                inputId: 'DDXK',
+                selectId: 'location-select3',
+                regionSensitive: true
+            })
+        ].filter(Boolean);
 
-    // Đổi radio khu vực → refresh datalist, autocomplete, và các select động
-    document.querySelectorAll('input[name="khuvuc"]').forEach(radio => {
-        radio.addEventListener('change', () => {
-            const region = getCurrentRegion();
-            // datalist
-            populateDatalistFromRegion('codes-by-region', region);
-            // autocomplete dropdown
-            acHandlers.forEach(h => h.refresh && h.refresh());
-            // select đã bind (bị ảnh hưởng bởi khu vực)
-            handlers.forEach(h => h.refreshByRegion && h.refreshByRegion());
+        // Datalist fallback
+        populateDatalistFromRegion('codes-by-region', getCurrentRegion());
+
+        // Autocomplete tùy biến (hiện khi gõ)
+        const acHandlers = [
+            attachAutocomplete({
+                inputId: 'MDDLK_code',
+                selectId: 'location-select'
+            }),
+            attachAutocomplete({
+                inputId: 'DDNHCC',
+                selectId: 'location-select2',
+                regionOverride: 'trong_nuoc'
+            }),
+            attachAutocomplete({
+                inputId: 'DDXK',
+                selectId: 'location-select3'
+            })
+        ].filter(Boolean);
+
+        // Đổi radio khu vực → refresh datalist, autocomplete, và các select động
+        document.querySelectorAll('input[name="khuvuc"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                const region = getCurrentRegion();
+                // datalist
+                populateDatalistFromRegion('codes-by-region', region);
+                // autocomplete dropdown
+                acHandlers.forEach(h => h.refresh && h.refresh());
+                // select đã bind (bị ảnh hưởng bởi khu vực)
+                handlers.forEach(h => h.refreshByRegion && h.refreshByRegion());
+            });
         });
-    });
     </script>
 
     <datalist id="codes-by-region"></datalist>
+    <script>
+        function validateBeforeNext() {
+            let valid = true;
+
+            document.querySelectorAll("[required]").forEach(el => {
+                el.classList.remove("error");
+
+                if (!el.value.trim() || (el.tagName === "SELECT" && el.value === "")) {
+                    el.classList.add("error");
+                    valid = false;
+                }
+            });
+
+            return valid;
+        }
+    </script>
+
 </body>
 
 </html>

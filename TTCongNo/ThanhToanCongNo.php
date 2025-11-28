@@ -666,25 +666,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'compl
 
         try {
             // Gửi request POST đến endpoint đã có trong PHP (đã thay đổi endpoint)
-            const response = await fetch(window.location.href, {
+            const response = await fetch("khieunai_notify.php", {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'application/json'
                 },
-                body: new URLSearchParams({
+                body: JSON.stringify({
                     action: 'complaint', // Action đã định nghĩa trong PHP
                     id: complaintInvoiceId,
                     reason: selectedReason,
+                    loai,
+                    SVD,
                 })
             });
 
-            const text = await response.text();
-
-            if (text === 'OK') {
-                alert(`✅ Đã gửi khiếu nại thành công cho hóa đơn ${complaintInvoiceId}. Vui lòng chờ Admin xử lý.`);
-                closeComplaintModal();
+            const data = await response.json();
+            if (data.success) {
+                alert(`✅ Đã gửi thông báo thanh toán thành công cho hóa đơn! Vui lòng chờ Admin xác nhận.`);
+                closePayModal();
             } else {
-                alert(`❌ Gửi khiếu nại thất bại. Vui lòng thử lại.`);
+                alert(`❌ Gửi thông báo thất bại: ${data.message}`);
             }
         } catch (error) {
             console.error('Lỗi khi gửi khiếu nại:', error);

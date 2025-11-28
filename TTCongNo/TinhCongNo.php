@@ -3,20 +3,22 @@ include_once(__DIR__ . '/../core/database.php');
 include_once(__DIR__ . '/../public/header.php'); ?>
 <style>
     :root {
-        --navy: #1e3a8a;
-        --navy-light: #2d4fb8;
-        --bg: #f3f6fa;
+        --blue: #1f6fb2;
+        --blue-600: #2b86d6;
+        --muted: #6b7280;
         --card: #ffffff;
-        --border: #d9e2ec;
-        --text: #0b1220;
-        --muted: #475569;
+        --surface: #f7fafc;
+        --shadow: 0 6px 20px rgba(22, 61, 106, 0.08);
         --radius: 14px;
-        --shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+        --text: #0f172a;
+        --accent: #1f3c88;
     }
 
     body {
-        background: var(--bg);
-        font-family: Arial, sans-serif;
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(180deg, #ffffff 0%, #f6f9fc 100%);
+        color: var(--text);
     }
 
     h1 {

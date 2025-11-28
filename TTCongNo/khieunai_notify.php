@@ -9,11 +9,11 @@ $data = json_decode($input, true);
 $id = $data['id'] ?? '';
 $SVD = $data['SVD'] ?? 0;
 $action = $data['action'] ?? '';
-$loai = $data['loai'];
-$lydo = $data['lydo'];
+$loai = $data['loai'] ?? '';
+$lydo = $data['reason'] ?? '';
 
 // Kiểm tra dữ liệu đầu vào
-if (empty($id) || $action !== 'notify_transfer' || empty($loai)) {
+if (empty($id) || $action !== 'complaint' || empty($loai)) {
     echo json_encode(['success' => false, 'message' => 'Dữ liệu không hợp lệ.']);
     exit;
 }

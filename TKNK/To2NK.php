@@ -18,7 +18,7 @@ $_SESSION['ToNK']['form1'] = $_POST;
 <head>
     <meta charset="UTF-8">
     <title>Tờ khai nhập khẩu</title>
-    <link rel="stylesheet" href="style.css?v1.0.2">
+    <link rel="stylesheet" href="style.css?v1.0.4">
 </head>
 
 <body>
@@ -81,8 +81,8 @@ $_SESSION['ToNK']['form1'] = $_POST;
                 <div class="form-group">
                     <label>Ngày phát hành:</label>
                     <input type="date" name="NPH" id="NPH">
-                    <label style="padding-left: 37px;">Phương thức thanh toán:</label>
-                    <select name="PTTT">
+                    <label style="padding-left: 37px;" class="required">Phương thức thanh toán:</label>
+                    <select name="PTTT" requied>
                         <option value="" checked></option>
                         <option value="TT">T/T</option>
                         <option value="TTR">TTR</option>
@@ -99,8 +99,8 @@ $_SESSION['ToNK']['form1'] = $_POST;
                         </option>
                         <option value="D3">D: Hóa đơn điện tử được khai báo qua nghiệp vụ khai hóa đơn IVA</option>
                     </select>
-                    <label style="padding-left: 37px;">Điều kiện giá hóa đơn: </label>
-                    <select name="DKGHD">
+                    <label style="padding-left: 37px;" class="required">Điều kiện giá hóa đơn: </label>
+                    <select name="DKGHD" required>
                         <option value="" checked></option>
                         <option value="EXW">EXW</option>
                         <option value="FCA">FCA</option>
@@ -116,10 +116,10 @@ $_SESSION['ToNK']['form1'] = $_POST;
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Tổng trị giá hóa đơn:</label>
-                    <input type="number" name="TTGHD" id="TTGHD" placeholder="Tổng trị giá hóa đơn">
+                    <label class="required">Tổng trị giá hóa đơn:</label>
+                    <input type="number" name="TTGHD" id="TTGHD" placeholder="Tổng trị giá hóa đơn" required>
                     <label style="padding-left: 38px;">Mã đồng tiền hóa đơn :</label>
-                    <select name="MDTHD">
+                    <select name="MDTHD" required>
                         <option value="" checked></option>
                         <option value="USD">USD</option>
                         <option value="CNY">CNY</option>
@@ -310,10 +310,10 @@ $_SESSION['ToNK']['form1'] = $_POST;
             <fieldset>
                 <legend>Thông tin vận chuyển</legend>
                 <div class="form-group">
-                    <label>Ngày được phép nhập kho: </label>
-                    <input type="date" name="NDPNK" id="NDPNK">
-                    <label>Ngày khởi hành vận chuyển: </label>
-                    <input type="date" name="NKHVC" id="NKHVC">
+                    <label class="required">Ngày được phép nhập kho: </label>
+                    <input type="date" name="NDPNK" id="NDPNK" requied>
+                    <label class="required">Ngày khởi hành vận chuyển: </label>
+                    <input type="date" name="NKHVC" id="NKHVC" required>
                 </div>
                 <div class="form-group">
                     <label>Thông tin trung chuyển:</label>
@@ -344,8 +344,8 @@ $_SESSION['ToNK']['form1'] = $_POST;
                     <select name="DDDVCBT">
                         <option value="03S03">03S03</option>
                     </select>
-                    <label style="padding-left: 148px; width: 219px;">Ngày đến: </label>
-                    <input type="date" name="ND11" id="ND11">
+                    <label style="padding-left: 148px; width: 219px;" class="required">Ngày đến: </label>
+                    <input type="date" name="ND11" id="ND11" required>
                 </div>
             </fieldset>
             <fieldset>

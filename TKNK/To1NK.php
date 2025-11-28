@@ -24,7 +24,7 @@ if (empty($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <title>Tờ khai nhập khẩu</title>
-    <link rel="stylesheet" href="style.css?v1.0.3">
+    <link rel="stylesheet" href="style.css?v1.0.4">
     <style>
         .ac-wrap {
             position: relative
@@ -140,22 +140,22 @@ if (empty($_SESSION['user_id'])) {
             <fieldset>
                 <legend>Thông tin người nhập khẩu:</legend>
                 <div class="form-group">
-                    <label>Mã số thuế doanh nghiệp:</label>
-                    <input type="text" name="MSTDNNK" placeholder="Mã số thuế doanh nghiệp nhập khẩu">
+                    <label class="required">Mã số thuế doanh nghiệp:</label>
+                    <input type="text" name="MSTDNNK" placeholder="Mã số thuế doanh nghiệp nhập khẩu" required>
                     <label style="width: 97px;">Mã bưu chính:</label>
                     <input type="text" name="MBCNK" placeholder="Mã bưu chính">
                 </div>
                 <div class="form-group">
-                    <label>Tên doanh nghiệp:</label>
-                    <input type="text" name="TDNNK" placeholder="Tên doanh nghiệp nhập khẩu">
+                    <label class="required">Tên doanh nghiệp:</label>
+                    <input type="text" name="TDNNK" placeholder="Tên doanh nghiệp nhập khẩu" required>
                 </div>
                 <div class="form-group">
-                    <label>Địa chỉ doanh nghiệp:</label>
-                    <input type="text" name="DCDNNK" placeholder="Địa chỉ doanh nghiệp nhập khẩu">
+                    <label class="required">Địa chỉ doanh nghiệp:</label>
+                    <input type="text" name="DCDNNK" placeholder="Địa chỉ doanh nghiệp nhập khẩu" required>
                 </div>
                 <div class="form-group">
-                    <label>Số điện thoại doanh nghiệp:</label>
-                    <input type="text" name="SDTDNNK" placeholder="Số điện thoại doanh nghiệp nhập khẩu">
+                    <label class="required">Số điện thoại doanh nghiệp:</label>
+                    <input type="text" name="SDTDNNK" placeholder="Số điện thoại doanh nghiệp nhập khẩu" required>
                 </div>
                 <legend>Thông tin người ủy thác nhập khẩu:</legend>
                 <div class="form-group">
@@ -175,22 +175,22 @@ if (empty($_SESSION['user_id'])) {
             <fieldset>
                 <legend>Thông tin người xuất khẩu:</legend>
                 <div class="form-group">
-                    <label>Mã số thuế DN xuất khẩu:</label>
-                    <input type="text" name="MSTDNXK" placeholder="Mã số thuế DN xuất khẩu">
+                    <label class="required">Mã số thuế DN xuất khẩu:</label>
+                    <input type="text" name="MSTDNXK" placeholder="Mã số thuế DN xuất khẩu" required>
                     <label style="width: 171px;">Mã bưu chính xuất khẩu:</label>
                     <input type="text" name="MBCXK" placeholder="Mã bưu chính xuất khẩu">
                 </div>
                 <div class="form-group">
-                    <label>Tên DN xuất khẩu:</label>
-                    <input type="text" name="TDNXK" placeholder="Tên DN xuất khẩu">
+                    <label class="required">Tên DN xuất khẩu:</label>
+                    <input type="text" name="TDNXK" placeholder="Tên DN xuất khẩu" required>
                 </div>
                 <div class="form-group">
-                    <label>Địa chỉ DN xuất khẩu:</label>
-                    <input type="text" name="DCDNXK" placeholder="Địa chỉ DN xuất khẩu">
+                    <label class="required">Địa chỉ DN xuất khẩu:</label>
+                    <input type="text" name="DCDNXK" placeholder="Địa chỉ DN xuất khẩu" required>
                 </div>
                 <div class="form-group">
-                    <label>SĐT DN xuất khẩu:</label>
-                    <input type="text" name="SDTDNXK" placeholder="SĐT DN xuất khẩu">
+                    <label class="required">SĐT DN xuất khẩu:</label>
+                    <input type="text" name="SDTDNXK" placeholder="SĐT DN xuất khẩu" required>
                 </div>
                 <legend>Thông tin người ủy thác xuất khẩu:</legend>
                 <div class="form-group">
@@ -210,15 +210,15 @@ if (empty($_SESSION['user_id'])) {
             <fieldset>
                 <legend>Thông tin vận đơn:</legend>
                 <div class="form-group">
-                    <label>Số vận đơn:</label>
-                    <input type="text" name="SVD" placeholder="Số vận đơn">
-                    <label style="width: 98px">Ngày vận đơn:</label>
-                    <input type="date" name="NVD">
+                    <label class="required">Số vận đơn:</label>
+                    <input type="text" name="SVD" placeholder="Số vận đơn" required>
+                    <label style="width: 111px" class="required">Ngày vận đơn:</label>
+                    <input type="date" name="NVD" required>
                 </div>
                 <div class="form-group">
-                    <label>Số lượng kiện:</label>
-                    <input type="text" name="SLK" placeholder="Số lượng kiện">
-                    <select name="don_vi_kien">
+                    <label class="required">Số lượng kiện:</label>
+                    <input type="text" name="SLK" placeholder="Số lượng kiện" required>
+                    <select name="don_vi_kien" required>
                         <option value="" checked></option>
                         <option value="SET">SET: Bộ</option>
                         <option value="DZN">DZN: Tá</option>
@@ -226,9 +226,9 @@ if (empty($_SESSION['user_id'])) {
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Tổng trọng lượng hàng:</label>
-                    <input type="text" name="TTLH" placeholder="Tổng trọng lượng hàng">
-                    <select name="don_vi_tl">
+                    <label class="required">Tổng trọng lượng hàng:</label>
+                    <input type="text" name="TTLH" placeholder="Tổng trọng lượng hàng" required>
+                    <select name="don_vi_tl" required>
                         <option value="" checked></option>
                         <option value="GRM">GRM: Gam</option>
                         <option value="KGM">KGM: Kilogam</option>
@@ -236,9 +236,9 @@ if (empty($_SESSION['user_id'])) {
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Mã địa điểm lưu kho:</label>
+                    <label class="required">Mã địa điểm lưu kho:</label>
                     <input type="text" id="MDDLK_code" name="MDDLK" placeholder="Mã địa điểm lưu kho"
-                        list="codes-by-region">
+                        list="codes-by-region" required>
                     <select name="dia_diem_luu_kho" id="location-select">
                     </select>
                 </div>
@@ -247,30 +247,31 @@ if (empty($_SESSION['user_id'])) {
                     <input type="text" name="KH_SHBB" placeholder="Ký hiệu và số hiệu bao bì">
                 </div>
                 <div class="form-group">
-                    <label>Phương tiện vận chuyển:</label>
+                    <label class="required">Phương tiện vận chuyển:</label>
                     <input type="text" name="so_hieu_tau" placeholder="Nếu là tàu biển ghi 9999">
-                    <input type="text" name="PTVC" placeholder="Phương tiện vận chuyển">
+                    <input type="text" name="PTVC" placeholder="Phương tiện vận chuyển" required>
                 </div>
                 <div class="form-group">
-                    <label>Ngày hàng đến:</label>
-                    <input type="date" name="NHD">
+                    <label class="required">Ngày hàng đến:</label>
+                    <input type="date" name="NHD" required>
                 </div>
                 <div class="form-group">
-                    <label>Địa điểm dỡ hàng:</label>
-                    <input type="text" id="DDDH_code" name="DDDH" placeholder="Địa điểm dỡ hàng" list="codes-by-region">
+                    <label class="required">Địa điểm dỡ hàng:</label>
+                    <input type="text" id="DDDH_code" name="DDDH" placeholder="Địa điểm dỡ hàng" list="codes-by-region"
+                        required>
                     <select name="ma_dd_dohang" id="location-select2">
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Địa điểm xếp hàng:</label>
-                    <input type="text" id="DDXH_code" name="DDXH" placeholder="Địa điểm xếp hàng"
-                        list="codes-by-region">
+                    <label class="required">Địa điểm xếp hàng:</label>
+                    <input type="text" id="DDXH_code" name="DDXH" placeholder="Địa điểm xếp hàng" list="codes-by-region"
+                        required>
                     <select name="ma_dd_xephang" id="location-select3"></select>
                 </div>
 
                 <div class="form-group">
-                    <label>Số lượng container:</label>
-                    <input type="number" name="SLCT">
+                    <label class="required">Số lượng container:</label>
+                    <input type="number" name="SLCT" required>
                 </div>
                 <div class="form-group">
                     <label>Mã kết quả kiểm tra nội dung:</label>
@@ -290,9 +291,6 @@ if (empty($_SESSION['user_id'])) {
             </div>
         </form>
         <script>
-            /* =======================
-       1) DATA LOCATIONS
-       ======================= */
             const locations = {
                 trong_nuoc: [{
                     code: "03CCS01",

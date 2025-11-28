@@ -104,3 +104,17 @@ button.red {
 button.red:hover {
     background-color: #c9302c;
 }
+
+label.required::after {
+    content: " *";
+    color: red;
+    font-size: 15px;
+    margin-left: 3px;
+}
+
+input.error,
+select.error,
+textarea.error {
+    border: 2px solid #e74c3c !important;
+    background-color: #fffafa;
+}

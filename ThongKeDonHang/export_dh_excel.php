@@ -26,7 +26,7 @@ $tables = ['to1XK', 'to1NK'];
 
 $col_SVD = 'SVD';
 $col_Money = 'TTGHD';
-$col_Status = 'ThongKeTK';
+$col_Status = 'ThongKe';
 $col_Date = 'created_at';
 
 foreach ($tables as $table) {
@@ -43,9 +43,11 @@ foreach ($tables as $table) {
     while ($row = $res->fetch_assoc()) {
         $stt = strtolower(trim($row[$col_Status] ?? ''));
         if ($status !== 'all') {
-            if ($status === 'declaration' && !str_contains($stt, 'declaration'))
+            if ($status === 'shipping' && !str_contains($stt, 'shipping'))
                 continue;
-            if ($status === 'declarating' && !str_contains($stt, 'declarating'))
+            if ($status === 'shipped' && !str_contains($stt, 'shipped'))
+                continue;
+            if ($status === 'done' && !str_contains($stt, 'done'))
                 continue;
             if ($status === 'cancel' && !str_contains($stt, 'cancel'))
                 continue;
@@ -67,8 +69,7 @@ if (empty($data)) {
     die("Không có dữ liệu để xuất!");
 }
 
-// Xuất file CSV
-$filename = "ThongKe_ToKhai_" . date('Ymd_His') . ".csv";
+$filename = "ThongKe_DonHang_" . date('Ymd_His') . ".csv";
 
 header('Content-Type: text/csv; charset=UTF-8');
 header("Content-Disposition: attachment; filename=\"$filename\"");

@@ -896,7 +896,7 @@ $hanghoa = $stmt3->get_result()->fetch_all(MYSQLI_ASSOC);
                             value="<?= htmlspecialchars($data['KHCTHM'] ?? '') ?>"
                             style="min-width:95px; max-width:112px;">
 
-                        <label style="width:150px;">Số chứng từ hạn mức:</label>
+                        <label style="width:152px;">Số chứng từ hạn mức:</label>
                         <input type="text" name="SCTHM" id="SCTHM" value="<?= htmlspecialchars($data['SCTHM'] ?? '') ?>"
                             style="min-width:95px; max-width:112px;">
                     </div>

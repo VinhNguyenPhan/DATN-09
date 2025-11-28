@@ -155,24 +155,24 @@ $_SESSION['ToXK']['form1'] = $_POST;
         <h3>Địa điểm xếp hàng lên xe chở hàng</h3>
         <form method="POST" action="To3XK.php">
             <div class="form-group">
-                <label>Mã:</label>
-                <input type="text" name="MA" id="MA" placeholder="Nhập mã">
+                <label class="required">Mã:</label>
+                <input type="text" name="MA" id="MA" placeholder="Nhập mã" required>
             </div>
 
             <div class="form-group">
-                <label>Tên:</label>
-                <input type="text" name="TEN" id="TEN" placeholder="Tên địa điểm">
+                <label class="required">Tên:</label>
+                <input type="text" name="TEN" id="TEN" placeholder="Tên địa điểm" required>
             </div>
 
             <div class="form-group">
-                <label>Địa chỉ:</label>
-                <input type="text" name="DC" id="DC" placeholder="Địa chỉ">
+                <label class="required">Địa chỉ:</label>
+                <input type="text" name="DC" id="DC" placeholder="Địa chỉ" required>
             </div>
 
             <div class="container-grid">
                 <label>Số Container:</label>
                 <div class="grid">
-                    <input type="text" name="SC1" id="SC1" placeholder="1">
+                    <input type="text" name="SC1" id="SC1" placeholder="1" requierd>
                     <input type="text" name="SC2" id="SC2" placeholder="2">
                     <input type="text" name="SC3" id="SC3" placeholder="3">
                     <input type="text" name="SC4" id="SC4" placeholder="4">

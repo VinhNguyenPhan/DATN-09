@@ -544,13 +544,18 @@ require_once(__DIR__ . "/../core/database.php");
                                 <li role="none"><a role="menuitem" href="/TraCuuDonHang/chinhsuattt.php">Cập nhật trạng thái
                                         thanh toán công nợ</a></li>
                             <?php endif; ?>
+                            <?php
+                            if (in_array($_SESSION['role'], $_role_CongNo)):
+                                ?>
+                                <li role="none"><a role="menuitem" href="/TTCongNo/TinhCongNo.php">Tính công nợ</a></li>
+                            <?php endif; ?>
                         </ul>
                     </li>
                 <?php endif; ?>
 
                 <li role="none"><a href="../TinTuc/TinTuc.php" role="menuitem" href="#">Tin tức</a></li>
-                <!-- <li role="none"><a role="menuitem" href="../LienHe/ThongTinLienHe.php" target="_self">Liên
-                        hệ</a></li> -->
+                <li role="none"><a role="menuitem" href="../LienHe/ThongTinLienHe.php" target="_self">Liên
+                        hệ</a></li>
             </ul>
         </nav>
 
